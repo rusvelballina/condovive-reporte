@@ -512,6 +512,7 @@ let ACT_ROWS = []; // live via enso-activities Edge Function
 
 // ── CONDOVIVE open tickets — recalculado live desde CV_TICKETS ──
 let CV_DATA = [];
+let COORD_CV_EFIC = {}; // eficiencia tickets CONDOVIVE 2026 por coordinador
 
 
 // ── CONDOVIVE ticket detail — fuente: condovive-pwa-app.onrender.com (27-Jun-2026) ──
@@ -810,6 +811,28 @@ function renderFullTable(){
 // ── Render con datos inyectados ──
 let coordChart = null;
 
+function updateCoordGlobalEfic(){
+  ['Eduardo Cano','Rodrigo Ojeda','Gerardo Ontiveros'].forEach(name=>{
+    const key=name.replace(/ /g,'_');
+    const el=document.getElementById('cge-'+key);
+    const subEl=document.getElementById('cge-sub-'+key);
+    if(!el) return;
+    const cvE=COORD_CV_EFIC[name];
+    const actPctEl=document.getElementById('cge-act-'+key);
+    const actE=actPctEl?parseInt(actPctEl.dataset.pct||''):null;
+    if(cvE!==null&&cvE!==undefined&&actE!==null&&!isNaN(actE)){
+      const avg=Math.round((cvE+actE)/2);
+      const c=avg>=80?'#16A34A':avg>=50?'#D97706':'#DC3545';
+      el.textContent=avg+'%';
+      el.style.color=c;
+      el.style.fontWeight='800';
+      if(subEl){subEl.textContent='Act: '+actE+'% · CV: '+cvE+'%';}
+    } else if(cvE!==null&&cvE!==undefined){
+      if(subEl) subEl.textContent='CV: '+cvE+'% · Act: cargando…';
+    }
+  });
+}
+
 function render(){
   try { _render(); } catch(e){ console.error('render() fallo:', e); }
 }
@@ -887,6 +910,12 @@ function _render(){
           <div class="eval-row"><span class="eval-lbl">🔁 Seguimiento</span><span class="eval-val" style="color:${fup>0?'#DC3545':'#6C757D'}">${fup}</span></div>
           <div class="eval-row"><span class="eval-lbl">⏳ Pendientes</span><span class="eval-val" style="color:${pend>0?'#E67E22':'#6C757D'}">${pend}</span></div>
           <div class="eval-row"><span class="eval-lbl">Eficiencia cierre</span><span class="eval-val" style="color:${eficC}">${efic}%</span></div>
+          <div class="eval-row" style="border-top:1px solid #EEF0F4;margin-top:4px;padding-top:4px">
+            <span class="eval-lbl" style="font-weight:700">⚡ Efic. Global 2026</span>
+            <span class="eval-val" id="cge-${name.replace(/ /g,'_')}" style="font-weight:800;color:#9BAABC">—</span>
+            <span id="cge-act-${name.replace(/ /g,'_')}" data-pct="${p}" style="display:none"></span>
+          </div>
+          <div style="font-size:9px;color:#9BAABC;text-align:right;margin-top:1px" id="cge-sub-${name.replace(/ /g,'_')}">Act: ${p}% · CV: …</div>
         </div>
         <div class="eval-bar-wrap"><div class="eval-bar" style="width:${p}%;background:${pctC}"></div></div>
       </div>
@@ -1209,6 +1238,14 @@ async function loadTickets(){
     });
     const resueltosPorDev=data.resueltos_por_desarrollo||{};
     CV_DATA=Object.entries(devMap).map(([nombre,c])=>({nombre,activos:c.activos,pendientes:c.pendientes,tickets:c.activos+c.pendientes,resueltos:resueltosPorDev[nombre]||0}));
+    // Eficiencia CONDOVIVE por coordinador (para KPI cruzado)
+    Object.entries(COORD_DEVS).forEach(([coord,devs])=>{
+      const coordDevs=CV_DATA.filter(d=>devs.includes(d.nombre));
+      const res=coordDevs.reduce((s,d)=>s+(d.resueltos||0),0);
+      const ab=coordDevs.reduce((s,d)=>s+(d.tickets||0),0);
+      COORD_CV_EFIC[coord]=(res+ab>0)?Math.round(res/(res+ab)*100):null;
+    });
+    updateCoordGlobalEfic();
     // Eficiencia global CONDOVIVE 2026
     const totalResueltos2026=Object.values(resueltosPorDev).reduce((s,v)=>s+(v||0),0);
     const totalAbiertos=CV_TICKETS.length;
