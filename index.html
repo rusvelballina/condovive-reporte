@@ -398,7 +398,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
     <div style="flex:1">
       <div class="sec-title" style="display:flex;align-items:center;gap:8px">
         Tickets CONDOVIVE por Desarrollo
-        <span class="sec-badge sec-badge-static">⏱ Actualizado: 27-Jun-2026 · 4:13 PM</span>
+        <span class="sec-badge sec-badge-static" id="tk-badge-summary">⏱ Cargando…</span>
       </div>
       <div class="sec-desc">Estado de tickets abiertos, pendientes y tasa de resolución por desarrollo — fuente: admin.condovive.com</div>
     </div>
@@ -414,7 +414,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
     <div style="flex:1">
       <div class="sec-title">
         Detalle de Tickets CONDOVIVE — Listado Completo
-        <span class="sec-badge sec-badge-static">⏱ 27-Jun-2026 · 4:13 PM</span>
+        <span class="sec-badge sec-badge-static" id="tk-badge-detail">⏱ Cargando…</span>
       </div>
       <div class="sec-desc">Todos los tickets abiertos (Activos + Pendientes) · Filtro por desarrollo y estatus · Ordena por antigüedad desc</div>
     </div>
@@ -1182,6 +1182,13 @@ async function loadTickets(){
     CV_DATA=Object.entries(devMap).map(([nombre,c])=>({nombre,activos:c.activos,pendientes:c.pendientes,tickets:c.activos+c.pendientes}));
     renderCVCards();
     renderTicketTable();
+    // Actualizar timestamps con hora real de carga
+    const now=new Date();
+    const tsStr=now.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'})+' · '+now.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',hour12:false});
+    const b1=document.getElementById('tk-badge-summary');
+    const b2=document.getElementById('tk-badge-detail');
+    if(b1) b1.textContent='⏱ Actualizado: '+tsStr;
+    if(b2) b2.textContent='⏱ '+tsStr;
   }catch(e){
     console.error('loadTickets error:',e);
     const el=document.getElementById('cv-grid');
