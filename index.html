@@ -419,6 +419,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
       <div class="sec-desc">Todos los tickets abiertos (Activos + Pendientes) · Filtro por desarrollo y estatus · Ordena por antigüedad desc</div>
     </div>
     <div style="display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap;justify-content:flex-end">
+      <div class="share-drop" id="sd-tk-pdf">
+        <button class="btn-share-drop" style="border-color:#DC3545;color:#DC3545" onclick="document.getElementById('sd-tk-pdf').classList.toggle('open')">📄 PDF ▾</button>
+        <div class="share-drop-menu">
+          <button onclick="exportPDFTickets('Eduardo Cano');document.getElementById('sd-tk-pdf').classList.remove('open')">Eduardo Cano</button>
+          <button onclick="exportPDFTickets('Rodrigo Ojeda');document.getElementById('sd-tk-pdf').classList.remove('open')">Rodrigo Ojeda</button>
+          <button onclick="exportPDFTickets('Gerardo Ontiveros');document.getElementById('sd-tk-pdf').classList.remove('open')">Gerardo Ontiveros</button>
+        </div>
+      </div>
       <div class="share-drop" id="sd-tk">
         <button class="btn-share-drop" onclick="document.getElementById('sd-tk').classList.toggle('open')">📤 ▾</button>
         <div class="share-drop-menu">
@@ -1328,6 +1336,83 @@ function shareTickets(coord){
   });
   txt+=`Total: ${rows.length} ticket(s)`;
   doShare(`Tickets — ${coord.split(' ')[0]}`,txt);
+}
+
+async function exportPDFTickets(coord){
+  if(!window.jspdf){
+    await new Promise((res,rej)=>{
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      s.onload=res; s.onerror=rej; document.head.appendChild(s);
+    });
+    await new Promise((res,rej)=>{
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js';
+      s.onload=res; s.onerror=rej; document.head.appendChild(s);
+    });
+  }
+  const devs=COORD_DEVS[coord]||[];
+  const rows=CV_TICKETS.filter(t=>devs.includes(t.desarrollo)&&['Activo','Pendiente'].includes(t.status));
+  if(!rows.length){alert('Sin tickets Activos/Pendientes para '+coord);return;}
+  const today=new Date();
+  const dateStr=today.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
+  const coordColor={'Eduardo Cano':[27,42,74],'Rodrigo Ojeda':[26,82,118],'Gerardo Ontiveros':[20,90,50]};
+  const hdr=coordColor[coord]||[27,42,74];
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'letter'});
+  doc.setFillColor(...hdr); doc.rect(0,0,280,22,'F');
+  doc.setTextColor(255,255,255); doc.setFontSize(14); doc.setFont('helvetica','bold');
+  doc.text('Tickets CONDOVIVE — '+coord+' — Activos y Pendientes',14,10);
+  doc.setFontSize(9); doc.setFont('helvetica','normal');
+  const activos=rows.filter(r=>r.status==='Activo').length;
+  const pendientes=rows.filter(r=>r.status==='Pendiente').length;
+  doc.text('Generado: '+dateStr+'  ·  Activos: '+activos+'  ·  Pendientes: '+pendientes+'  ·  Total: '+rows.length,14,17);
+  doc.autoTable({
+    startY:28,
+    head:[['#','Desarrollo','Estatus','Depto','Categoría','Fecha','Días','Descripción']],
+    body:rows.map((t,i)=>[
+      i+1,
+      t.desarrollo||'—',
+      t.status||'—',
+      t.depto||'—',
+      t.categoria||'—',
+      t.fecha||'—',
+      t.dias!=null?t.dias+'d':'—',
+      t.desc||'—'
+    ]),
+    styles:{fontSize:8,cellPadding:2.5,overflow:'linebreak'},
+    headStyles:{fillColor:hdr,textColor:255,fontStyle:'bold',fontSize:8},
+    columnStyles:{
+      0:{cellWidth:10,halign:'center'},
+      1:{cellWidth:28},
+      2:{cellWidth:22,halign:'center'},
+      3:{cellWidth:22,halign:'center'},
+      4:{cellWidth:28},
+      5:{cellWidth:22,halign:'center'},
+      6:{cellWidth:14,halign:'center'},
+      7:{cellWidth:110}
+    },
+    alternateRowStyles:{fillColor:[247,249,252]},
+    didDrawPage:(data)=>{
+      doc.setFontSize(7); doc.setTextColor(150);
+      doc.text('condovive-reporte.netlify.app · Gerencia Operativa',14,doc.internal.pageSize.height-6);
+      doc.text('Pág '+doc.internal.getCurrentPageInfo().pageNumber,doc.internal.pageSize.width-20,doc.internal.pageSize.height-6);
+    }
+  });
+  const fname='Tickets_'+coord.split(' ')[0]+'_'+today.toISOString().substring(0,10)+'.pdf';
+  const pdfBlob=doc.output('blob');
+  const pdfFile=new File([pdfBlob],fname,{type:'application/pdf'});
+  if(navigator.canShare&&navigator.canShare({files:[pdfFile]})){
+    try{
+      await navigator.share({
+        files:[pdfFile],
+        title:'Tickets CONDOVIVE — '+coord.split(' ')[0],
+        text:'Tickets Activos/Pendientes · '+coord+' · '+dateStr
+      });
+      return;
+    }catch(e){ if(e.name==='AbortError') return; }
+  }
+  doc.save(fname);
 }
 </script>
 </body>
