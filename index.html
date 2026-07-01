@@ -826,7 +826,16 @@ function updateCoordGlobalEfic(){
       el.textContent=avg+'%';
       el.style.color=c;
       el.style.fontWeight='800';
-      if(subEl){subEl.textContent='Act: '+actE+'% · CV: '+cvE+'%';}
+      el.style.fontSize='2.6rem';
+      if(subEl){subEl.textContent='Act: '+actE+'% · CV: '+cvE+'%';subEl.style.color=c;}
+      const barEl=document.getElementById('cge-bar-'+key);
+      if(barEl){barEl.style.width=avg+'%';barEl.style.background=c;}
+      const ratingEl=document.getElementById('cge-rating-'+key);
+      if(ratingEl){
+        if(avg>=80){ratingEl.textContent='✓ Excelente';ratingEl.className='eval-rating rating-ex';}
+        else if(avg>=50){ratingEl.textContent='~ Cumple';ratingEl.className='eval-rating rating-ok';}
+        else{ratingEl.textContent='✗ Por mejorar';ratingEl.className='eval-rating rating-bad';}
+      }
     } else if(cvE!==null&&cvE!==undefined){
       if(subEl) subEl.textContent='CV: '+cvE+'% · Act: cargando…';
     }
@@ -896,28 +905,16 @@ function _render(){
       <div class="eval-hdr ${color}">
         <div>
           <div class="eval-name">${name}</div>
-          <div class="eval-role">Coordinador PV/MTTO · ${tot} actividades totales</div>
+          <div class="eval-role">Coordinador · ${tot} act. · ${tot>0?p+'% cerradas':'—'}</div>
         </div>
-        <span class="eval-rating ${ratingCls}">${ratingTxt}</span>
+        <span class="eval-rating ${ratingCls}" id="cge-rating-${name.replace(/ /g,'_')}">${ratingTxt}</span>
       </div>
-      <div class="eval-body">
-        <div class="eval-pct-wrap">
-          <div class="eval-pct" style="color:${pctC}">${tot>0?p+'%':'—'}</div>
-          <div class="eval-pct-lbl">% Cerradas</div>
-        </div>
-        <div class="eval-metrics">
-          <div class="eval-row"><span class="eval-lbl">✅ Completadas</span><span class="eval-val" style="color:#16A34A">${tdone}/${tot}</span></div>
-          <div class="eval-row"><span class="eval-lbl">🔁 Seguimiento</span><span class="eval-val" style="color:${fup>0?'#DC3545':'#6C757D'}">${fup}</span></div>
-          <div class="eval-row"><span class="eval-lbl">⏳ Pendientes</span><span class="eval-val" style="color:${pend>0?'#E67E22':'#6C757D'}">${pend}</span></div>
-          <div class="eval-row"><span class="eval-lbl">Eficiencia cierre</span><span class="eval-val" style="color:${eficC}">${efic}%</span></div>
-          <div class="eval-row" style="border-top:1px solid #EEF0F4;margin-top:4px;padding-top:4px">
-            <span class="eval-lbl" style="font-weight:700">⚡ Efic. Global 2026</span>
-            <span class="eval-val" id="cge-${name.replace(/ /g,'_')}" style="font-weight:800;color:#9BAABC">—</span>
-            <span id="cge-act-${name.replace(/ /g,'_')}" data-pct="${p}" style="display:none"></span>
-          </div>
-          <div style="font-size:9px;color:#9BAABC;text-align:right;margin-top:1px" id="cge-sub-${name.replace(/ /g,'_')}">Act: ${p}% · CV: …</div>
-        </div>
-        <div class="eval-bar-wrap"><div class="eval-bar" style="width:${p}%;background:${pctC}"></div></div>
+      <div class="eval-body" style="text-align:center;padding:18px 16px 14px">
+        <div class="eval-pct" id="cge-${name.replace(/ /g,'_')}" style="color:#9BAABC;font-size:2.6rem">—</div>
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#6C757D;margin-top:2px">⚡ Efic. Global 2026</div>
+        <div style="font-size:10px;color:#9BAABC;margin-top:6px" id="cge-sub-${name.replace(/ /g,'_')}">cargando tickets…</div>
+        <span id="cge-act-${name.replace(/ /g,'_')}" data-pct="${p}" style="display:none"></span>
+        <div class="eval-bar-wrap" style="margin-top:14px"><div class="eval-bar" id="cge-bar-${name.replace(/ /g,'_')}" style="width:0%;background:#9BAABC"></div></div>
       </div>
     </div>`;
   }).join('');
