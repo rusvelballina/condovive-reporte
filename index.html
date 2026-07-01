@@ -889,15 +889,14 @@ function _render(){
     const pend  = Number(r.pending||0);      // sin submission todavía
     // % cumplimiento = solo las verdaderamente cerradas / total
     const p     = tot>0 ? Math.round(tdone/tot*100) : 0;
-    // Eficiencia = de las que ya tienen evidencia, qué % están totalmente cerradas
-    const conEvidencia = tdone + fup;
-    const efic  = conEvidencia>0 ? Math.round(tdone/conEvidencia*100) : 0;
+    // Eficiencia real = truly_done / total (penaliza pendientes y seguimientos abiertos)
+    const efic  = tot>0 ? Math.round(tdone/tot*100) : 0;
     const color = coordColor(name);
     const pctC  = p>=80?'#16A34A':p>=50?'#E67E22':'#DC3545';
-    const eficC = efic>=85?'#16A34A':efic>=65?'#E67E22':'#DC3545';
+    const eficC = efic>=80?'#16A34A':efic>=50?'#E67E22':'#DC3545';
     let ratingTxt, ratingCls;
-    if(p>=80 && fup===0 && pend===0){ ratingTxt='✓ Excelente';   ratingCls='rating-ex';  }
-    else if(p>=50 || efic>=70)       { ratingTxt='~ Cumple';      ratingCls='rating-ok';  }
+    if(efic>=80 && fup===0)          { ratingTxt='✓ Excelente';   ratingCls='rating-ex';  }
+    else if(efic>=50)                { ratingTxt='~ Cumple';      ratingCls='rating-ok';  }
     else                             { ratingTxt='✗ Por mejorar'; ratingCls='rating-bad'; }
 
     return `
