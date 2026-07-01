@@ -1305,6 +1305,49 @@ async function exportPDFActividades(coord){
       doc.text('Pág '+doc.internal.getCurrentPageInfo().pageNumber,doc.internal.pageSize.width-20,doc.internal.pageSize.height-6);
     }
   });
+  // ── Sección 2: Seguimientos Sin Resolver del mismo coordinador ──
+  const fups=ACT_ROWS.filter(r=>r.status==='done'&&r.followup_needed&&r.coordinator===coord);
+  if(fups.length){
+    const lastY=doc.lastAutoTable.finalY||doc.internal.pageSize.height-40;
+    const spaceLeft=doc.internal.pageSize.height-lastY-20;
+    const needNewPage=spaceLeft<40;
+    if(needNewPage){
+      doc.addPage();
+    } else {
+      // Separador visual entre secciones
+      doc.setDrawColor(220,53,69); doc.setLineWidth(0.5);
+      doc.line(14,lastY+8,doc.internal.pageSize.width-14,lastY+8);
+    }
+    const fupStartY=needNewPage?20:lastY+14;
+    // Sub-encabezado
+    doc.setFillColor(220,53,69); doc.rect(14,fupStartY-5,doc.internal.pageSize.width-28,10,'F');
+    doc.setTextColor(255,255,255); doc.setFontSize(10); doc.setFont('helvetica','bold');
+    doc.text('Seguimientos Sin Resolver — '+coord.split(' ')[0]+' ('+fups.length+')',16,fupStartY+1.5);
+    doc.autoTable({
+      startY:fupStartY+8,
+      head:[['#','Fecha','Actividad','Tarea Pendiente']],
+      body:fups.map(r=>[
+        r.ticket_num||'—',
+        r.activity_date?r.activity_date.substring(5):'—',
+        r.title||'—',
+        r.followup_needed||'—'
+      ]),
+      styles:{fontSize:9,cellPadding:3,overflow:'linebreak'},
+      headStyles:{fillColor:[220,53,69],textColor:255,fontStyle:'bold',fontSize:9},
+      columnStyles:{
+        0:{cellWidth:18,halign:'center'},
+        1:{cellWidth:22,halign:'center'},
+        2:{cellWidth:100},
+        3:{cellWidth:116}
+      },
+      alternateRowStyles:{fillColor:[255,245,245]},
+      didDrawPage:(data)=>{
+        doc.setFontSize(7); doc.setTextColor(150);
+        doc.text('condovive-reporte.netlify.app · Gerencia Operativa',14,doc.internal.pageSize.height-6);
+        doc.text('Pág '+doc.internal.getCurrentPageInfo().pageNumber,doc.internal.pageSize.width-20,doc.internal.pageSize.height-6);
+      }
+    });
+  }
   const fname='Activos_'+coord.split(' ')[0]+'_'+today.toISOString().substring(0,10)+'.pdf';
   // Intentar compartir como archivo (WhatsApp, etc.) — fallback a descarga
   const pdfBlob=doc.output('blob');
