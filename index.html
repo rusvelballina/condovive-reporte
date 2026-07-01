@@ -1368,15 +1368,18 @@ async function exportPDFEjecutivo(){
     doc.text('01 · RESUMEN EJECUTIVO — KPIs GLOBALES',14,y+5);
     y+=12;
 
+    // helper: strip emojis for jsPDF compatibility
+    const se=s=>(s||'').replace(/[\u{1F300}-\u{1FFFF}\u{2600}-\u{27BF}\u{FE00}-\u{FE0F}\u{1F000}-\u{1F02F}\u{1F0A0}-\u{1F0FF}\u{1F100}-\u{1F1FF}\u{1F200}-\u{1F2FF}\u{1F900}-\u{1F9FF}\u{1FA00}-\u{1FA6F}\u{1FA70}-\u{1FAFF}\u26A1\u2705\u231B\u23F3\u{1F4C5}\u{1F3AE}]/gu,'').replace(/\s+/g,' ').trim();
+
     // Actividades Calendario
     doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(108,117,125);
-    doc.text('📅 ACTIVIDADES CALENDARIO',14,y); y+=4;
+    doc.text('ACTIVIDADES CALENDARIO',14,y); y+=4;
     const kpis=[
-      ['Act. Total Histórico', document.getElementById('k-total')?.textContent||'—'],
-      ['Completadas',          document.getElementById('k-done')?.textContent||'—'],
-      ['% Cerradas',          document.getElementById('k-done-pct')?.textContent||'—'],
-      ['Pendientes',          document.getElementById('k-pend')?.textContent||'—'],
-      ['Seguimientos abiertos',document.getElementById('k-fup')?.textContent||'—'],
+      ['Act. Total Historico', se(document.getElementById('k-total')?.textContent)||'—'],
+      ['Completadas',          se(document.getElementById('k-done')?.textContent)||'—'],
+      ['% Cerradas',          se(document.getElementById('k-done-pct')?.textContent)||'—'],
+      ['Pendientes',          se(document.getElementById('k-pend')?.textContent)||'—'],
+      ['Seguimientos abiertos',se(document.getElementById('k-fup')?.textContent)||'—'],
     ];
     doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
       styles:{fontSize:8,cellPadding:2},
@@ -1387,11 +1390,11 @@ async function exportPDFEjecutivo(){
 
     // Tickets CONDOVIVE
     doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(108,117,125);
-    doc.text('🎫 TICKETS CONDOVIVE',14,y); y+=4;
-    const cvOpen=document.getElementById('k-cv-open')?.textContent||'—';
-    const cvTasa=document.getElementById('k-cv-tasa')?.textContent||'—';
-    const cvSub=document.getElementById('k-cv-tasa-sub')?.textContent||'—';
-    const cvEfic=document.getElementById('k-cv-efic-global')?.textContent||'—';
+    doc.text('TICKETS CONDOVIVE',14,y); y+=4;
+    const cvOpen=se(document.getElementById('k-cv-open')?.textContent)||'—';
+    const cvTasa=se(document.getElementById('k-cv-tasa')?.textContent)||'—';
+    const cvSub=se(document.getElementById('k-cv-tasa-sub')?.textContent)||'—';
+    const cvEfic=se(document.getElementById('k-cv-efic-global')?.textContent)||'—';
     doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
       styles:{fontSize:8,cellPadding:2},
       headStyles:{fillColor:[27,42,74],textColor:255,fontStyle:'bold'},
@@ -1416,11 +1419,11 @@ async function exportPDFEjecutivo(){
       const key=name.replace(/ /g,'_');
       const eficEl=document.getElementById('cge-'+key);
       const subEl=document.getElementById('cge-sub-'+key);
-      const eficVal=eficEl?.textContent||'—';
-      const subVal=subEl?.textContent||'—';
+      const eficVal=se(eficEl?.textContent)||'—';
+      const subVal=se(subEl?.textContent)||'—';
       // Rating
       const ratingEl=document.getElementById('cge-rating-'+key);
-      const rating=ratingEl?.textContent||'—';
+      const rating=se(ratingEl?.textContent)||'—';
       return [name, eficVal, subVal, rating];
     });
     doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
@@ -1464,7 +1467,7 @@ async function exportPDFEjecutivo(){
           4:{cellWidth:22,halign:'center'},
           5:{cellWidth:22,halign:'center',fontStyle:'bold'},
         },
-        head:[['Coordinador','Total Act.','✅ Completadas','🔁 Seguimiento','⏳ Pendientes','% Cerradas']],
+        head:[['Coordinador','Total Act.','Completadas','Seguimiento','Pendientes','% Cerradas']],
         body:coordDetalle});
       y=doc.lastAutoTable.finalY+8;
     }
