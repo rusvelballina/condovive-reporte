@@ -628,6 +628,7 @@ function renderCVCards(){
         <div class="cv-row"><span class="cv-lbl">Abiertos</span><span class="cv-val" style="color:${open>0?'#DC3545':'#16A34A'}">${d.tickets}</span></div>
         <div class="cv-row"><span class="cv-lbl">⚡ Activos</span><span class="cv-val" style="color:${actC}">${d.activos}</span></div>
         <div class="cv-row"><span class="cv-lbl">🔴 Pendientes</span><span class="cv-val ${pendC}">${d.pendientes}</span></div>
+        <div class="cv-row"><span class="cv-lbl">✅ Resueltos año</span><span class="cv-val" style="color:#16A34A;font-weight:700">${d.resueltos||0}</span></div>
         <div class="cv-tasa-wrap"><div class="cv-tasa-bar" style="width:${efic.pct!==null?efic.pct:0}%;background:${efic.pct===null?'#D1D5DB':efic.pct>=80?'#16A34A':efic.pct>=50?'#D97706':'#DC3545'}"></div></div>
         <div class="cv-coord-row">
           <span class="cv-coord-name">👤 ${coord}</span>
