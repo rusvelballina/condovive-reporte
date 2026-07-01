@@ -589,7 +589,16 @@ const CV_COORD_MAP = {
   'VARANTA':     'Gerardo'
 };
 
-function cvEfic(activos, tickets){
+function cvEfic(activos, tickets, resueltos){
+  resueltos = resueltos || 0;
+  if(resueltos > 0){
+    // Eficiencia real = resueltos año / (resueltos año + abiertos)
+    const total = resueltos + tickets;
+    const pct = Math.round(resueltos / total * 100);
+    const cls = pct >= 80 ? 'cv-efic-green' : pct >= 50 ? 'cv-efic-amber' : 'cv-efic-red';
+    return { pct, cls, label: pct + '%' };
+  }
+  // Fallback: activos / abiertos (cuando API aún no devuelve resueltos)
   if(tickets === 0) return { pct: null, cls: 'cv-efic-gray', label: 'N/A' };
   const pct = Math.round(activos / tickets * 100);
   const cls = pct >= 80 ? 'cv-efic-green' : pct >= 50 ? 'cv-efic-amber' : 'cv-efic-red';
@@ -604,7 +613,7 @@ function renderCVCards(){
     const pendC = d.pendientes===0?'green':d.pendientes<=3?'amber':'red';
     const actC  = d.activos===0?'#6C757D':'#1B2A4A';
     const coord = CV_COORD_MAP[d.nombre] || '—';
-    const efic  = cvEfic(d.activos, d.tickets);
+    const efic  = cvEfic(d.activos, d.tickets, d.resueltos||0);
     return `
     <div class="cv-card">
       <div class="cv-card-hdr">
@@ -622,7 +631,7 @@ function renderCVCards(){
         <div class="cv-tasa-wrap"><div class="cv-tasa-bar" style="width:${efic.pct!==null?efic.pct:0}%;background:${efic.pct===null?'#D1D5DB':efic.pct>=80?'#16A34A':efic.pct>=50?'#D97706':'#DC3545'}"></div></div>
         <div class="cv-coord-row">
           <span class="cv-coord-name">👤 ${coord}</span>
-          <span class="cv-efic-badge ${efic.cls}" title="Eficiencia = Activos / Abiertos">⚡ ${efic.label}</span>
+          <span class="cv-efic-badge ${efic.cls}" title="Eficiencia = Resueltos año / (Resueltos + Abiertos)">⚡ ${efic.label}</span>
         </div>
       </div>
     </div>`;
@@ -1179,7 +1188,8 @@ async function loadTickets(){
       if(t.status==='Activo')    devMap[k].activos++;
       if(t.status==='Pendiente') devMap[k].pendientes++;
     });
-    CV_DATA=Object.entries(devMap).map(([nombre,c])=>({nombre,activos:c.activos,pendientes:c.pendientes,tickets:c.activos+c.pendientes}));
+    const resueltosPorDev=data.resueltos_por_desarrollo||{};
+    CV_DATA=Object.entries(devMap).map(([nombre,c])=>({nombre,activos:c.activos,pendientes:c.pendientes,tickets:c.activos+c.pendientes,resueltos:resueltosPorDev[nombre]||0}));
     renderCVCards();
     renderTicketTable();
     // Actualizar timestamps con hora real de carga
