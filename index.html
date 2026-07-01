@@ -1,0 +1,1334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte Integrado — Actividades + Tickets</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
+<style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #F0F2F5; color: #1B2A4A; font-size: 13px; }
+
+/* ── HEADER ── */
+.hdr { background: #1B2A4A; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
+.hdr-left { display: flex; align-items: center; gap: 12px; }
+.badge-cv { background: #C9A84C; color: #1B2A4A; font-weight: 800; font-size: 10px; padding: 3px 8px; border-radius: 3px; letter-spacing: 0.5px; }
+.badge-en { background: #2E86AB; color: #fff; font-weight: 800; font-size: 10px; padding: 3px 8px; border-radius: 3px; letter-spacing: 0.5px; }
+.hdr-title { color: #fff; font-size: 14px; font-weight: 700; }
+.hdr-sub { color: #8899BB; font-size: 10px; margin-top: 1px; }
+.hdr-right { display: flex; align-items: center; gap: 12px; }
+.ts-label { color: #8899BB; font-size: 10px; text-align: right; }
+.ts-val { color: #C9A84C; font-size: 11px; font-weight: 600; }
+.btn-refresh { background: rgba(201,168,76,0.15); border: 1px solid #C9A84C; color: #C9A84C; padding: 5px 12px; border-radius: 5px; cursor: pointer; font-size: 11px; font-weight: 600; transition: background .15s; }
+.btn-refresh:hover { background: rgba(201,168,76,0.3); }
+.gold-bar { height: 3px; background: linear-gradient(90deg, #C9A84C 0%, #2E86AB 100%); }
+
+/* ── KPI STRIP ── */
+.kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; padding: 12px 20px 8px; }
+.kpi { background: #fff; border-radius: 8px; padding: 10px 12px; border-top: 3px solid #E0E0E0; }
+.kpi.navy  { border-top-color: #1B2A4A; }
+.kpi.gold  { border-top-color: #C9A84C; }
+.kpi.blue  { border-top-color: #2E86AB; }
+.kpi.green { border-top-color: #28A745; }
+.kpi.red   { border-top-color: #DC3545; }
+.kpi.amber { border-top-color: #E67E22; }
+.kpi-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #6C757D; }
+.kpi-val { font-size: 24px; font-weight: 700; line-height: 1.1; margin: 3px 0 2px; color: #1B2A4A; }
+.kpi-sub { font-size: 10px; color: #9BAABC; }
+
+/* ── SECTION LABEL ── */
+.sec { padding: 12px 20px 6px; }
+.sec-num { font-size: 9px; font-weight: 800; color: #fff; background: #1B2A4A; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.5px; flex-shrink: 0; }
+.sec-title { font-size: 12px; font-weight: 700; color: #1B2A4A; }
+.sec-desc { font-size: 10px; color: #9BAABC; margin-top: 1px; }
+.sec-header { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+.sec-header::after { content: ''; flex: 1; height: 1px; background: #DDE3ED; }
+.sec-lbl { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #6C757D; display: flex; align-items: center; gap: 8px; }
+.sec-lbl::after { content: ''; flex: 1; height: 1px; background: #DDE3ED; }
+.sec-badge { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; }
+.sec-badge-live { background: #D1FAE5; color: #065F46; }
+.sec-badge-static { background: #FEF3C7; color: #92400E; }
+
+/* ── COORDINATORS GRID ── */
+.coord-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 20px 8px; }
+.coord-card { background: #fff; border-radius: 8px; overflow: hidden; }
+.coord-hdr { padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; }
+.coord-hdr.eduardo { background: #1B2A4A; }
+.coord-hdr.rodrigo  { background: #1a5276; }
+.coord-hdr.gerardo  { background: #145a32; }
+.coord-name { color: #fff; font-size: 11px; font-weight: 700; }
+.coord-role { color: rgba(255,255,255,0.65); font-size: 9px; }
+.sem { display: flex; gap: 3px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; }
+.dot-r { background: #DC3545; }
+.dot-a { background: #E67E22; }
+.dot-g { background: #28A745; }
+.dot-off { opacity: 0.18; }
+.coord-body { padding: 10px 12px; }
+.stat-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; }
+.stat-lbl { font-size: 10px; color: #6C757D; }
+.stat-val { font-size: 10px; font-weight: 700; }
+.bar-wrap { height: 4px; background: #F0F0F0; border-radius: 2px; margin: 4px 0 6px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 2px; transition: width 0.5s ease; }
+.green { color: #28A745; } .red { color: #DC3545; } .amber { color: #E67E22; } .blue { color: #2E86AB; }
+.bg-green { background: #28A745; } .bg-amber { background: #E67E22; } .bg-red { background: #DC3545; }
+
+/* ── TWO-COLUMN LAYOUT ── */
+.two-col { display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px; padding: 0 20px 8px; }
+.panel { background: #fff; border-radius: 8px; padding: 12px 14px; }
+.panel-title { font-size: 11px; font-weight: 700; color: #1B2A4A; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
+.chart-wrap { position: relative; height: 160px; }
+
+/* ── ACTIVITIES TABLE ── */
+.act-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.act-table th { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #9BAABC; padding: 0 6px 6px; text-align: left; border-bottom: 1px solid #F0F0F0; }
+.act-table td { padding: 5px 6px; border-bottom: 0.5px solid #F8F8F8; vertical-align: top; }
+.act-table tr:last-child td { border-bottom: none; }
+.act-title { color: #1B2A4A; font-weight: 500; line-height: 1.3; max-width: 220px; }
+.tag { font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 3px; white-space: nowrap; display: inline-block; }
+.tag-done  { background: #D1FAE5; color: #065F46; }
+.tag-pend  { background: #FEF3C7; color: #92400E; }
+.tag-fut   { background: #DBEAFE; color: #1D4ED8; }
+.followup-chip { font-size: 9px; color: #DC3545; font-style: italic; margin-top: 2px; line-height: 1.3; }
+
+/* ── CONDOVIVE CARDS ── */
+.cv-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 0 20px 8px; }
+.cv-card { background: #fff; border-radius: 8px; overflow: hidden; }
+.cv-card-hdr { background: #1B2A4A; padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; }
+.cv-card-name { color: #fff; font-size: 9px; font-weight: 700; letter-spacing: 0.3px; }
+.cv-card-body { padding: 8px; }
+.cv-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px; }
+.cv-lbl { font-size: 9px; color: #6C757D; }
+.cv-val { font-size: 10px; font-weight: 700; }
+.cv-tasa-wrap { height: 3px; background: #F0F0F0; border-radius: 2px; margin-top: 3px; overflow: hidden; }
+.cv-tasa-bar { height: 100%; border-radius: 2px; }
+.cv-coord-row { display: flex; justify-content: space-between; align-items: center; margin-top: 5px; padding-top: 4px; border-top: 1px solid #F0F0F0; }
+.cv-coord-name { font-size: 9px; color: #6C757D; }
+.cv-efic-badge { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 3px; }
+.cv-efic-green  { background: #D1FAE5; color: #065F46; }
+.cv-efic-amber  { background: #FEF3C7; color: #92400E; }
+.cv-efic-red    { background: #FEE2E2; color: #991B1B; }
+.cv-efic-gray   { background: #F3F4F6; color: #6B7280; }
+
+/* ── FOLLOWUP PANEL ── */
+.followup-list { padding: 0 20px 12px; }
+.followup-item { background: #fff; border-radius: 8px; padding: 8px 12px; margin-bottom: 6px; display: flex; gap: 10px; align-items: flex-start; }
+.followup-item:last-child { margin-bottom: 0; }
+.fup-icon { font-size: 14px; flex-shrink: 0; margin-top: 1px; }
+.fup-body { flex: 1; min-width: 0; }
+.fup-title { font-size: 11px; font-weight: 600; color: #1B2A4A; line-height: 1.3; }
+.fup-text { font-size: 10px; color: #DC3545; line-height: 1.4; margin-top: 2px; font-style: italic; }
+.fup-meta { font-size: 9px; color: #9BAABC; margin-top: 2px; }
+
+/* ── SHARE DROPDOWN ── */
+.share-drop { position:relative; display:inline-block; }
+.btn-share-drop { background:none; border:1px solid #9BAABC; color:#9BAABC; border-radius:5px; padding:3px 9px; font-size:10px; font-weight:700; cursor:pointer; white-space:nowrap; transition:all .15s; }
+.btn-share-drop:hover { border-color:#2E86AB; color:#2E86AB; }
+.share-drop-menu { display:none; position:absolute; right:0; top:calc(100% + 4px); z-index:999; background:#fff; border:1px solid #DDE3ED; border-radius:7px; box-shadow:0 6px 18px rgba(0,0,0,.12); min-width:115px; padding:4px; }
+.share-drop.open .share-drop-menu { display:block; }
+.share-drop-menu button { display:block; width:100%; text-align:left; background:none; border:none; padding:6px 10px; font-size:11px; font-weight:600; cursor:pointer; border-radius:4px; color:#1B2A4A; }
+.share-drop-menu button:hover { background:#F0F4F8; }
+
+/* ── FOOTER ── */
+.ftr { background: #1B2A4A; padding: 6px 20px; display: flex; justify-content: space-between; align-items: center; }
+.ftr-text { color: #8899BB; font-size: 9px; }
+.ftr-gold { color: #C9A84C; font-size: 9px; font-weight: 600; }
+
+/* ── LOADING ── */
+.loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; color: #6C757D; gap: 10px; }
+.spinner { width: 24px; height: 24px; border: 3px solid #E0E0E0; border-top-color: #C9A84C; border-radius: 50%; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.err { color: #DC3545; font-size: 11px; padding: 8px 12px; background: #FFF0F0; border-radius: 6px; margin: 8px 20px; }
+
+/* ── UPDATE BTN ── */
+.btn-update-cv { background: none; border: 1px solid #C9A84C; color: #C9A84C; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; font-weight: 600; }
+.btn-update-cv:hover { background: rgba(201,168,76,0.1); }
+
+/* ── FULL ACTIVITIES TABLE ── */
+.ft-btn { background: none; border: 1px solid #DDE3ED; color: #6C757D; padding: 3px 10px; border-radius: 14px; cursor: pointer; font-size: 10px; font-weight: 600; transition: all .15s; white-space:nowrap; }
+.ft-btn-active { background: #1B2A4A; border-color: #1B2A4A; color: #fff; }
+.ft-search { border: 1px solid #DDE3ED; border-radius: 5px; padding: 3px 10px; font-size: 11px; width: 220px; outline: none; color: #1B2A4A; }
+.ft-search:focus { border-color: #2E86AB; }
+.full-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+.full-table thead tr { background: #1B2A4A; }
+.full-table th { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #8899BB; padding: 7px 10px; text-align: left; white-space: nowrap; }
+.full-table th:first-child { border-radius: 6px 0 0 0; }
+.full-table th:last-child  { border-radius: 0 6px 0 0; }
+.full-table tbody tr { background: #fff; border-bottom: 1px solid #F0F2F5; transition: background .1s; }
+.full-table tbody tr:hover { background: #F7F9FC; }
+.full-table td { padding: 6px 10px; vertical-align: top; }
+.full-table td:first-child { color: #9BAABC; font-weight: 700; font-size: 10px; }
+.ft-status { font-size: 9px; font-weight: 700; padding: 2px 8px; border-radius: 10px; white-space: nowrap; display: inline-block; }
+.ft-status-done  { background: #D1FAE5; color: #065F46; }
+.ft-status-pend  { background: #FEF3C7; color: #92400E; }
+.ft-status-fut   { background: #DBEAFE; color: #1D4ED8; }
+.ft-coord-badge { font-size: 9px; font-weight: 700; padding: 2px 7px; border-radius: 3px; white-space: nowrap; display: inline-block; }
+.ft-coord-eduardo { background: rgba(27,42,74,.12); color: #1B2A4A; }
+.ft-coord-rodrigo  { background: rgba(26,82,118,.12); color: #1a5276; }
+.ft-coord-gerardo  { background: rgba(20,90,50,.12); color: #145a32; }
+.ft-dias { font-weight: 700; font-size: 11px; }
+.ft-dias-hot { color: #DC3545; }
+.ft-dias-ok  { color: #6C757D; }
+.ft-fup { font-size: 10px; color: #DC3545; font-style: italic; line-height: 1.3; max-width: 200px; }
+.ft-no-fup { font-size: 10px; color: #CCC; }
+.ft-title { color: #1B2A4A; font-weight: 500; line-height: 1.3; max-width: 260px; }
+.ft-empty { text-align: center; padding: 24px; color: #9BAABC; font-size: 12px; }
+.badge-evid { display:inline-flex; align-items:center; gap:3px; font-size:9px; font-weight:800; padding:2px 7px; border-radius:10px; background:#FFF3CD; color:#B45309; border:1px solid #FDE68A; white-space:nowrap; margin-top:3px; }
+.full-table tbody tr.row-evid-fup { background: #FFFBEB; }
+.full-table tbody tr.row-evid-fup:hover { background: #FEF3C7; }
+.toggle-btn { background: none; border: 1px solid #DDE3ED; color: #1B2A4A; padding: 3px 10px; border-radius: 14px; cursor: pointer; font-size: 10px; font-weight: 700; white-space: nowrap; transition: all .15s; }
+.toggle-btn:hover { background: #F0F2F5; }
+.fup-coord-btn.fup-coord-active { background: #1B2A4A; border-color: #1B2A4A; color: #fff; }
+
+/* ── EVALUACION COORDINADORES (sec 01) ── */
+.eval-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; padding: 0 20px 14px; }
+.eval-card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
+.eval-hdr { padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; }
+.eval-hdr.eduardo { background: linear-gradient(135deg,#1B2A4A,#2E4A7A); }
+.eval-hdr.rodrigo  { background: linear-gradient(135deg,#1a5276,#2E86AB); }
+.eval-hdr.gerardo  { background: linear-gradient(135deg,#145a32,#1e8449); }
+.eval-name { color: #fff; font-size: 12px; font-weight: 700; }
+.eval-role { color: rgba(255,255,255,.65); font-size: 9px; margin-top:1px; }
+.eval-rating { font-size: 9px; font-weight: 800; padding: 3px 8px; border-radius: 10px; white-space: nowrap; }
+.rating-ex  { background: #D1FAE5; color: #065F46; }
+.rating-ok  { background: #FEF3C7; color: #92400E; }
+.rating-bad { background: #FEE2E2; color: #991B1B; }
+.eval-body { padding: 10px 14px; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: center; }
+.eval-pct-wrap { text-align: center; border-right: 1px solid #F0F0F0; padding-right: 12px; }
+.eval-pct { font-size: 36px; font-weight: 800; line-height: 1; }
+.eval-pct-lbl { font-size: 9px; color: #6C757D; text-transform: uppercase; letter-spacing: .5px; margin-top: 2px; }
+.eval-metrics { display: flex; flex-direction: column; gap: 5px; }
+.eval-row { display: flex; justify-content: space-between; align-items: center; }
+.eval-lbl { font-size: 10px; color: #6C757D; }
+.eval-val { font-size: 11px; font-weight: 700; }
+.eval-bar-wrap { height: 5px; background: #F0F0F0; border-radius: 3px; margin-top: 5px; overflow: hidden; grid-column: 1 / -1; }
+.eval-bar { height: 100%; border-radius: 3px; transition: width .6s ease; }
+
+/* ── TICKET TABLE ── */
+.tk-filters { display:flex; gap:6px; align-items:center; flex-wrap:wrap; padding:0 20px 8px; }
+.tk-filter-label { font-size:10px; font-weight:700; color:#9BAABC; text-transform:uppercase; letter-spacing:.5px; }
+.tk-btn { background:#1B2A4A; color:#fff; border:none; border-radius:4px; padding:3px 10px; font-size:10px; font-weight:700; cursor:pointer; opacity:.5; transition:opacity .15s; }
+.tk-btn.active { opacity:1; }
+.tk-btn:hover { opacity:.85; }
+.tk-btn.enso   { background:#0066CC; }
+.tk-btn.catav  { background:#00774A; }
+.tk-btn.pb2    { background:#9B6500; }
+.tk-btn.varan  { background:#6B2FA0; }
+.tk-btn.pend   { background:#D97706; }
+.tk-btn.activo { background:#DC2626; }
+.tk-search { border:1px solid #D1D9E6; border-radius:4px; padding:3px 8px; font-size:10px; outline:none; width:160px; }
+.tk-table-wrap { overflow-x:auto; padding:0 20px 8px; }
+.tk-table { width:100%; border-collapse:collapse; font-size:10.5px; }
+.tk-table th { background:#1B2A4A; color:#fff; padding:5px 8px; text-align:left; white-space:nowrap; font-size:10px; font-weight:700; letter-spacing:.3px; position:sticky; top:0; }
+.tk-table td { padding:5px 8px; border-bottom:1px solid #EEF2F8; white-space:nowrap; vertical-align:top; }
+.tk-table tr:hover td { background:#F8FAFF; }
+.tk-table .td-desc { white-space:normal; max-width:280px; }
+.tk-table .td-num { font-weight:700; color:#1B2A4A; }
+.tk-tag-a { background:#FEE2E2; color:#DC2626; border-radius:3px; padding:1px 5px; font-weight:700; font-size:9.5px; }
+.tk-tag-p { background:#FEF3C7; color:#D97706; border-radius:3px; padding:1px 5px; font-weight:700; font-size:9.5px; }
+.tk-dias-hi { color:#DC2626; font-weight:700; }
+.tk-dias-med { color:#D97706; font-weight:700; }
+.tk-dias-ok { color:#059669; }
+.tk-count-lbl { font-size:9px; color:#9BAABC; font-weight:400; }
+.tk-dev-ENSO { color:#0066CC; font-weight:700; }
+.tk-dev-CATAVENTO { color:#00774A; font-weight:700; }
+.tk-dev-VARANTA { color:#6B2FA0; font-weight:700; }
+.tk-dev-PUNTA-BRISA-2 { color:#9B6500; font-weight:700; }
+
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-left">
+    <div class="badge-en">CALENDARIO</div>
+    <div class="badge-cv">CONDOVIVE</div>
+    <div>
+      <div class="hdr-title">Reporte Ejecutivo Integrado — Actividades PV/MTTO + Tickets</div>
+      <div class="hdr-sub">Gerencia Operativa · Coordinadores: Eduardo Cano · Rodrigo Ojeda · Gerardo Ontiveros</div>
+    </div>
+  </div>
+  <div class="hdr-right">
+    <div>
+      <div class="ts-label">Actualizado</div>
+      <div class="ts-val" id="ts-val">—</div>
+    </div>
+    <button class="btn-refresh" onclick="loadAll()">↺ Actualizar</button>
+  </div>
+</div>
+<div class="gold-bar"></div>
+
+<!-- KPI STRIP -->
+<div class="sec">
+  <div class="sec-header">
+    <span class="sec-num">01</span>
+    <div>
+      <div class="sec-title">Resumen Ejecutivo — KPIs Globales + Evaluación por Coordinador</div>
+      <div class="sec-desc">Indicadores globales consolidados · Scorecard individual por coordinador: % cumplimiento, eficiencia y rating de desempeño</div>
+    </div>
+  </div>
+</div>
+<div class="kpi-strip" id="kpi-strip">
+  <div class="kpi navy"><div class="kpi-lbl">Act. total histórico</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde Jun-13-2026</div></div>
+  <div class="kpi green"><div class="kpi-lbl">Completadas</div><div class="kpi-val" id="k-done">—</div><div class="kpi-sub" id="k-done-pct">—</div></div>
+  <div class="kpi amber"><div class="kpi-lbl">Pendientes</div><div class="kpi-val" id="k-pend">—</div><div class="kpi-sub">sin cerrar</div></div>
+  <div class="kpi red"><div class="kpi-lbl">Seguimientos</div><div class="kpi-val" id="k-fup">—</div><div class="kpi-sub">secundarias sin resolver</div></div>
+  <div class="kpi gold"><div class="kpi-lbl">Tickets abier.</div><div class="kpi-val" id="k-cv-open">14</div><div class="kpi-sub">CONDOVIVE · 40 activos · 10 pendientes</div></div>
+  <div class="kpi blue"><div class="kpi-lbl">Tasa resoluc.</div><div class="kpi-val" id="k-cv-tasa">86%</div><div class="kpi-sub">objetivo ≥ 95%</div></div>
+</div>
+
+<!-- EVAL COORDINADORES (dentro de sec 01) -->
+<div class="eval-grid" id="eval-grid"></div>
+
+<!-- COORDINADORES -->
+<div class="sec">
+  <div class="sec-header">
+    <span class="sec-num">02</span>
+    <div>
+      <div class="sec-title">Desempeño por Coordinador — Total Histórico <span class="sec-badge sec-badge-live" style="vertical-align:middle">● LIVE</span></div>
+      <div class="sec-desc">Acumulado total desde Jun-13-2026: actividades asignadas, completadas, pendientes y seguimientos por coordinador</div>
+    </div>
+  </div>
+</div>
+<div class="coord-grid" id="coord-grid">
+  <div class="loader"><div class="spinner"></div><span style="font-size:11px">Cargando actividades…</span></div>
+</div>
+
+<!-- ACT TABLE + CHART -->
+<div class="sec">
+  <div class="sec-header">
+    <span class="sec-num">03</span>
+    <div>
+      <div class="sec-title">Bitácora de Actividades PV/MTTO — Total Histórico <span class="sec-badge sec-badge-live" style="vertical-align:middle">● LIVE</span></div>
+      <div class="sec-desc">Registro completo de todas las actividades desde Jun-13-2026 · Estatus por tarea · Gráfica de carga total por coordinador</div>
+    </div>
+  </div>
+</div>
+<div class="two-col">
+  <div class="panel">
+    <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between">
+      <span>Actividades recientes (−7 días / +3 días)
+        <span style="font-size:9px;color:#9BAABC;font-weight:400" id="act-count-lbl"></span>
+      </span>
+      <button class="toggle-btn" id="toggle-act" onclick="toggleSection('act-table-wrap','toggle-act')">▼ Ocultar</button>
+    </div>
+    <div id="act-table-wrap"><div class="loader"><div class="spinner"></div></div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">Carga de actividades — semana actual por coordinador</div>
+    <div class="chart-wrap"><canvas id="coordChart"></canvas></div>
+  </div>
+</div>
+
+<!-- TABLA COMPLETA DE ACTIVIDADES -->
+<div class="sec" style="padding-bottom:4px">
+  <div class="sec-header">
+    <span class="sec-num" style="background:#2E86AB">▤</span>
+    <div style="flex:1">
+      <div class="sec-title">Registro Completo de Actividades — Total Histórico <span class="sec-badge sec-badge-live" style="vertical-align:middle">● LIVE</span></div>
+      <div class="sec-desc">Todas las actividades desde Jun-13-2026 · Búsqueda y filtro por estatus o coordinador</div>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap;justify-content:flex-end">
+      <button class="ft-btn ft-btn-active" id="ft-all"  onclick="ftFilter('all')">Todos</button>
+      <button class="ft-btn" id="ft-pend"               onclick="ftFilter('pending')">Activos</button>
+      <button class="ft-btn" id="ft-done"               onclick="ftFilter('done')">Completadas</button>
+      <input id="ft-search" class="ft-search" type="text" placeholder="Buscar actividad, coordinador…" oninput="ftFilter(currentFtFilter)">
+      <div class="share-drop" id="sd-reg">
+        <button class="btn-share-drop" onclick="document.getElementById('sd-reg').classList.toggle('open')">📤 ▾</button>
+        <div class="share-drop-menu">
+          <button onclick="shareActivities('Eduardo Cano');document.getElementById('sd-reg').classList.remove('open')">Eduardo Cano</button>
+          <button onclick="shareActivities('Rodrigo Ojeda');document.getElementById('sd-reg').classList.remove('open')">Rodrigo Ojeda</button>
+          <button onclick="shareActivities('Gerardo Ontiveros');document.getElementById('sd-reg').classList.remove('open')">Gerardo Ontiveros</button>
+        </div>
+      </div>
+      <div class="share-drop" id="sd-reg-pdf">
+        <button class="btn-share-drop" style="border-color:#DC3545;color:#DC3545" onclick="document.getElementById('sd-reg-pdf').classList.toggle('open')">📄 PDF ▾</button>
+        <div class="share-drop-menu">
+          <button onclick="exportPDFActividades('Eduardo Cano');document.getElementById('sd-reg-pdf').classList.remove('open')">Eduardo Cano</button>
+          <button onclick="exportPDFActividades('Rodrigo Ojeda');document.getElementById('sd-reg-pdf').classList.remove('open')">Rodrigo Ojeda</button>
+          <button onclick="exportPDFActividades('Gerardo Ontiveros');document.getElementById('sd-reg-pdf').classList.remove('open')">Gerardo Ontiveros</button>
+        </div>
+      </div>
+      <button class="toggle-btn" id="toggle-actreg" onclick="toggleSection('actreg-body','toggle-actreg')">▼ Ocultar</button>
+    </div>
+  </div>
+</div>
+<div id="actreg-body" style="padding:0 20px 8px">
+  <div id="full-act-table-wrap"></div>
+</div>
+
+<!-- SEGUIMIENTOS PENDIENTES (debajo de Bitácora) -->
+<div class="sec">
+  <div class="sec-header">
+    <span class="sec-num">05</span>
+    <div style="flex:1">
+      <div class="sec-title">Seguimientos Sin Resolver — Actividades Secundarias Abiertas <span class="sec-badge sec-badge-live" style="vertical-align:middle">● LIVE</span></div>
+      <div class="sec-desc">Actividades con evidencia enviada que tienen una tarea secundaria aún abierta (followup_status = 'open') · Se elimina de esta lista al marcar "resuelta" en la app ENSO</div>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap;justify-content:flex-end">
+      <input id="fup-search" class="ft-search" type="text" placeholder="Buscar por # o descripción…" oninput="renderFollowups()" style="width:200px">
+      <button class="ft-btn fup-coord-btn fup-coord-active" id="fup-c-all"      onclick="fupCoord('all')">Todos</button>
+      <button class="ft-btn fup-coord-btn" id="fup-c-eduardo"                   onclick="fupCoord('Eduardo')">Eduardo</button>
+      <button class="ft-btn fup-coord-btn" id="fup-c-rodrigo"                   onclick="fupCoord('Rodrigo')">Rodrigo</button>
+      <button class="ft-btn fup-coord-btn" id="fup-c-gerardo"                   onclick="fupCoord('Gerardo')">Gerardo</button>
+      <div class="share-drop" id="sd-fup">
+        <button class="btn-share-drop" onclick="document.getElementById('sd-fup').classList.toggle('open')">📤 ▾</button>
+        <div class="share-drop-menu">
+          <button onclick="shareFollowups('Eduardo Cano');document.getElementById('sd-fup').classList.remove('open')">Eduardo Cano</button>
+          <button onclick="shareFollowups('Rodrigo Ojeda');document.getElementById('sd-fup').classList.remove('open')">Rodrigo Ojeda</button>
+          <button onclick="shareFollowups('Gerardo Ontiveros');document.getElementById('sd-fup').classList.remove('open')">Gerardo Ontiveros</button>
+        </div>
+      </div>
+      <button class="toggle-btn" id="toggle-fup" onclick="toggleSection('fup-body','toggle-fup')">▼ Ocultar</button>
+    </div>
+  </div>
+</div>
+<div id="fup-body">
+  <div class="followup-list" id="followup-list">
+    <div class="loader"><div class="spinner"></div></div>
+  </div>
+</div>
+
+<!-- CONDOVIVE -->
+<div class="sec">
+  <div class="sec-header">
+    <span class="sec-num">04</span>
+    <div style="flex:1">
+      <div class="sec-title" style="display:flex;align-items:center;gap:8px">
+        Tickets CONDOVIVE por Desarrollo
+        <span class="sec-badge sec-badge-static">⏱ Actualizado: 27-Jun-2026 · 4:13 PM</span>
+      </div>
+      <div class="sec-desc">Estado de tickets abiertos, pendientes y tasa de resolución por desarrollo — fuente: admin.condovive.com</div>
+    </div>
+  </div>
+</div>
+<div class="cv-grid" id="cv-grid"></div>
+
+
+<!-- TICKET TABLE SECTION -->
+<div class="sec">
+  <div class="sec-header">
+    <span class="sec-num">06</span>
+    <div style="flex:1">
+      <div class="sec-title">
+        Detalle de Tickets CONDOVIVE — Listado Completo
+        <span class="sec-badge sec-badge-static">⏱ 27-Jun-2026 · 4:13 PM</span>
+      </div>
+      <div class="sec-desc">Todos los tickets abiertos (Activos + Pendientes) · Filtro por desarrollo y estatus · Ordena por antigüedad desc</div>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap;justify-content:flex-end">
+      <div class="share-drop" id="sd-tk">
+        <button class="btn-share-drop" onclick="document.getElementById('sd-tk').classList.toggle('open')">📤 ▾</button>
+        <div class="share-drop-menu">
+          <button onclick="shareTickets('Eduardo Cano');document.getElementById('sd-tk').classList.remove('open')">Eduardo Cano</button>
+          <button onclick="shareTickets('Rodrigo Ojeda');document.getElementById('sd-tk').classList.remove('open')">Rodrigo Ojeda</button>
+          <button onclick="shareTickets('Gerardo Ontiveros');document.getElementById('sd-tk').classList.remove('open')">Gerardo Ontiveros</button>
+        </div>
+      </div>
+      <button class="toggle-btn" id="toggle-tk" onclick="toggleSection('tk-body','toggle-tk')">▼ Ocultar</button>
+    </div>
+  </div>
+</div>
+<div id="tk-body">
+  <div class="tk-filters">
+    <span class="tk-filter-label">Desarrollo:</span>
+    <button class="tk-btn active" id="tkd-all"    onclick="tkDev('all')">Todos</button>
+    <button class="tk-btn enso"  id="tkd-enso"    onclick="tkDev('ENSO')">ENSO</button>
+    <button class="tk-btn catav" id="tkd-catav"   onclick="tkDev('CATAVENTO')">Catavento</button>
+    <button class="tk-btn pb2"   id="tkd-pb2"     onclick="tkDev('PUNTA BRISA 2')">PB2</button>
+    <button class="tk-btn varan" id="tkd-varan"   onclick="tkDev('VARANTA')">Varanta</button>
+    <span style="width:12px"></span>
+    <span class="tk-filter-label">Estatus:</span>
+    <button class="tk-btn active" id="tks-all"    onclick="tkSts('all')">Todos</button>
+    <button class="tk-btn activo" id="tks-activo" onclick="tkSts('Activo')">Activos</button>
+    <button class="tk-btn pend"   id="tks-pend"   onclick="tkSts('Pendiente')">Pendientes</button>
+    <span style="width:12px"></span>
+    <input id="tk-search" class="tk-search" type="text" placeholder="Buscar depto o descripción…" oninput="renderTicketTable()">
+    <span class="tk-count-lbl" id="tk-count-lbl"></span>
+  </div>
+  <div class="tk-table-wrap">
+    <table class="tk-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Desarrollo</th>
+          <th>Estatus</th>
+          <th>Depto</th>
+          <th>Categoría</th>
+          <th>Fecha</th>
+          <th id="th-dias" onclick="toggleTkSort()" style="cursor:pointer;user-select:none">Días <span id="th-dias-arrow">↑</span></th>
+          <th>Descripción</th>
+        </tr>
+      </thead>
+      <tbody id="tk-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="gold-bar"></div>
+<div class="ftr">
+  <div class="ftr-text">Actividades: Supabase enso-calendar-app (tiempo real) · Tickets: condovive-pwa-app.onrender.com (tiempo real)</div>
+  <div class="ftr-gold" id="ftr-range">Semana actual</div>
+</div>
+
+<script>
+// ══════════════════════════════════════════════════════
+// DATOS INYECTADOS — Última actualización: 27-Jun-2026 11:30 AM
+// followup_open = secundarias abiertos (followup_status='open')
+// followup_resolved = secundarias ya marcadas resueltas
+// Para refrescar: clic en "↺ Actualizar"
+// ══════════════════════════════════════════════════════
+let ENSO_UPDATED = "27-Jun-2026 · 09:17 PM — Total histórico";
+
+// truly_done  = submission SIN seguimiento abierto (actividad CERRADA)
+// followup_open = submission CON followup_status='open' (no cuenta como done)
+// pending     = sin submission todavía
+let WK_ROWS = []; // live via enso-activities Edge Function
+
+let ACT_ROWS = []; // live via enso-activities Edge Function
+
+// ── CONDOVIVE open tickets — recalculado live desde CV_TICKETS ──
+let CV_DATA = [];
+
+
+// ── CONDOVIVE ticket detail — fuente: condovive-pwa-app.onrender.com (27-Jun-2026) ──
+let CV_TICKETS = []; // live via Supabase Edge Function
+
+// ── helpers ──
+function fmt(d){ return d ? new Date(d).toLocaleDateString('es-MX',{day:'2-digit',month:'short'}) : '—'; }
+function fmtDate(d){ return new Date(d+'T00:00:00').toLocaleDateString('es-MX',{weekday:'short',day:'2-digit',month:'short'}); }
+
+function semColor(pend, activos, total){
+  const open = pend + activos;
+  const tasa = total > 0 ? (total - open) / total : 1;
+  if(total===0) return 'amber';
+  if(open>10||tasa<0.5) return 'rojo';
+  if(open>4||tasa<0.75) return 'amber';
+  return 'verde';
+}
+
+function coordColor(name){
+  if(name && name.includes('Eduardo')) return 'eduardo';
+  if(name && name.includes('Rodrigo'))  return 'rodrigo';
+  if(name && name.includes('Gerardo'))  return 'gerardo';
+  return 'eduardo';
+}
+
+function coordInitial(name){
+  if(!name) return '?';
+  const parts = name.split(' ');
+  return parts[0];
+}
+
+function pctColor(pct){
+  if(pct>=80) return {text:'green',bg:'bg-green'};
+  if(pct>=50) return {text:'amber',bg:'bg-amber'};
+  return {text:'red',bg:'bg-red'};
+}
+
+// ── Supabase call ──
+const PROJECT_ID = 'dfthhcdqieqdnrhnhzmh';
+async function sql(query){
+  let r;
+  try {
+    r = await window.cowork.callMcpTool(
+      'mcp__b094c056-cb8a-440b-bab4-a88a66404b60__execute_sql',
+      { project_id: PROJECT_ID, query }
+    );
+  } catch(e) {
+    throw new Error('callMcpTool falló: ' + e.message);
+  }
+
+  if(!r) throw new Error('Sin respuesta del MCP');
+
+  // Extraer texto completo de la respuesta para diagnóstico y parsing
+  const text = (r.content && r.content[0] && r.content[0].text) || '';
+
+  if(r.isError){
+    // Mostrar el mensaje real del error para facilitar diagnóstico
+    throw new Error(text.substring(0, 300) || 'MCP isError sin mensaje');
+  }
+
+  // 1. structuredContent directo
+  if(r.structuredContent){
+    const sc = r.structuredContent;
+    if(Array.isArray(sc)) return sc;
+    if(Array.isArray(sc.result)) return sc.result;
+  }
+
+  // 2a. Extraer entre tags <untrusted-data-...>
+  const tagMatch = text.match(/<untrusted-data[^>]*>([\s\S]*?)<\/untrusted-data/);
+  if(tagMatch){ try{ return JSON.parse(tagMatch[1].trim()); }catch(e){} }
+
+  // 2b. Buscar primer [ ... ] del texto
+  const s = text.indexOf('['), e2 = text.lastIndexOf(']');
+  if(s !== -1 && e2 > s){ try{ return JSON.parse(text.slice(s, e2+1)); }catch(e){} }
+
+  // 2c. Intentar parsear como JSON puro
+  try{ const p = JSON.parse(text); return Array.isArray(p)?p:(Array.isArray(p.result)?p.result:[]); }catch(e){}
+
+  return [];
+}
+
+// ── CONDOVIVE cards ──
+const CV_COORD_MAP = {
+  'ENSO':        'Rodrigo',
+  'CATAVENTO':   'Eduardo',
+  'PUNTA BRISA': 'Gerardo',
+  'PUNTA BRISA 2': 'Gerardo',
+  'VARANTA':     'Gerardo'
+};
+
+function cvEfic(activos, tickets){
+  if(tickets === 0) return { pct: null, cls: 'cv-efic-gray', label: 'N/A' };
+  const pct = Math.round(activos / tickets * 100);
+  const cls = pct >= 80 ? 'cv-efic-green' : pct >= 50 ? 'cv-efic-amber' : 'cv-efic-red';
+  return { pct, cls, label: pct + '%' };
+}
+
+function renderCVCards(){
+  const el = document.getElementById('cv-grid');
+  el.innerHTML = CV_DATA.map(d => {
+    const open  = d.pendientes + d.activos;
+    const sem   = semColor(d.pendientes, d.activos, d.tickets);
+    const pendC = d.pendientes===0?'green':d.pendientes<=3?'amber':'red';
+    const actC  = d.activos===0?'#6C757D':'#1B2A4A';
+    const coord = CV_COORD_MAP[d.nombre] || '—';
+    const efic  = cvEfic(d.activos, d.tickets);
+    return `
+    <div class="cv-card">
+      <div class="cv-card-hdr">
+        <div class="cv-card-name">${d.nombre}</div>
+        <div class="sem">
+          <div class="dot dot-r ${sem==='rojo'?'':'dot-off'}"></div>
+          <div class="dot dot-a ${sem==='amber'?'':'dot-off'}"></div>
+          <div class="dot dot-g ${sem==='verde'?'':'dot-off'}"></div>
+        </div>
+      </div>
+      <div class="cv-card-body">
+        <div class="cv-row"><span class="cv-lbl">Abiertos</span><span class="cv-val" style="color:${open>0?'#DC3545':'#16A34A'}">${d.tickets}</span></div>
+        <div class="cv-row"><span class="cv-lbl">⚡ Activos</span><span class="cv-val" style="color:${actC}">${d.activos}</span></div>
+        <div class="cv-row"><span class="cv-lbl">🔴 Pendientes</span><span class="cv-val ${pendC}">${d.pendientes}</span></div>
+        <div class="cv-tasa-wrap"><div class="cv-tasa-bar" style="width:${efic.pct!==null?efic.pct:0}%;background:${efic.pct===null?'#D1D5DB':efic.pct>=80?'#16A34A':efic.pct>=50?'#D97706':'#DC3545'}"></div></div>
+        <div class="cv-coord-row">
+          <span class="cv-coord-name">👤 ${coord}</span>
+          <span class="cv-efic-badge ${efic.cls}" title="Eficiencia = Activos / Abiertos">⚡ ${efic.label}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Toggle section visibility ──
+function toggleSection(bodyId, btnId){
+  const body = document.getElementById(bodyId);
+  const btn  = document.getElementById(btnId);
+  if(!body || !btn) return;
+  const hidden = body.style.display === 'none';
+  body.style.display = hidden ? '' : 'none';
+  btn.textContent = hidden ? '▼ Ocultar' : '▶ Mostrar';
+}
+
+// ── Followup filters ──
+let currentFupCoord = 'all';
+function fupCoord(coord){
+  currentFupCoord = coord;
+  document.querySelectorAll('.fup-coord-btn').forEach(b => b.classList.remove('fup-coord-active'));
+  const id = 'fup-c-' + coord.toLowerCase();
+  const btn = document.getElementById(id);
+  if(btn) btn.classList.add('fup-coord-active');
+  renderFollowups();
+}
+
+function renderFollowups(){
+  const fupEl  = document.getElementById('followup-list');
+  if(!fupEl) return;
+  const search = ((document.getElementById('fup-search')||{}).value||'').toLowerCase().trim();
+
+  // Seguimientos sin resolver: done + followup_needed + (followup_status = 'open')
+  // Cuando ENSO app marque 'resolved', WK_ROWS.followup_open bajará y el ítem desaparecerá
+  const openFups = ACT_ROWS.filter(r => r.status === 'done' && r.followup_needed);
+
+  const filtered = openFups.filter(r => {
+    if(currentFupCoord !== 'all' && !r.coordinator.startsWith(currentFupCoord)) return false;
+    if(search){
+      const num = r.ticket_num || '';
+      const hay = (num + ' ' + r.title + ' ' + (r.followup_needed||'') + ' ' + r.coordinator).toLowerCase();
+      if(!hay.includes(search)) return false;
+    }
+    return true;
+  });
+
+  if(!filtered.length){
+    fupEl.innerHTML = '<div class="ft-empty">Sin seguimientos abiertos con los filtros actuales</div>';
+    return;
+  }
+
+  fupEl.innerHTML = filtered.map(r => {
+    const ticketNum = r.ticket_num || ('#' + (openFups.indexOf(r) + 1));
+    const coordCls = coordBadgeCls(r.coordinator);
+    return `
+    <div class="followup-item">
+      <div style="font-size:10px;font-weight:800;color:#9BAABC;flex-shrink:0;padding-top:2px">${ticketNum}</div>
+      <div class="fup-icon">🔁</div>
+      <div class="fup-body">
+        <div class="fup-title">${r.title} <span class="ft-coord-badge ${coordCls}" style="margin-left:4px">${r.coordinator.split(' ')[0]}</span></div>
+        <div class="fup-text">${r.followup_needed}</div>
+        <div class="fup-meta">${fmtDate(r.activity_date)} · ${r.start_time ? r.start_time.substring(0,5) : ''} · <strong style="color:#DC3545">⏳ Secundaria abierta</strong></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── Full Activities Table ──
+let currentFtFilter = 'all';
+
+function coordBadgeCls(name){
+  const n = name.split(' ')[0].toLowerCase();
+  if(n==='eduardo') return 'ft-coord-eduardo';
+  if(n==='rodrigo')  return 'ft-coord-rodrigo';
+  return 'ft-coord-gerardo';
+}
+
+function ftFilter(f){
+  currentFtFilter = f;
+  // update button states
+  ['all','pend','done'].forEach(id => {
+    const btn = document.getElementById('ft-'+id);
+    if(btn) btn.className = 'ft-btn' + (
+      (id==='all'&&f==='all')||(id==='pend'&&f==='pending')||(id==='done'&&f==='done') ? ' ft-btn-active' : ''
+    );
+  });
+  renderFullTable();
+}
+
+function renderFullTable(){
+  const wrap = document.getElementById('full-act-table-wrap');
+  if(!wrap) return;
+  const search = (document.getElementById('ft-search')||{value:''}).value.toLowerCase();
+  const today = new Date();
+
+  let rows = ACT_ROWS.filter(r => {
+    if(currentFtFilter==='pending' && r.status==='done') return false;
+    if(currentFtFilter==='done'    && r.status!=='done') return false;
+    if(search){
+      const hay = (r.title+' '+r.coordinator+' '+(r.followup_needed||'')).toLowerCase();
+      if(!hay.includes(search)) return false;
+    }
+    return true;
+  });
+
+  // sort: pending first, then by date desc
+  rows.sort((a,b)=>{
+    if(a.status!=='done' && b.status==='done') return -1;
+    if(a.status==='done' && b.status!=='done') return 1;
+    return new Date(b.activity_date)-new Date(a.activity_date);
+  });
+
+  if(!rows.length){
+    wrap.innerHTML = '<div class="ft-empty">Sin actividades con los filtros actuales</div>';
+    return;
+  }
+
+  const rowsHtml = rows.map(r=>{
+    const actDate = new Date(r.activity_date+'T12:00:00');
+    const dias    = Math.round((today - actDate)/(1000*60*60*24));
+    const diasStr = dias<0 ? 'en '+Math.abs(dias)+'d' : dias===0 ? 'hoy' : dias+'d';
+    const diasCls = r.status!=='done' && dias>3 ? 'ft-dias-hot' : 'ft-dias-ok';
+    const statusLbl = r.status==='done'?'Completada':r.status==='future'?'Futuro':'Activo';
+    const statusCls = r.status==='done'?'ft-status-done':r.status==='future'?'ft-status-fut':'ft-status-pend';
+    const coordCls  = coordBadgeCls(r.coordinator);
+    const shortDate = actDate.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'2-digit'});
+    const startH    = r.start_time ? r.start_time.substring(0,5) : '—';
+    const isEvidFup = r.status === 'done' && r.followup_needed;
+    const ticketNum = r.ticket_num || '—';
+    return `
+    <tr class="${isEvidFup ? 'row-evid-fup' : ''}">
+      <td style="font-size:10px;font-weight:700;color:#9BAABC;white-space:nowrap">${ticketNum}</td>
+      <td><span class="ft-coord-badge ${coordCls}">${r.coordinator.split(' ')[0]}</span></td>
+      <td>
+        <span class="ft-status ${statusCls}">${statusLbl}</span>
+        ${isEvidFup ? '<br><span class="badge-evid">⚑ Evidencia + Seguimiento</span>' : ''}
+      </td>
+      <td><div class="ft-title">${r.title}</div></td>
+      <td style="white-space:nowrap;color:#6C757D">${shortDate}<br><span style="font-size:9px">${startH}</span></td>
+      <td class="ft-dias ${diasCls}">${diasStr}</td>
+      <td>${r.followup_needed ? '<div class="ft-fup">⚑ '+r.followup_needed+'</div>' : '<span class="ft-no-fup">—</span>'}</td>
+    </tr>`;
+  }).join('');
+
+  wrap.innerHTML = `
+  <table class="full-table">
+    <thead><tr>
+      <th>#</th>
+      <th>Coordinador</th>
+      <th>Estatus</th>
+      <th>Actividad / Descripción</th>
+      <th>Fecha</th>
+      <th>Días</th>
+      <th>Seguimiento</th>
+    </tr></thead>
+    <tbody>${rowsHtml}</tbody>
+  </table>
+  <div style="text-align:right;font-size:10px;color:#9BAABC;padding:6px 4px">Mostrando ${rows.length} actividades</div>`;
+}
+
+// ── Render con datos inyectados ──
+let coordChart = null;
+
+function render(){
+  try { _render(); } catch(e){ console.error('render() fallo:', e); }
+}
+function _render(){
+  // Timestamp
+  document.getElementById('ts-val').textContent = ENSO_UPDATED;
+
+  // Período total histórico
+  document.getElementById('ftr-range').textContent = 'Total histórico: Jun-13-2026 → Jun-27-2026 (64 actividades)';
+
+  // — Seguimientos: WK_ROWS.followup_open (submission + followup_status='open') —
+  const fupOpenMap = {};
+  WK_ROWS.forEach(r => { fupOpenMap[r.coordinator] = Number(r.followup_open||0); });
+  const fupOpenTotal = Object.values(fupOpenMap).reduce((s,v)=>s+v,0);
+
+  // — KPIs globales —
+  // done = truly_done (sin seguimiento abierto); seguimiento = followup_open; pendiente = pending
+  const totalAct = WK_ROWS.reduce((s,r)=>s+Number(r.total||0),0);
+  const doneAct  = WK_ROWS.reduce((s,r)=>s+Number(r.truly_done||0),0);
+  const pendAct  = WK_ROWS.reduce((s,r)=>s+Number(r.pending||0),0);
+  const pct      = totalAct>0?Math.round(doneAct/totalAct*100):0;
+
+  document.getElementById('k-total').textContent    = totalAct;
+  document.getElementById('k-done').textContent     = doneAct;
+  document.getElementById('k-done-pct').textContent = pct + '% cerradas sin pendiente';
+  document.getElementById('k-pend').textContent     = pendAct;
+  document.getElementById('k-fup').textContent      = fupOpenTotal;
+
+  // — Full activities table —
+  renderFullTable();
+
+  // — Eval cards (Sec 01) —
+  const COORD_ORDER = ['Eduardo Cano','Rodrigo Ojeda','Gerardo Ontiveros'];
+  const wkMap = {};
+  WK_ROWS.forEach(r => { wkMap[r.coordinator] = r; });
+
+  const evalEl = document.getElementById('eval-grid');
+  evalEl.innerHTML = COORD_ORDER.map(name => {
+    const r     = wkMap[name] || { total:0, truly_done:0, followup_open:0, pending:0 };
+    const tot   = Number(r.total||0);
+    const tdone = Number(r.truly_done||0);   // cerradas SIN seguimiento
+    const fup   = Number(r.followup_open||0);// cerradas CON seguimiento abierto
+    const pend  = Number(r.pending||0);      // sin submission todavía
+    // % cumplimiento = solo las verdaderamente cerradas / total
+    const p     = tot>0 ? Math.round(tdone/tot*100) : 0;
+    // Eficiencia = de las que ya tienen evidencia, qué % están totalmente cerradas
+    const conEvidencia = tdone + fup;
+    const efic  = conEvidencia>0 ? Math.round(tdone/conEvidencia*100) : 0;
+    const color = coordColor(name);
+    const pctC  = p>=80?'#16A34A':p>=50?'#E67E22':'#DC3545';
+    const eficC = efic>=85?'#16A34A':efic>=65?'#E67E22':'#DC3545';
+    let ratingTxt, ratingCls;
+    if(p>=80 && fup===0 && pend===0){ ratingTxt='✓ Excelente';   ratingCls='rating-ex';  }
+    else if(p>=50 || efic>=70)       { ratingTxt='~ Cumple';      ratingCls='rating-ok';  }
+    else                             { ratingTxt='✗ Por mejorar'; ratingCls='rating-bad'; }
+
+    return `
+    <div class="eval-card">
+      <div class="eval-hdr ${color}">
+        <div>
+          <div class="eval-name">${name}</div>
+          <div class="eval-role">Coordinador PV/MTTO · ${tot} actividades totales</div>
+        </div>
+        <span class="eval-rating ${ratingCls}">${ratingTxt}</span>
+      </div>
+      <div class="eval-body">
+        <div class="eval-pct-wrap">
+          <div class="eval-pct" style="color:${pctC}">${tot>0?p+'%':'—'}</div>
+          <div class="eval-pct-lbl">% Cerradas</div>
+        </div>
+        <div class="eval-metrics">
+          <div class="eval-row"><span class="eval-lbl">✅ Completadas</span><span class="eval-val" style="color:#16A34A">${tdone}/${tot}</span></div>
+          <div class="eval-row"><span class="eval-lbl">🔁 Seguimiento</span><span class="eval-val" style="color:${fup>0?'#DC3545':'#6C757D'}">${fup}</span></div>
+          <div class="eval-row"><span class="eval-lbl">⏳ Pendientes</span><span class="eval-val" style="color:${pend>0?'#E67E22':'#6C757D'}">${pend}</span></div>
+          <div class="eval-row"><span class="eval-lbl">Eficiencia cierre</span><span class="eval-val" style="color:${eficC}">${efic}%</span></div>
+        </div>
+        <div class="eval-bar-wrap"><div class="eval-bar" style="width:${p}%;background:${pctC}"></div></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // — Coordinator cards —
+  const coordEl = document.getElementById('coord-grid');
+
+  coordEl.innerHTML = COORD_ORDER.map(name => {
+    const r     = wkMap[name] || { total:0, truly_done:0, followup_open:0, pending:0 };
+    const tot   = Number(r.total||0);
+    const done  = Number(r.truly_done||0);
+    const fup   = Number(r.followup_open||0);
+    const pend  = Number(r.pending||0);
+    const p     = tot>0?Math.round(done/tot*100):0;
+    const pc = pctColor(p);
+    const semC = p>=80?'verde':p>=50?'amber':'rojo';
+    return `
+    <div class="coord-card">
+      <div class="coord-hdr ${coordColor(name)}">
+        <div>
+          <div class="coord-name">${name}</div>
+          <div class="coord-role">Coordinador PV/MTTO</div>
+        </div>
+        <div class="sem">
+          <div class="dot dot-r ${semC==='rojo'?'':'dot-off'}"></div>
+          <div class="dot dot-a ${semC==='amber'?'':'dot-off'}"></div>
+          <div class="dot dot-g ${semC==='verde'?'':'dot-off'}"></div>
+        </div>
+      </div>
+      <div class="coord-body">
+        <div class="stat-row"><span class="stat-lbl">Actividades semana</span><span class="stat-val">${tot}</span></div>
+        <div class="stat-row"><span class="stat-lbl">Completadas</span><span class="stat-val green">${done}</span></div>
+        <div class="stat-row"><span class="stat-lbl">Pendientes</span><span class="stat-val ${pend>0?'amber':''}">${pend}</span></div>
+        <div class="bar-wrap"><div class="bar-fill ${pc.bg}" style="width:${p}%"></div></div>
+        <div class="stat-row"><span class="stat-lbl">% Cumplimiento</span><span class="stat-val ${pc.text}">${tot>0?p+'%':'—'}</span></div>
+        <div class="stat-row"><span class="stat-lbl">Con seguimiento</span><span class="stat-val ${fup>0?'red':''}">${fup}</span></div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // — Chart —
+  try {
+  const ctxEl = document.getElementById('coordChart');
+  if(coordChart){ try{ coordChart.destroy(); }catch(e){} coordChart=null; }
+  if(typeof Chart !== 'undefined' && ctxEl) coordChart = new Chart(ctxEl, {
+    type:'bar',
+    data:{
+      labels: COORD_ORDER.map(n=>n.split(' ')[0]),
+      datasets:[
+        { label:'Completadas', data: COORD_ORDER.map(n=>Number((wkMap[n]||{}).truly_done||0)), backgroundColor:'#28A745', borderRadius:3 },
+        { label:'Seguimiento', data: COORD_ORDER.map(n=>Number((wkMap[n]||{}).followup_open||0)), backgroundColor:'#DC3545', borderRadius:3 },
+        { label:'Pendientes',  data: COORD_ORDER.map(n=>Number((wkMap[n]||{}).pending||0)), backgroundColor:'#E67E22', borderRadius:3 },
+      ]
+    },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{ position:'bottom', labels:{ font:{size:10}, boxWidth:10, padding:8 }}},
+      scales:{
+        x:{ stacked:true, ticks:{font:{size:10}} },
+        y:{ stacked:true, ticks:{font:{size:10}, stepSize:1}, beginAtZero:true }
+      }
+    }
+  });
+  } catch(chartErr){ console.warn('Chart.js error:', chartErr); }
+
+  // — Activities table —
+  const tblWrap = document.getElementById('act-table-wrap');
+  document.getElementById('act-count-lbl').textContent = ACT_ROWS.length + ' registros';
+  // — Actividades recientes (−7 / +3 días) en act-table-wrap —
+  const today2   = new Date();
+  const d7ago    = new Date(today2); d7ago.setDate(d7ago.getDate() - 7);
+  const d3ahead  = new Date(today2); d3ahead.setDate(d3ahead.getDate() + 3);
+
+  const recent = ACT_ROWS.filter(r => {
+    const d = new Date(r.activity_date + 'T12:00:00');
+    return d >= d7ago && d <= d3ahead;
+  }).sort((a,b) => new Date(b.activity_date) - new Date(a.activity_date));
+
+  if(recent.length === 0){
+    tblWrap.innerHTML = '<div class="ft-empty" style="padding:30px;text-align:center;color:#9BAABC">Sin actividades en el rango −7/+3 días</div>';
+  } else {
+    const stTag = s => s==='done'
+      ? '<span class="tag tag-done">✅ Done</span>'
+      : '<span class="tag tag-pend">⏳ Pendiente</span>';
+    const tbody2 = recent.map(r => {
+      const globalNum = ACT_ROWS.indexOf(r) + 1;
+      const hasFup = !!r.followup_needed;
+      const rowCls = r.status==='done' && hasFup ? 'row-evid-fup' : '';
+      const dateStr = r.activity_date ? r.activity_date.substring(5) : '—';
+      const fupCell = hasFup
+        ? `<span class="ft-fup">🔁 ${r.followup_needed.length>50?r.followup_needed.substring(0,50)+'…':r.followup_needed}</span>`
+        : '<span class="ft-no-fup">—</span>';
+      return `<tr class="${rowCls}">
+        <td style="font-size:10px;font-weight:700;color:#9BAABC;white-space:nowrap">#${globalNum}</td>
+        <td style="white-space:nowrap;color:#6C757D">${dateStr}</td>
+        <td style="max-width:220px;white-space:normal;font-size:11px">${r.title}</td>
+        <td><span class="ft-coord-badge ${coordBadgeCls(r.coordinator)}">${r.coordinator.split(' ')[0]}</span></td>
+        <td>${stTag(r.status)}</td>
+        <td>${fupCell}</td>
+      </tr>`;
+    }).join('');
+    tblWrap.innerHTML = `<table class="full-table">
+      <thead><tr><th>#</th><th>Fecha</th><th>Actividad</th><th>Coord.</th><th>Status</th><th>Seguimiento</th></tr></thead>
+      <tbody>${tbody2}</tbody>
+    </table>`;
+  }
+
+  renderFollowups();
+  renderCVCards();
+  renderTicketTable();
+}
+
+// ── TICKET TABLE state ──
+let currentTkDev = 'all';
+let currentTkSts = 'all';
+let currentTkSortAsc = false; // false = más antiguo primero (desc)
+
+function tkDev(dev){
+  currentTkDev = dev;
+  document.querySelectorAll('[id^="tkd-"]').forEach(b => b.classList.remove('active'));
+  const map = {all:'tkd-all',ENSO:'tkd-enso',CATAVENTO:'tkd-catav','PUNTA BRISA 2':'tkd-pb2',VARANTA:'tkd-varan'};
+  const el = document.getElementById(map[dev]);
+  if(el) el.classList.add('active');
+  renderTicketTable();
+}
+
+function tkSts(sts){
+  currentTkSts = sts;
+  document.querySelectorAll('[id^="tks-"]').forEach(b => b.classList.remove('active'));
+  const map = {all:'tks-all',Activo:'tks-activo',Pendiente:'tks-pend'};
+  const el = document.getElementById(map[sts]);
+  if(el) el.classList.add('active');
+  renderTicketTable();
+}
+
+function toggleTkSort(){
+  currentTkSortAsc = !currentTkSortAsc;
+  const arrow = document.getElementById('th-dias-arrow');
+  if(arrow) arrow.textContent = currentTkSortAsc ? '↓' : '↑';
+  renderTicketTable();
+}
+
+function renderTicketTable(){
+  const search = (document.getElementById('tk-search')||{}).value || '';
+  const sq = search.toLowerCase();
+  let rows = CV_TICKETS.slice();
+  if(currentTkDev !== 'all') rows = rows.filter(r => r.desarrollo === currentTkDev);
+  if(currentTkSts !== 'all') rows = rows.filter(r => r.status === currentTkSts);
+  if(sq) rows = rows.filter(r => (r.depto||'').toLowerCase().includes(sq) || (r.desc||'').toLowerCase().includes(sq) || String(r.num).includes(sq));
+  rows.sort((a,b) => currentTkSortAsc ? a.dias - b.dias : b.dias - a.dias);
+  const lbl = document.getElementById('tk-count-lbl');
+  if(lbl) lbl.textContent = rows.length + ' ticket' + (rows.length!==1?'s':'');
+  const tbody = document.getElementById('tk-tbody');
+  if(!tbody) return;
+  if(!rows.length){ tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:#9BAABC;padding:20px">Sin tickets para los filtros seleccionados</td></tr>'; return; }
+  const devCls = d => {
+    if(d==='ENSO') return 'tk-dev-ENSO';
+    if(d==='CATAVENTO') return 'tk-dev-CATAVENTO';
+    if(d==='VARANTA') return 'tk-dev-VARANTA';
+    if(d==='PUNTA BRISA 2') return 'tk-dev-PUNTA-BRISA-2';
+    return '';
+  };
+  const diasCls = n => n >= 180 ? 'tk-dias-hi' : n >= 60 ? 'tk-dias-med' : 'tk-dias-ok';
+  tbody.innerHTML = rows.map(r => `
+    <tr>
+      <td class="td-num">${r.num}</td>
+      <td class="${devCls(r.desarrollo)}">${r.desarrollo}</td>
+      <td>${r.status==='Activo' ? '<span class="tk-tag-a">Activo</span>' : '<span class="tk-tag-p">Pendiente</span>'}</td>
+      <td>${r.depto}</td>
+      <td>${r.categoria}</td>
+      <td>${r.fecha}</td>
+      <td class="${diasCls(r.dias)}">${r.dias}d</td>
+      <td class="td-desc">${r.desc}</td>
+    </tr>`).join('');
+}
+
+// ── Data fetching via Edge Functions (verify_jwt: false — public) ──
+const EDGE_BASE = 'https://dfthhcdqieqdnrhnhzmh.supabase.co/functions/v1';
+
+
+// ── renderActivities: actualiza UI de actividades directamente ──
+function renderActivities(){
+  const $ = id => document.getElementById(id);
+  const set = (id,v) => { const e=$( id); if(e) e.textContent=v; };
+
+  // Timestamp
+  set('ts-val', ENSO_UPDATED);
+
+  // KPIs
+  const totalAct=WK_ROWS.reduce((s,r)=>s+Number(r.total||0),0);
+  const doneAct =WK_ROWS.reduce((s,r)=>s+Number(r.truly_done||0),0);
+  const pendAct =WK_ROWS.reduce((s,r)=>s+Number(r.pending||0),0);
+  const fupTotal=WK_ROWS.reduce((s,r)=>s+Number(r.followup_open||0),0);
+  const pct=totalAct>0?Math.round(doneAct/totalAct*100):0;
+  set('k-total',totalAct); set('k-done',doneAct);
+  set('k-done-pct',pct+'% cerradas sin pendiente');
+  set('k-pend',pendAct); set('k-fup',fupTotal);
+
+  const CO=['Eduardo Cano','Rodrigo Ojeda','Gerardo Ontiveros'];
+  const wkMap={};
+  WK_ROWS.forEach(r=>{ wkMap[r.coordinator]=r; });
+
+  // Eval cards
+  const evalEl=$('eval-grid');
+  if(evalEl) evalEl.innerHTML=CO.map(name=>{
+    const r=wkMap[name]||{},tot=Number(r.total||0),tdone=Number(r.truly_done||0);
+    const fup=Number(r.followup_open||0),pend=Number(r.pending||0);
+    const p=tot>0?Math.round(tdone/tot*100):0;
+    const con=tdone+fup,efic=con>0?Math.round(tdone/con*100):0;
+    const color=coordColor(name);
+    const pctC=p>=80?'#16A34A':p>=50?'#E67E22':'#DC3545';
+    const eficC=efic>=85?'#16A34A':efic>=65?'#E67E22':'#DC3545';
+    let rt,rc;
+    if(p>=80&&fup===0&&pend===0){rt='✓ Excelente';rc='rating-ex';}
+    else if(p>=50||efic>=70){rt='~ Cumple';rc='rating-ok';}
+    else{rt='✗ Por mejorar';rc='rating-bad';}
+    return `<div class="eval-card"><div class="eval-hdr ${color}"><div><div class="eval-name">${name}</div><div class="eval-role">Coordinador · ${tot} act.</div></div><span class="eval-rating ${rc}">${rt}</span></div><div class="eval-body"><div class="eval-pct-wrap"><div class="eval-pct" style="color:${pctC}">${tot>0?p+'%':'—'}</div><div class="eval-pct-lbl">% Cerradas</div></div><div class="eval-metrics"><div class="eval-row"><span class="eval-lbl">✅ Completadas</span><span class="eval-val" style="color:#16A34A">${tdone}/${tot}</span></div><div class="eval-row"><span class="eval-lbl">🔁 Seguimiento</span><span class="eval-val" style="color:${fup>0?'#DC3545':'#6C757D'}">${fup}</span></div><div class="eval-row"><span class="eval-lbl">⏳ Pendientes</span><span class="eval-val" style="color:${pend>0?'#E67E22':'#6C757D'}">${pend}</span></div><div class="eval-row"><span class="eval-lbl">Eficiencia</span><span class="eval-val" style="color:${eficC}">${efic}%</span></div></div><div class="eval-bar-wrap"><div class="eval-bar" style="width:${p}%;background:${pctC}"></div></div></div></div>`;
+  }).join('');
+
+  // Coord cards
+  const coordEl=$('coord-grid');
+  if(coordEl) coordEl.innerHTML=CO.map(name=>{
+    const r=wkMap[name]||{},tot=Number(r.total||0),done=Number(r.truly_done||0);
+    const fup=Number(r.followup_open||0),pend=Number(r.pending||0);
+    const p=tot>0?Math.round(done/tot*100):0,pc=pctColor(p);
+    const semC=p>=80?'verde':p>=50?'amber':'rojo';
+    return `<div class="coord-card"><div class="coord-hdr ${coordColor(name)}"><div><div class="coord-name">${name}</div><div class="coord-role">Coordinador PV/MTTO</div></div><div class="sem"><div class="dot dot-r ${semC==='rojo'?'':'dot-off'}"></div><div class="dot dot-a ${semC==='amber'?'':'dot-off'}"></div><div class="dot dot-g ${semC==='verde'?'':'dot-off'}"></div></div></div><div class="coord-body"><div class="stat-row"><span class="stat-lbl">Actividades total</span><span class="stat-val">${tot}</span></div><div class="stat-row"><span class="stat-lbl">Completadas</span><span class="stat-val green">${done}</span></div><div class="stat-row"><span class="stat-lbl">Pendientes</span><span class="stat-val ${pend>0?'amber':''}">${pend}</span></div><div class="bar-wrap"><div class="bar-fill ${pc.bg}" style="width:${p}%"></div></div><div class="stat-row"><span class="stat-lbl">% Cumplimiento</span><span class="stat-val ${pc.text}">${tot>0?p+'%':'—'}</span></div><div class="stat-row"><span class="stat-lbl">Con seguimiento</span><span class="stat-val ${fup>0?'red':''}">${fup}</span></div></div></div>`;
+  }).join('');
+
+  // Chart
+  try{
+    const ctxEl=$('coordChart');
+    if(coordChart){try{coordChart.destroy();}catch(e){}coordChart=null;}
+    if(typeof Chart!=='undefined'&&ctxEl) coordChart=new Chart(ctxEl,{
+      type:'bar',
+      data:{labels:CO.map(n=>n.split(' ')[0]),datasets:[
+        {label:'Completadas',data:CO.map(n=>Number((wkMap[n]||{}).truly_done||0)),backgroundColor:'#28A745',borderRadius:3},
+        {label:'Seguimiento',data:CO.map(n=>Number((wkMap[n]||{}).followup_open||0)),backgroundColor:'#DC3545',borderRadius:3},
+        {label:'Pendientes', data:CO.map(n=>Number((wkMap[n]||{}).pending||0)),backgroundColor:'#E67E22',borderRadius:3},
+      ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{position:'bottom',labels:{font:{size:10},boxWidth:10,padding:8}}},
+        scales:{x:{stacked:true,ticks:{font:{size:10}}},y:{stacked:true,ticks:{font:{size:10},stepSize:1},beginAtZero:true}}
+      }
+    });
+  }catch(chartErr){console.warn('Chart error:',chartErr);}
+
+  // Actividades recientes (act-table-wrap) con #
+  const tblWrap=$('act-table-wrap');
+  const cntLbl =$('act-count-lbl');
+  if(cntLbl) cntLbl.textContent=ACT_ROWS.length+' registros';
+  if(tblWrap){
+    const today2=new Date();
+    const d7=new Date(today2);d7.setDate(d7.getDate()-7);
+    const d3=new Date(today2);d3.setDate(d3.getDate()+3);
+    const recent=ACT_ROWS
+      .filter(r=>{const d=new Date((r.activity_date||'')+'T12:00:00');return d>=d7&&d<=d3;})
+      .sort((a,b)=>new Date(b.activity_date)-new Date(a.activity_date));
+    if(!recent.length){
+      tblWrap.innerHTML='<div class="ft-empty" style="padding:30px;text-align:center;color:#9BAABC">Sin actividades en el rango −7/+3 días</div>';
+    } else {
+      const stTag=s=>s==='done'?'<span class="tag tag-done">✅ Done</span>':'<span class="tag tag-pend">⏳ Pendiente</span>';
+      const rows=recent.map(r=>{
+        const gn=r.ticket_num||('#'+(ACT_ROWS.indexOf(r)+1)),hasFup=!!r.followup_needed;
+        const rowCls=r.status==='done'&&hasFup?'row-evid-fup':'';
+        const dateStr=(r.activity_date||'—').substring(5);
+        const fn=r.followup_needed||'';
+        const fupCell=hasFup?`<span class="ft-fup">🔁 ${fn.length>50?fn.substring(0,50)+'…':fn}</span>`:'<span class="ft-no-fup">—</span>';
+        return `<tr class="${rowCls}"><td style="font-size:10px;font-weight:700;color:#9BAABC">${gn}</td><td style="white-space:nowrap;color:#6C757D">${dateStr}</td><td style="max-width:200px;white-space:normal;font-size:11px">${r.title||'—'}</td><td><span class="ft-coord-badge ${coordBadgeCls(r.coordinator||'')}">${(r.coordinator||'?').split(' ')[0]}</span></td><td>${stTag(r.status)}</td><td>${fupCell}</td></tr>`;
+      }).join('');
+      tblWrap.innerHTML=`<table class="full-table"><thead><tr><th>#</th><th>Fecha</th><th>Actividad</th><th>Coord.</th><th>Status</th><th>Seguimiento</th></tr></thead><tbody>${rows}</tbody></table>`;
+    }
+  }
+
+  // Tabla completa + seguimientos
+  renderFullTable();
+  renderFollowups();
+}
+
+async function loadActivities(){
+  try{
+    const res=await fetch(EDGE_BASE+'/enso-activities');
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    ACT_ROWS=Array.isArray(data.act_rows)?data.act_rows:[];
+    WK_ROWS =Array.isArray(data.wk_rows) ?data.wk_rows :[];
+    if(data.updated){
+      const d=new Date(data.updated);
+      ENSO_UPDATED=d.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'})
+        +' · '+d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})+' — Total histórico';
+    }
+    renderActivities();
+  }catch(e){
+    console.error('loadActivities error:',e);
+    ['act-table-wrap','full-act-table-wrap','followup-list','coord-grid','eval-grid'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el) el.innerHTML='<div style="padding:20px;color:#DC3545;font-size:11px">⚠️ Error cargando actividades — '+e.message+' · Reintenta con ↺ Actualizar</div>';
+    });
+    const ts=document.getElementById('ts-val');
+    if(ts) ts.textContent='Error — reintenta';
+  }
+}
+
+async function loadTickets(){
+  try{
+    const res=await fetch(EDGE_BASE+'/condovive-tickets');
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data=await res.json();
+    CV_TICKETS=Array.isArray(data.tickets)?data.tickets:[];
+    const devMap={};
+    CV_TICKETS.forEach(t=>{
+      const k=t.desarrollo||'DESCONOCIDO';
+      if(!devMap[k]) devMap[k]={activos:0,pendientes:0};
+      if(t.status==='Activo')    devMap[k].activos++;
+      if(t.status==='Pendiente') devMap[k].pendientes++;
+    });
+    CV_DATA=Object.entries(devMap).map(([nombre,c])=>({nombre,activos:c.activos,pendientes:c.pendientes,tickets:c.activos+c.pendientes}));
+    renderCVCards();
+    renderTicketTable();
+  }catch(e){
+    console.error('loadTickets error:',e);
+    const el=document.getElementById('cv-grid');
+    if(el) el.innerHTML='<div style="padding:20px;color:#DC3545;font-size:11px">⚠️ Error cargando tickets — '+e.message+'</div>';
+  }
+}
+
+async function loadAll(){
+  const btn=document.querySelector('.btn-refresh');
+  if(btn){btn.disabled=true;btn.textContent='↺ Actualizando…';}
+  // allSettled: uno no bloquea al otro (condovive-tickets puede tener 502 por cold start)
+  await Promise.allSettled([loadActivities(),loadTickets()]);
+  if(btn){btn.disabled=false;btn.textContent='↺ Actualizar';}
+}
+
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.share-drop'))
+    document.querySelectorAll('.share-drop.open').forEach(el=>el.classList.remove('open'));
+});
+
+render();
+loadAll();
+
+const COORD_DEVS={'Eduardo Cano':['CATAVENTO'],'Rodrigo Ojeda':['ENSO'],'Gerardo Ontiveros':['VARANTA','PUNTA BRISA','PUNTA BRISA 2']};
+
+async function doShare(title,text){
+  const full=title+'\n'+text;
+  if(navigator.share){try{await navigator.share({title,text:full});return;}catch(e){if(e.name==='AbortError')return;}}
+  try{await navigator.clipboard.writeText(full);alert('✅ Copiado al portapapeles — pega en WhatsApp o correo');}catch(e){alert(full);}
+}
+
+function shareActivities(coord){
+  const today=new Date(),rows=ACT_ROWS.filter(r=>r.coordinator===coord);
+  if(!rows.length){alert('Sin actividades para '+coord);return;}
+  rows.sort((a,b)=>new Date(b.activity_date)-new Date(a.activity_date));
+  const dateStr=today.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
+  let txt=`Actividades PV/MTTO — ${coord.split(' ')[0]}\nFecha: ${dateStr}\n\n`;
+  rows.forEach((r,i)=>{
+    const d=new Date((r.activity_date||'')+'T12:00:00'),dias=Math.round((today-d)/86400000);
+    const diasStr=dias===0?'hoy':dias<0?'en '+Math.abs(dias)+'d':dias+'d atras';
+    const st=r.status==='done'?'[Completa]':'[Activo]';
+    txt+=`${i+1}. ${st} ${r.title}\n   Fecha: ${(r.activity_date||'').substring(5)} (${diasStr})`;
+    if(r.followup_needed) txt+=`\n   Seguimiento: ${r.followup_needed}`;
+    txt+='\n\n';
+  });
+  txt+=`Total: ${rows.length} actividades`;
+  doShare(`Actividades — ${coord.split(' ')[0]}`,txt);
+}
+
+function shareFollowups(coord){
+  const dateStr=new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
+  const rows=ACT_ROWS.filter(r=>r.status==='done'&&r.followup_needed&&r.coordinator===coord);
+  if(!rows.length){alert('Sin seguimientos abiertos para '+coord);return;}
+  let txt=`Seguimientos Pendientes — ${coord.split(' ')[0]}\nFecha: ${dateStr}\n\n`;
+  rows.forEach((r,i)=>{
+    txt+=`${i+1}. ${r.title}\n   Seguimiento: ${r.followup_needed}\n`;
+    if(r.activity_date) txt+=`   Actividad: ${r.activity_date.substring(5)}\n`;
+    txt+='\n';
+  });
+  txt+=`Total: ${rows.length} seguimiento(s) sin resolver`;
+  doShare(`Seguimientos — ${coord.split(' ')[0]}`,txt);
+}
+
+async function exportPDFActividades(coord){
+  // Cargar jsPDF dinámicamente (sólo la primera vez)
+  if(!window.jspdf){
+    await new Promise((res,rej)=>{
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+      s.onload=res; s.onerror=rej; document.head.appendChild(s);
+    });
+    await new Promise((res,rej)=>{
+      const s=document.createElement('script');
+      s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js';
+      s.onload=res; s.onerror=rej; document.head.appendChild(s);
+    });
+  }
+  const rows=ACT_ROWS.filter(r=>r.status!=='done'&&r.coordinator===coord);
+  if(!rows.length){alert('Sin actividades activas para '+coord);return;}
+  const today=new Date();
+  const dateStr=today.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
+  const coordColor={'Eduardo Cano':[27,42,74],'Rodrigo Ojeda':[26,82,118],'Gerardo Ontiveros':[20,90,50]};
+  const hdr=coordColor[coord]||[27,42,74];
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'letter'});
+  // Encabezado
+  doc.setFillColor(...hdr); doc.rect(0,0,280,22,'F');
+  doc.setTextColor(255,255,255); doc.setFontSize(14); doc.setFont('helvetica','bold');
+  doc.text('Actividades PV/MTTO — '+coord+' — Solo Activos',14,10);
+  doc.setFontSize(9); doc.setFont('helvetica','normal');
+  doc.text('Generado: '+dateStr+'  ·  Total activos: '+rows.length,14,17);
+  // Tabla
+  doc.autoTable({
+    startY:28,
+    head:[['#','Fecha','Actividad / Descripción','Días abierto','Seguimiento pendiente']],
+    body:rows.map(r=>{
+      const d=new Date((r.activity_date||'')+'T12:00:00');
+      const dias=Math.round((today-d)/86400000);
+      const diasStr=dias<0?'en '+Math.abs(dias)+'d':dias===0?'hoy':dias+'d';
+      return[
+        r.ticket_num||'—',
+        r.activity_date?r.activity_date.substring(5):'—',
+        r.title||'—',
+        diasStr,
+        r.followup_needed||'—'
+      ];
+    }),
+    styles:{fontSize:9,cellPadding:3,overflow:'linebreak'},
+    headStyles:{fillColor:hdr,textColor:255,fontStyle:'bold',fontSize:9},
+    columnStyles:{
+      0:{cellWidth:18,halign:'center'},
+      1:{cellWidth:22,halign:'center'},
+      2:{cellWidth:110},
+      3:{cellWidth:24,halign:'center'},
+      4:{cellWidth:82}
+    },
+    alternateRowStyles:{fillColor:[247,249,252]},
+    didDrawPage:(data)=>{
+      doc.setFontSize(7); doc.setTextColor(150);
+      doc.text('condovive-reporte.netlify.app · Gerencia Operativa',14,doc.internal.pageSize.height-6);
+      doc.text('Pág '+doc.internal.getCurrentPageInfo().pageNumber,doc.internal.pageSize.width-20,doc.internal.pageSize.height-6);
+    }
+  });
+  const fname='Activos_'+coord.split(' ')[0]+'_'+today.toISOString().substring(0,10)+'.pdf';
+  // Intentar compartir como archivo (WhatsApp, etc.) — fallback a descarga
+  const pdfBlob=doc.output('blob');
+  const pdfFile=new File([pdfBlob],fname,{type:'application/pdf'});
+  if(navigator.canShare&&navigator.canShare({files:[pdfFile]})){
+    try{
+      await navigator.share({
+        files:[pdfFile],
+        title:'Actividades Activas — '+coord.split(' ')[0],
+        text:'Actividades PV/MTTO activas · '+coord+' · '+dateStr
+      });
+      return;
+    }catch(e){ if(e.name==='AbortError') return; /* usuario canceló */ }
+  }
+  // Fallback: descarga directa
+  doc.save(fname);
+}
+
+function shareTickets(coord){
+  const devs=COORD_DEVS[coord]||[];
+  const rows=CV_TICKETS.filter(t=>devs.includes(t.desarrollo));
+  if(!rows.length){alert('Sin tickets abiertos para '+coord);return;}
+  const dateStr=new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
+  let txt=`Tickets — ${coord.split(' ')[0]}\nFecha: ${dateStr}\n\n`;
+  rows.forEach((t,i)=>{
+    txt+=`${i+1}. [${t.status||'—'}] ${t.desc||'—'}\n`;
+    if(t.depto) txt+=`   Depto: ${t.depto}\n`;
+    txt+=`   Días abierto: ${t.dias||'—'}\n\n`;
+  });
+  txt+=`Total: ${rows.length} ticket(s)`;
+  doShare(`Tickets — ${coord.split(' ')[0]}`,txt);
+}
+</script>
+</body>
+</html>
