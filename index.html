@@ -275,7 +275,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 </div>
 <div class="kpi-strip" id="kpi-strip">
   <div class="kpi-group">
-    <div class="kpi-group-lbl">📅 Actividades Calendario</div>
+    <div class="kpi-group-lbl">📅 Actividades Calendario <span id="k-act-efic-badge" style="float:right;font-weight:800;color:#16A34A;font-size:10px"></span></div>
     <div class="kpi-group-cards" style="grid-template-columns:repeat(4,1fr)">
       <div class="kpi navy"><div class="kpi-lbl">Act. total histórico</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde Jun-13-2026</div></div>
       <div class="kpi green"><div class="kpi-lbl">Completadas</div><div class="kpi-val" id="k-done">—</div><div class="kpi-sub" id="k-done-pct">—</div></div>
@@ -835,6 +835,8 @@ function _render(){
   document.getElementById('k-total').textContent    = totalAct;
   document.getElementById('k-done').textContent     = doneAct;
   document.getElementById('k-done-pct').textContent = pct + '% cerradas sin pendiente';
+  const actEficBadge1=document.getElementById('k-act-efic-badge');
+  if(actEficBadge1){const c1=pct>=80?'#16A34A':pct>=50?'#D97706':'#DC3545';actEficBadge1.textContent='⚡ Eficiencia global: '+pct+'%';actEficBadge1.style.color=c1;}
   document.getElementById('k-pend').textContent     = pendAct;
   document.getElementById('k-fup').textContent      = fupOpenTotal;
 
@@ -1083,6 +1085,8 @@ function renderActivities(){
   const pct=totalAct>0?Math.round(doneAct/totalAct*100):0;
   set('k-total',totalAct); set('k-done',doneAct);
   set('k-done-pct',pct+'% cerradas sin pendiente');
+  const actEficBadge2=document.getElementById('k-act-efic-badge');
+  if(actEficBadge2){const c2=pct>=80?'#16A34A':pct>=50?'#D97706':'#DC3545';actEficBadge2.textContent='⚡ Eficiencia global: '+pct+'%';actEficBadge2.style.color=c2;}
   set('k-pend',pendAct); set('k-fup',fupTotal);
 
   const CO=['Eduardo Cano','Rodrigo Ojeda','Gerardo Ontiveros'];
