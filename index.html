@@ -275,7 +275,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
   <div class="kpi green"><div class="kpi-lbl">Completadas</div><div class="kpi-val" id="k-done">—</div><div class="kpi-sub" id="k-done-pct">—</div></div>
   <div class="kpi amber"><div class="kpi-lbl">Pendientes</div><div class="kpi-val" id="k-pend">—</div><div class="kpi-sub">sin cerrar</div></div>
   <div class="kpi red"><div class="kpi-lbl">Seguimientos</div><div class="kpi-val" id="k-fup">—</div><div class="kpi-sub">secundarias sin resolver</div></div>
-  <div class="kpi gold"><div class="kpi-lbl">Tickets abier.</div><div class="kpi-val" id="k-cv-open">14</div><div class="kpi-sub">CONDOVIVE · 40 activos · 10 pendientes</div></div>
+  <div class="kpi gold"><div class="kpi-lbl">Tickets abier.</div><div class="kpi-val" id="k-cv-open">14</div><div class="kpi-sub" id="k-cv-sub">CONDOVIVE · 40 activos · 10 pendientes</div><div class="kpi-sub" id="k-cv-efic-global" style="margin-top:3px;font-weight:700;color:#C9A84C">⚡ Eficiencia 2026: —</div></div>
   <div class="kpi blue"><div class="kpi-lbl">Tasa resoluc.</div><div class="kpi-val" id="k-cv-tasa">86%</div><div class="kpi-sub">objetivo ≥ 95%</div></div>
 </div>
 
@@ -1192,6 +1192,16 @@ async function loadTickets(){
     });
     const resueltosPorDev=data.resueltos_por_desarrollo||{};
     CV_DATA=Object.entries(devMap).map(([nombre,c])=>({nombre,activos:c.activos,pendientes:c.pendientes,tickets:c.activos+c.pendientes,resueltos:resueltosPorDev[nombre]||0}));
+    // Eficiencia global CONDOVIVE 2026
+    const totalResueltos2026=Object.values(resueltosPorDev).reduce((s,v)=>s+(v||0),0);
+    const totalAbiertos=CV_TICKETS.length;
+    const eficGlobal=totalResueltos2026+totalAbiertos>0?Math.round(totalResueltos2026/(totalResueltos2026+totalAbiertos)*100):null;
+    const eficEl=document.getElementById('k-cv-efic-global');
+    if(eficEl&&eficGlobal!==null){
+      const eficC=eficGlobal>=80?'#16A34A':eficGlobal>=50?'#D97706':'#DC3545';
+      eficEl.textContent='⚡ Eficiencia 2026: '+eficGlobal+'% ('+totalResueltos2026+' resueltos / '+(totalResueltos2026+totalAbiertos)+' total)';
+      eficEl.style.color=eficC;
+    }
     renderCVCards();
     renderTicketTable();
     // Actualizar timestamps con hora real de carga
