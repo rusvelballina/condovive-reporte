@@ -259,6 +259,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
       <div class="ts-val" id="ts-val">—</div>
     </div>
     <button class="btn-refresh" onclick="loadAll()">↺ Actualizar</button>
+    <button class="btn-refresh" onclick="exportPDFEjecutivo()" id="btn-pdf-exec" style="background:rgba(220,53,69,.12);border-color:#DC3545;color:#DC3545;margin-left:6px">📄 PDF Ejecutivo</button>
   </div>
 </div>
 <div class="gold-bar"></div>
@@ -1331,6 +1332,183 @@ function shareFollowups(coord){
   });
   txt+=`Total: ${rows.length} seguimiento(s) sin resolver`;
   doShare(`Seguimientos — ${coord.split(' ')[0]}`,txt);
+}
+
+async function exportPDFEjecutivo(){
+  const btn=document.getElementById('btn-pdf-exec');
+  if(btn){btn.textContent='⏳ Generando…';btn.disabled=true;}
+  try{
+    if(!window.jspdf){
+      await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);});
+      await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);});
+    }
+    const {jsPDF}=window.jspdf;
+    const doc=new jsPDF({orientation:'portrait',unit:'mm',format:'letter'});
+    const W=doc.internal.pageSize.getWidth();
+    const today=new Date();
+    const dateStr=today.toLocaleDateString('es-MX',{day:'2-digit',month:'long',year:'numeric'});
+    const timeStr=today.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+
+    // ── Encabezado ──
+    doc.setFillColor(27,42,74); doc.rect(0,0,W,28,'F');
+    doc.setFillColor(201,168,76); doc.rect(0,28,W,1.5,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(14); doc.setFont('helvetica','bold');
+    doc.text('Reporte Ejecutivo Integrado — PV/MTTO + Tickets',W/2,11,{align:'center'});
+    doc.setFontSize(8); doc.setFont('helvetica','normal');
+    doc.text('Gerencia Operativa · Coordinadores: Eduardo Cano · Rodrigo Ojeda · Gerardo Ontiveros',W/2,17,{align:'center'});
+    doc.setFontSize(7); doc.setTextColor(201,168,76);
+    doc.text(dateStr+' · '+timeStr,W/2,23,{align:'center'});
+
+    let y=36;
+
+    // ── Sección 01: KPIs Globales ──
+    doc.setFillColor(240,242,245); doc.rect(10,y,W-20,7,'F');
+    doc.setTextColor(27,42,74); doc.setFontSize(9); doc.setFont('helvetica','bold');
+    doc.text('01 · RESUMEN EJECUTIVO — KPIs GLOBALES',14,y+5);
+    y+=12;
+
+    // Actividades Calendario
+    doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(108,117,125);
+    doc.text('📅 ACTIVIDADES CALENDARIO',14,y); y+=4;
+    const kpis=[
+      ['Act. Total Histórico', document.getElementById('k-total')?.textContent||'—'],
+      ['Completadas',          document.getElementById('k-done')?.textContent||'—'],
+      ['% Cerradas',          document.getElementById('k-done-pct')?.textContent||'—'],
+      ['Pendientes',          document.getElementById('k-pend')?.textContent||'—'],
+      ['Seguimientos abiertos',document.getElementById('k-fup')?.textContent||'—'],
+    ];
+    doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
+      styles:{fontSize:8,cellPadding:2},
+      headStyles:{fillColor:[27,42,74],textColor:255,fontStyle:'bold'},
+      columnStyles:{0:{cellWidth:80},1:{cellWidth:50,halign:'center',fontStyle:'bold'}},
+      head:[['Indicador','Valor']],body:kpis});
+    y=doc.lastAutoTable.finalY+6;
+
+    // Tickets CONDOVIVE
+    doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(108,117,125);
+    doc.text('🎫 TICKETS CONDOVIVE',14,y); y+=4;
+    const cvOpen=document.getElementById('k-cv-open')?.textContent||'—';
+    const cvTasa=document.getElementById('k-cv-tasa')?.textContent||'—';
+    const cvSub=document.getElementById('k-cv-tasa-sub')?.textContent||'—';
+    const cvEfic=document.getElementById('k-cv-efic-global')?.textContent||'—';
+    doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
+      styles:{fontSize:8,cellPadding:2},
+      headStyles:{fillColor:[27,42,74],textColor:255,fontStyle:'bold'},
+      columnStyles:{0:{cellWidth:80},1:{cellWidth:50,halign:'center',fontStyle:'bold'}},
+      head:[['Indicador','Valor']],
+      body:[
+        ['Tickets abiertos actualmente',cvOpen],
+        ['Tasa resolución 2026',cvTasa],
+        ['Detalle resolución',cvSub],
+        ['Eficiencia global 2026',cvEfic],
+      ]});
+    y=doc.lastAutoTable.finalY+8;
+
+    // ── Sección 02: Eficiencia por Coordinador ──
+    doc.setFillColor(240,242,245); doc.rect(10,y,W-20,7,'F');
+    doc.setTextColor(27,42,74); doc.setFontSize(9); doc.setFont('helvetica','bold');
+    doc.text('02 · EFICIENCIA GLOBAL POR COORDINADOR',14,y+5);
+    y+=12;
+
+    const COORD_ORDER=['Eduardo Cano','Rodrigo Ojeda','Gerardo Ontiveros'];
+    const coordRows=COORD_ORDER.map(name=>{
+      const key=name.replace(/ /g,'_');
+      const eficEl=document.getElementById('cge-'+key);
+      const subEl=document.getElementById('cge-sub-'+key);
+      const eficVal=eficEl?.textContent||'—';
+      const subVal=subEl?.textContent||'—';
+      // Rating
+      const ratingEl=document.getElementById('cge-rating-'+key);
+      const rating=ratingEl?.textContent||'—';
+      return [name, eficVal, subVal, rating];
+    });
+    doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
+      styles:{fontSize:8,cellPadding:2.5},
+      headStyles:{fillColor:[27,42,74],textColor:255,fontStyle:'bold'},
+      columnStyles:{
+        0:{cellWidth:55,fontStyle:'bold'},
+        1:{cellWidth:25,halign:'center',fontStyle:'bold'},
+        2:{cellWidth:75},
+        3:{cellWidth:30,halign:'center'},
+      },
+      head:[['Coordinador','Efic. Global','Desglose (Act · CV)','Estatus']],
+      body:coordRows});
+    y=doc.lastAutoTable.finalY+8;
+
+    // ── Sección 03: Desempeño por Coordinador — Total Histórico ──
+    if(WK_ROWS&&WK_ROWS.length>0){
+      doc.setFillColor(240,242,245); doc.rect(10,y,W-20,7,'F');
+      doc.setTextColor(27,42,74); doc.setFontSize(9); doc.setFont('helvetica','bold');
+      doc.text('03 · DESEMPEÑO POR COORDINADOR — TOTAL HISTÓRICO',14,y+5);
+      y+=12;
+      const wkMapPdf={};
+      WK_ROWS.forEach(r=>{ wkMapPdf[r.coordinator]=r; });
+      const coordDetalle=['Eduardo Cano','Rodrigo Ojeda','Gerardo Ontiveros'].map(name=>{
+        const r=wkMapPdf[name]||{};
+        const tot=Number(r.total||0);
+        const tdone=Number(r.truly_done||0);
+        const fup=Number(r.followup_open||0);
+        const pend=Number(r.pending||0);
+        const p=tot>0?Math.round(tdone/tot*100)+'%':'—';
+        return [name, tot, tdone, fup, pend, p];
+      });
+      doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
+        styles:{fontSize:8,cellPadding:2.5},
+        headStyles:{fillColor:[27,42,74],textColor:255,fontStyle:'bold'},
+        columnStyles:{
+          0:{cellWidth:60,fontStyle:'bold'},
+          1:{cellWidth:22,halign:'center'},
+          2:{cellWidth:28,halign:'center'},
+          3:{cellWidth:28,halign:'center'},
+          4:{cellWidth:22,halign:'center'},
+          5:{cellWidth:22,halign:'center',fontStyle:'bold'},
+        },
+        head:[['Coordinador','Total Act.','✅ Completadas','🔁 Seguimiento','⏳ Pendientes','% Cerradas']],
+        body:coordDetalle});
+      y=doc.lastAutoTable.finalY+8;
+    }
+
+    // ── Sección 04: Tickets por Desarrollo ──
+    if(CV_DATA&&CV_DATA.length>0){
+      doc.setFillColor(240,242,245); doc.rect(10,y,W-20,7,'F');
+      doc.setTextColor(27,42,74); doc.setFontSize(9); doc.setFont('helvetica','bold');
+      doc.text('04 · TICKETS CONDOVIVE POR DESARROLLO',14,y+5);
+      y+=12;
+      const cvRows=CV_DATA.map(d=>{
+        const total=(d.tickets||0)+(d.resueltos||0);
+        const efic=total>0?Math.round((d.resueltos||0)/total*100)+'%':'—';
+        return [d.nombre,d.activos||0,d.pendientes||0,d.resueltos||0,total,efic];
+      });
+      doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
+        styles:{fontSize:8,cellPadding:2},
+        headStyles:{fillColor:[27,42,74],textColor:255,fontStyle:'bold'},
+        columnStyles:{
+          0:{cellWidth:50,fontStyle:'bold'},
+          1:{cellWidth:22,halign:'center'},
+          2:{cellWidth:22,halign:'center'},
+          3:{cellWidth:28,halign:'center'},
+          4:{cellWidth:22,halign:'center'},
+          5:{cellWidth:26,halign:'center',fontStyle:'bold'},
+        },
+        head:[['Desarrollo','Activos','Pendientes','Resueltos 2026','Total','Efic. CV']],
+        body:cvRows});
+      y=doc.lastAutoTable.finalY+6;
+    }
+
+    // ── Pie de página ──
+    const pages=doc.internal.getNumberOfPages();
+    for(let i=1;i<=pages;i++){
+      doc.setPage(i);
+      doc.setFontSize(6.5); doc.setTextColor(150,150,150); doc.setFont('helvetica','normal');
+      doc.text('Reporte generado el '+dateStr+' · '+timeStr+' · Uso confidencial — Gerencia Operativa',W/2,doc.internal.pageSize.getHeight()-8,{align:'center'});
+      doc.text('Página '+i+' de '+pages,W-14,doc.internal.pageSize.getHeight()-8,{align:'right'});
+    }
+
+    const fname='Reporte_Ejecutivo_'+today.toISOString().slice(0,10)+'.pdf';
+    doc.save(fname);
+  } catch(e){ alert('Error al generar PDF: '+e.message); }
+  finally{ if(btn){btn.textContent='📄 PDF Ejecutivo';btn.disabled=false;} }
 }
 
 async function exportPDFActividades(coord){
