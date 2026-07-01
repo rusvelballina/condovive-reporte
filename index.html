@@ -1414,7 +1414,7 @@ async function exportPDFTickets(coord){
     startY:28,
     head:[['#','Desarrollo','Estatus','Depto','Categoría','Fecha','Días','Descripción']],
     body:rows.map((t,i)=>[
-      i+1,
+      t.num||i+1,
       t.desarrollo||'—',
       t.status||'—',
       t.depto||'—',
