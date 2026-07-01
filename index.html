@@ -1118,22 +1118,22 @@ function renderActivities(){
   const wkMap={};
   WK_ROWS.forEach(r=>{ wkMap[r.coordinator]=r; });
 
-  // Eval cards
+  // Eval cards — solo ⚡ Efic. Global 2026
   const evalEl=$('eval-grid');
   if(evalEl) evalEl.innerHTML=CO.map(name=>{
     const r=wkMap[name]||{},tot=Number(r.total||0),tdone=Number(r.truly_done||0);
     const fup=Number(r.followup_open||0),pend=Number(r.pending||0);
     const p=tot>0?Math.round(tdone/tot*100):0;
-    const con=tdone+fup,efic=con>0?Math.round(tdone/con*100):0;
+    const efic=tot>0?Math.round(tdone/tot*100):0; // Eficiencia real = truly_done/total
     const color=coordColor(name);
-    const pctC=p>=80?'#16A34A':p>=50?'#E67E22':'#DC3545';
-    const eficC=efic>=85?'#16A34A':efic>=65?'#E67E22':'#DC3545';
+    const pctC=efic>=80?'#16A34A':efic>=50?'#E67E22':'#DC3545';
     let rt,rc;
-    if(p>=80&&fup===0&&pend===0){rt='✓ Excelente';rc='rating-ex';}
-    else if(p>=50||efic>=70){rt='~ Cumple';rc='rating-ok';}
+    if(efic>=80&&fup===0){rt='✓ Excelente';rc='rating-ex';}
+    else if(efic>=50){rt='~ Cumple';rc='rating-ok';}
     else{rt='✗ Por mejorar';rc='rating-bad';}
-    return `<div class="eval-card"><div class="eval-hdr ${color}"><div><div class="eval-name">${name}</div><div class="eval-role">Coordinador · ${tot} act.</div></div><span class="eval-rating ${rc}">${rt}</span></div><div class="eval-body"><div class="eval-pct-wrap"><div class="eval-pct" style="color:${pctC}">${tot>0?p+'%':'—'}</div><div class="eval-pct-lbl">% Cerradas</div></div><div class="eval-metrics"><div class="eval-row"><span class="eval-lbl">✅ Completadas</span><span class="eval-val" style="color:#16A34A">${tdone}/${tot}</span></div><div class="eval-row"><span class="eval-lbl">🔁 Seguimiento</span><span class="eval-val" style="color:${fup>0?'#DC3545':'#6C757D'}">${fup}</span></div><div class="eval-row"><span class="eval-lbl">⏳ Pendientes</span><span class="eval-val" style="color:${pend>0?'#E67E22':'#6C757D'}">${pend}</span></div><div class="eval-row"><span class="eval-lbl">Eficiencia</span><span class="eval-val" style="color:${eficC}">${efic}%</span></div></div><div class="eval-bar-wrap"><div class="eval-bar" style="width:${p}%;background:${pctC}"></div></div></div></div>`;
+    return `<div class="eval-card"><div class="eval-hdr ${color}"><div><div class="eval-name">${name}</div><div class="eval-role">Coordinador · ${tot} act. · ${tot>0?p+'% cerradas':'—'}</div></div><span class="eval-rating ${rc}" id="cge-rating-${name.replace(/ /g,'_')}">${rt}</span></div><div class="eval-body" style="text-align:center;padding:18px 16px 14px"><div class="eval-pct" id="cge-${name.replace(/ /g,'_')}" style="color:#9BAABC;font-size:2.6rem">—</div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#6C757D;margin-top:2px">⚡ Efic. Global 2026</div><div style="font-size:10px;color:#9BAABC;margin-top:6px" id="cge-sub-${name.replace(/ /g,'_')}">cargando tickets…</div><span id="cge-act-${name.replace(/ /g,'_')}" data-pct="${p}" style="display:none"></span><div class="eval-bar-wrap" style="margin-top:14px"><div class="eval-bar" id="cge-bar-${name.replace(/ /g,'_')}" style="width:0%;background:#9BAABC"></div></div></div></div>`;
   }).join('');
+  updateCoordGlobalEfic();
 
   // Coord cards
   const coordEl=$('coord-grid');
