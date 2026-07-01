@@ -25,7 +25,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .gold-bar { height: 3px; background: linear-gradient(90deg, #C9A84C 0%, #2E86AB 100%); }
 
 /* ── KPI STRIP ── */
-.kpi-strip { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; padding: 12px 20px 8px; }
+.kpi-strip { display: flex; gap: 16px; padding: 12px 20px 8px; align-items: flex-start; }
+.kpi-group { display: flex; flex-direction: column; gap: 5px; flex: 1; }
+.kpi-group-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: #6C757D; padding: 0 2px; border-bottom: 1px solid #E8EAF0; margin-bottom: 2px; padding-bottom: 3px; }
+.kpi-group-cards { display: grid; gap: 8px; }
 .kpi { background: #fff; border-radius: 8px; padding: 10px 12px; border-top: 3px solid #E0E0E0; }
 .kpi.navy  { border-top-color: #1B2A4A; }
 .kpi.gold  { border-top-color: #C9A84C; }
@@ -271,12 +274,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
   </div>
 </div>
 <div class="kpi-strip" id="kpi-strip">
-  <div class="kpi navy"><div class="kpi-lbl">Act. total histórico</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde Jun-13-2026</div></div>
-  <div class="kpi green"><div class="kpi-lbl">Completadas</div><div class="kpi-val" id="k-done">—</div><div class="kpi-sub" id="k-done-pct">—</div></div>
-  <div class="kpi amber"><div class="kpi-lbl">Pendientes</div><div class="kpi-val" id="k-pend">—</div><div class="kpi-sub">sin cerrar</div></div>
-  <div class="kpi red"><div class="kpi-lbl">Seguimientos</div><div class="kpi-val" id="k-fup">—</div><div class="kpi-sub">secundarias sin resolver</div></div>
-  <div class="kpi gold"><div class="kpi-lbl">Tickets abier.</div><div class="kpi-val" id="k-cv-open">14</div><div class="kpi-sub" id="k-cv-sub">CONDOVIVE · 40 activos · 10 pendientes</div><div class="kpi-sub" id="k-cv-efic-global" style="margin-top:3px;font-weight:700;color:#C9A84C">⚡ Eficiencia 2026: —</div></div>
-  <div class="kpi blue"><div class="kpi-lbl">Tasa resoluc.</div><div class="kpi-val" id="k-cv-tasa">86%</div><div class="kpi-sub">objetivo ≥ 95%</div></div>
+  <div class="kpi-group">
+    <div class="kpi-group-lbl">📅 Actividades Calendario</div>
+    <div class="kpi-group-cards" style="grid-template-columns:repeat(4,1fr)">
+      <div class="kpi navy"><div class="kpi-lbl">Act. total histórico</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde Jun-13-2026</div></div>
+      <div class="kpi green"><div class="kpi-lbl">Completadas</div><div class="kpi-val" id="k-done">—</div><div class="kpi-sub" id="k-done-pct">—</div></div>
+      <div class="kpi amber"><div class="kpi-lbl">Pendientes</div><div class="kpi-val" id="k-pend">—</div><div class="kpi-sub">sin cerrar</div></div>
+      <div class="kpi red"><div class="kpi-lbl">Seguimientos</div><div class="kpi-val" id="k-fup">—</div><div class="kpi-sub">secundarias sin resolver</div></div>
+    </div>
+  </div>
+  <div class="kpi-group" style="flex:0 0 auto;width:280px">
+    <div class="kpi-group-lbl">🎫 Tickets CONDOVIVE</div>
+    <div class="kpi-group-cards" style="grid-template-columns:repeat(2,1fr)">
+      <div class="kpi gold"><div class="kpi-lbl">Tickets abier.</div><div class="kpi-val" id="k-cv-open">—</div><div class="kpi-sub" id="k-cv-sub">Cargando…</div><div class="kpi-sub" id="k-cv-efic-global" style="margin-top:3px;font-weight:700;color:#C9A84C">⚡ Eficiencia 2026: —</div></div>
+      <div class="kpi blue"><div class="kpi-lbl">Tasa resoluc. 2026</div><div class="kpi-val" id="k-cv-tasa">—</div><div class="kpi-sub" id="k-cv-tasa-sub">resueltos / total año</div></div>
+    </div>
+  </div>
 </div>
 
 <!-- EVAL COORDINADORES (dentro de sec 01) -->
@@ -1197,10 +1210,19 @@ async function loadTickets(){
     const totalAbiertos=CV_TICKETS.length;
     const eficGlobal=totalResueltos2026+totalAbiertos>0?Math.round(totalResueltos2026/(totalResueltos2026+totalAbiertos)*100):null;
     const eficEl=document.getElementById('k-cv-efic-global');
+    const eficC2026=eficGlobal!==null?(eficGlobal>=80?'#16A34A':eficGlobal>=50?'#D97706':'#DC3545'):'#C9A84C';
     if(eficEl&&eficGlobal!==null){
-      const eficC=eficGlobal>=80?'#16A34A':eficGlobal>=50?'#D97706':'#DC3545';
       eficEl.textContent='⚡ Eficiencia 2026: '+eficGlobal+'% ('+totalResueltos2026+' resueltos / '+(totalResueltos2026+totalAbiertos)+' total)';
-      eficEl.style.color=eficC;
+      eficEl.style.color=eficC2026;
+    }
+    const tasaEl=document.getElementById('k-cv-tasa');
+    const tasaSubEl=document.getElementById('k-cv-tasa-sub');
+    if(tasaEl&&eficGlobal!==null){
+      tasaEl.textContent=eficGlobal+'%';
+      tasaEl.style.color=eficC2026;
+    }
+    if(tasaSubEl&&eficGlobal!==null){
+      tasaSubEl.textContent=totalResueltos2026+' resueltos / '+(totalResueltos2026+totalAbiertos)+' total 2026';
     }
     renderCVCards();
     renderTicketTable();
