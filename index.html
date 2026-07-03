@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Reporte Integrado — Actividades + Tickets</title>
+<title>Reporte Integrado â Actividades + Tickets</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
 <style>
 :root { color-scheme: light; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: #F0F2F5; color: #1B2A4A; font-size: 13px; }
 
-/* ── HEADER ── */
+/* ââ HEADER ââ */
 .hdr { background: #1B2A4A; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; }
 .hdr-left { display: flex; align-items: center; gap: 12px; }
 .badge-cv { background: #C9A84C; color: #1B2A4A; font-weight: 800; font-size: 10px; padding: 3px 8px; border-radius: 3px; letter-spacing: 0.5px; }
@@ -24,7 +24,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .btn-refresh:hover { background: rgba(201,168,76,0.3); }
 .gold-bar { height: 3px; background: linear-gradient(90deg, #C9A84C 0%, #2E86AB 100%); }
 
-/* ── KPI STRIP ── */
+/* ââ KPI STRIP ââ */
 .kpi-strip { display: flex; gap: 16px; padding: 12px 20px 8px; align-items: flex-start; }
 .kpi-group { display: flex; flex-direction: column; gap: 5px; flex: 1; }
 .kpi-group-lbl { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.7px; color: #6C757D; padding: 0 2px; border-bottom: 1px solid #E8EAF0; margin-bottom: 2px; padding-bottom: 3px; }
@@ -40,7 +40,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .kpi-val { font-size: 24px; font-weight: 700; line-height: 1.1; margin: 3px 0 2px; color: #1B2A4A; }
 .kpi-sub { font-size: 10px; color: #9BAABC; }
 
-/* ── SECTION LABEL ── */
+/* ââ SECTION LABEL ââ */
 .sec { padding: 12px 20px 6px; }
 .sec-num { font-size: 9px; font-weight: 800; color: #fff; background: #1B2A4A; padding: 2px 7px; border-radius: 3px; letter-spacing: 0.5px; flex-shrink: 0; }
 .sec-title { font-size: 12px; font-weight: 700; color: #1B2A4A; }
@@ -53,7 +53,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .sec-badge-live { background: #D1FAE5; color: #065F46; }
 .sec-badge-static { background: #FEF3C7; color: #92400E; }
 
-/* ── COORDINATORS GRID ── */
+/* ââ COORDINATORS GRID ââ */
 .coord-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 20px 8px; }
 .coord-card { background: #fff; border-radius: 8px; overflow: hidden; }
 .coord-hdr { padding: 8px 12px; display: flex; align-items: center; justify-content: space-between; }
@@ -77,13 +77,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .green { color: #28A745; } .red { color: #DC3545; } .amber { color: #E67E22; } .blue { color: #2E86AB; }
 .bg-green { background: #28A745; } .bg-amber { background: #E67E22; } .bg-red { background: #DC3545; }
 
-/* ── TWO-COLUMN LAYOUT ── */
+/* ââ TWO-COLUMN LAYOUT ââ */
 .two-col { display: grid; grid-template-columns: 1.2fr 1fr; gap: 8px; padding: 0 20px 8px; }
 .panel { background: #fff; border-radius: 8px; padding: 12px 14px; }
 .panel-title { font-size: 11px; font-weight: 700; color: #1B2A4A; margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; }
 .chart-wrap { position: relative; height: 160px; }
 
-/* ── ACTIVITIES TABLE ── */
+/* ââ ACTIVITIES TABLE ââ */
 .act-table { width: 100%; border-collapse: collapse; font-size: 11px; }
 .act-table th { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: #9BAABC; padding: 0 6px 6px; text-align: left; border-bottom: 1px solid #F0F0F0; }
 .act-table td { padding: 5px 6px; border-bottom: 0.5px solid #F8F8F8; vertical-align: top; }
@@ -95,7 +95,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .tag-fut   { background: #DBEAFE; color: #1D4ED8; }
 .followup-chip { font-size: 9px; color: #DC3545; font-style: italic; margin-top: 2px; line-height: 1.3; }
 
-/* ── CONDOVIVE CARDS ── */
+/* ââ CONDOVIVE CARDS ââ */
 .cv-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 0 20px 8px; }
 .cv-card { background: #fff; border-radius: 8px; overflow: hidden; }
 .cv-card-hdr { background: #1B2A4A; padding: 6px 8px; display: flex; justify-content: space-between; align-items: center; }
@@ -114,7 +114,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .cv-efic-red    { background: #FEE2E2; color: #991B1B; }
 .cv-efic-gray   { background: #F3F4F6; color: #6B7280; }
 
-/* ── FOLLOWUP PANEL ── */
+/* ââ FOLLOWUP PANEL ââ */
 .followup-list { padding: 0 20px 12px; }
 .followup-item { background: #fff; border-radius: 8px; padding: 8px 12px; margin-bottom: 6px; display: flex; gap: 10px; align-items: flex-start; }
 .followup-item:last-child { margin-bottom: 0; }
@@ -124,7 +124,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .fup-text { font-size: 10px; color: #DC3545; line-height: 1.4; margin-top: 2px; font-style: italic; }
 .fup-meta { font-size: 9px; color: #9BAABC; margin-top: 2px; }
 
-/* ── SHARE DROPDOWN ── */
+/* ââ SHARE DROPDOWN ââ */
 .share-drop { position:relative; display:inline-block; }
 .btn-share-drop { background:none; border:1px solid #9BAABC; color:#9BAABC; border-radius:5px; padding:3px 9px; font-size:10px; font-weight:700; cursor:pointer; white-space:nowrap; transition:all .15s; }
 .btn-share-drop:hover { border-color:#2E86AB; color:#2E86AB; }
@@ -133,22 +133,22 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .share-drop-menu button { display:block; width:100%; text-align:left; background:none; border:none; padding:6px 10px; font-size:11px; font-weight:600; cursor:pointer; border-radius:4px; color:#1B2A4A; }
 .share-drop-menu button:hover { background:#F0F4F8; }
 
-/* ── FOOTER ── */
+/* ââ FOOTER ââ */
 .ftr { background: #1B2A4A; padding: 6px 20px; display: flex; justify-content: space-between; align-items: center; }
 .ftr-text { color: #8899BB; font-size: 9px; }
 .ftr-gold { color: #C9A84C; font-size: 9px; font-weight: 600; }
 
-/* ── LOADING ── */
+/* ââ LOADING ââ */
 .loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px; color: #6C757D; gap: 10px; }
 .spinner { width: 24px; height: 24px; border: 3px solid #E0E0E0; border-top-color: #C9A84C; border-radius: 50%; animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .err { color: #DC3545; font-size: 11px; padding: 8px 12px; background: #FFF0F0; border-radius: 6px; margin: 8px 20px; }
 
-/* ── UPDATE BTN ── */
+/* ââ UPDATE BTN ââ */
 .btn-update-cv { background: none; border: 1px solid #C9A84C; color: #C9A84C; padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; font-weight: 600; }
 .btn-update-cv:hover { background: rgba(201,168,76,0.1); }
 
-/* ── FULL ACTIVITIES TABLE ── */
+/* ââ FULL ACTIVITIES TABLE ââ */
 .ft-btn { background: none; border: 1px solid #DDE3ED; color: #6C757D; padding: 3px 10px; border-radius: 14px; cursor: pointer; font-size: 10px; font-weight: 600; transition: all .15s; white-space:nowrap; }
 .ft-btn-active { background: #1B2A4A; border-color: #1B2A4A; color: #fff; }
 .ft-search { border: 1px solid #DDE3ED; border-radius: 5px; padding: 3px 10px; font-size: 11px; width: 220px; outline: none; color: #1B2A4A; }
@@ -184,7 +184,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .toggle-btn:hover { background: #F0F2F5; }
 .fup-coord-btn.fup-coord-active { background: #1B2A4A; border-color: #1B2A4A; color: #fff; }
 
-/* ── EVALUACION COORDINADORES (sec 01) ── */
+/* ââ EVALUACION COORDINADORES (sec 01) ââ */
 .eval-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; padding: 0 20px 14px; }
 .eval-card { background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,.05); }
 .eval-hdr { padding: 8px 14px; display: flex; align-items: center; justify-content: space-between; }
@@ -208,7 +208,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .eval-bar-wrap { height: 5px; background: #F0F0F0; border-radius: 3px; margin-top: 5px; overflow: hidden; grid-column: 1 / -1; }
 .eval-bar { height: 100%; border-radius: 3px; transition: width .6s ease; }
 
-/* ── TICKET TABLE ── */
+/* ââ TICKET TABLE ââ */
 .tk-filters { display:flex; gap:6px; align-items:center; flex-wrap:wrap; padding:0 20px 8px; }
 .tk-filter-label { font-size:10px; font-weight:700; color:#9BAABC; text-transform:uppercase; letter-spacing:.5px; }
 .tk-btn { background:#1B2A4A; color:#fff; border:none; border-radius:4px; padding:3px 10px; font-size:10px; font-weight:700; cursor:pointer; opacity:.5; transition:opacity .15s; }
@@ -249,17 +249,17 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
     <div class="badge-en">CALENDARIO</div>
     <div class="badge-cv">CONDOVIVE</div>
     <div>
-      <div class="hdr-title">Reporte Ejecutivo Integrado — Actividades PV/MTTO + Tickets</div>
-      <div class="hdr-sub">Gerencia Operativa · Coordinadores: Eduardo Cano · Rodrigo Ojeda · Gerardo Ontiveros</div>
+      <div class="hdr-title">Reporte Ejecutivo Integrado â Actividades PV/MTTO + Tickets</div>
+      <div class="hdr-sub">Gerencia Operativa Â· Coordinadores: Eduardo Cano Â· Rodrigo Ojeda Â· Gerardo Ontiveros</div>
     </div>
   </div>
   <div class="hdr-right">
     <div>
       <div class="ts-label">Actualizado</div>
-      <div class="ts-val" id="ts-val">—</div>
+      <div class="ts-val" id="ts-val">â</div>
     </div>
-    <button class="btn-refresh" onclick="loadAll()">↺ Actualizar</button>
-    <button class="btn-refresh" onclick="exportPDFEjecutivo()" id="btn-pdf-exec" style="background:rgba(220,53,69,.12);border-color:#DC3545;color:#DC3545;margin-left:6px">📄 PDF Ejecutivo</button>
+    <button class="btn-refresh" onclick="loadAll()">âº Actualizar</button>
+    <button class="btn-refresh" onclick="exportPDFEjecutivo()" id="btn-pdf-exec" style="background:rgba(220,53,69,.12);border-color:#DC3545;color:#DC3545;margin-left:6px">ð PDF Ejecutivo</button>
   </div>
 </div>
 <div class="gold-bar"></div>
@@ -269,26 +269,26 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
   <div class="sec-header">
     <span class="sec-num">01</span>
     <div>
-      <div class="sec-title">Resumen Ejecutivo — KPIs Globales + Evaluación por Coordinador</div>
-      <div class="sec-desc">Indicadores globales consolidados · Scorecard individual por coordinador: % cumplimiento, eficiencia y rating de desempeño</div>
+      <div class="sec-title">Resumen Ejecutivo â KPIs Globales + EvaluaciÃ³n por Coordinador</div>
+      <div class="sec-desc">Indicadores globales consolidados Â· Scorecard individual por coordinador: % cumplimiento, eficiencia y rating de desempeÃ±o</div>
     </div>
   </div>
 </div>
 <div class="kpi-strip" id="kpi-strip">
   <div class="kpi-group">
-    <div class="kpi-group-lbl">📅 Actividades Calendario <span id="k-act-efic-badge" style="float:right;font-weight:800;color:#16A34A;font-size:10px"></span></div>
+    <div class="kpi-group-lbl">ð Actividades Calendario <span id="k-act-efic-badge" style="float:right;font-weight:800;color:#16A34A;font-size:10px"></span></div>
     <div class="kpi-group-cards" style="grid-template-columns:repeat(4,1fr)">
-      <div class="kpi navy"><div class="kpi-lbl">Act. total histórico</div><div class="kpi-val" id="k-total">—</div><div class="kpi-sub">desde Jun-13-2026</div></div>
-      <div class="kpi green"><div class="kpi-lbl">Completadas</div><div class="kpi-val" id="k-done">—</div><div class="kpi-sub" id="k-done-pct">—</div></div>
-      <div class="kpi amber"><div class="kpi-lbl">Pendientes</div><div class="kpi-val" id="k-pend">—</div><div class="kpi-sub">sin cerrar</div></div>
-      <div class="kpi red"><div class="kpi-lbl">Seguimientos</div><div class="kpi-val" id="k-fup">—</div><div class="kpi-sub">secundarias sin resolver</div></div>
+      <div class="kpi navy"><div class="kpi-lbl">Act. total histÃ³rico</div><div class="kpi-val" id="k-total">â</div><div class="kpi-sub">desde Jun-13-2026</div></div>
+      <div class="kpi green"><div class="kpi-lbl">Completadas</div><div class="kpi-val" id="k-done">â</div><div class="kpi-sub" id="k-done-pct">â</div></div>
+      <div class="kpi amber"><div class="kpi-lbl">Pendientes</div><div class="kpi-val" id="k-pend">â</div><div class="kpi-sub">sin cerrar</div></div>
+      <div class="kpi red"><div class="kpi-lbl">Seguimientos</div><div class="kpi-val" id="k-fup">â</div><div class="kpi-sub">secundarias sin resolver</div></div>
     </div>
   </div>
   <div class="kpi-group" style="flex:0 0 auto;width:280px">
-    <div class="kpi-group-lbl">🎫 Tickets CONDOVIVE</div>
+    <div class="kpi-group-lbl">ð« Tickets CONDOVIVE</div>
     <div class="kpi-group-cards" style="grid-template-columns:repeat(2,1fr)">
-      <div class="kpi gold"><div class="kpi-lbl">Tickets abier.</div><div class="kpi-val" id="k-cv-open">—</div><div class="kpi-sub" id="k-cv-sub">Cargando…</div><div class="kpi-sub" id="k-cv-efic-global" style="margin-top:3px;font-weight:700;color:#C9A84C">⚡ Eficiencia 2026: —</div></div>
-      <div class="kpi blue"><div class="kpi-lbl">Tasa resoluc. 2026</div><div class="kpi-val" id="k-cv-tasa">—</div><div class="kpi-sub" id="k-cv-tasa-sub">resueltos / total año</div></div>
+      <div class="kpi gold"><div class="kpi-lbl">Tickets abier.</div><div class="kpi-val" id="k-cv-open">â</div><div class="kpi-sub" id="k-cv-sub">Cargandoâ¦</div><div class="kpi-sub" id="k-cv-efic-global" style="margin-top:3px;font-weight:700;color:#C9A84C">â¡ Eficiencia 2026: â</div></div>
+      <div class="kpi blue"><div class="kpi-lbl">Tasa resoluc. 2026</div><div class="kpi-val" id="k-cv-tasa">â</div><div class="kpi-sub" id="k-cv-tasa-sub">resueltos / total aÃ±o</div></div>
     </div>
   </div>
 </div>
@@ -301,13 +301,13 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
   <div class="sec-header">
     <span class="sec-num">02</span>
     <div>
-      <div class="sec-title">Desempeño por Coordinador — Total Histórico <span class="sec-badge sec-badge-live" style="vertical-align:middle">● LIVE</span></div>
+      <div class="sec-title">DesempeÃ±o por Coordinador â Total HistÃ³rico <span class="sec-badge sec-badge-live" style="vertical-align:middle">â LIVE</span></div>
       <div class="sec-desc">Acumulado total desde Jun-13-2026: actividades asignadas, completadas, pendientes y seguimientos por coordinador</div>
     </div>
   </div>
 </div>
 <div class="coord-grid" id="coord-grid">
-  <div class="loader"><div class="spinner"></div><span style="font-size:11px">Cargando actividades…</span></div>
+  <div class="loader"><div class="spinner"></div><span style="font-size:11px">Cargando actividadesâ¦</span></div>
 </div>
 
 <!-- ACT TABLE + CHART -->
@@ -315,23 +315,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
   <div class="sec-header">
     <span class="sec-num">03</span>
     <div>
-      <div class="sec-title">Bitácora de Actividades PV/MTTO — Total Histórico <span class="sec-badge sec-badge-live" style="vertical-align:middle">● LIVE</span></div>
-      <div class="sec-desc">Registro completo de todas las actividades desde Jun-13-2026 · Estatus por tarea · Gráfica de carga total por coordinador</div>
+      <div class="sec-title">BitÃ¡cora de Actividades PV/MTTO â Total HistÃ³rico <span class="sec-badge sec-badge-live" style="vertical-align:middle">â LIVE</span></div>
+      <div class="sec-desc">Registro completo de todas las actividades desde Jun-13-2026 Â· Estatus por tarea Â· GrÃ¡fica de carga total por coordinador</div>
     </div>
   </div>
 </div>
 <div class="two-col">
   <div class="panel">
     <div class="panel-title" style="display:flex;align-items:center;justify-content:space-between">
-      <span>Actividades recientes (−7 días / +3 días)
+      <span>Actividades recientes (â7 dÃ­as / +3 dÃ­as)
         <span style="font-size:9px;color:#9BAABC;font-weight:400" id="act-count-lbl"></span>
       </span>
-      <button class="toggle-btn" id="toggle-act" onclick="toggleSection('act-table-wrap','toggle-act')">▼ Ocultar</button>
+      <button class="toggle-btn" id="toggle-act" onclick="toggleSection('act-table-wrap','toggle-act')">â¼ Ocultar</button>
     </div>
     <div id="act-table-wrap"><div class="loader"><div class="spinner"></div></div></div>
   </div>
   <div class="panel">
-    <div class="panel-title">Carga de actividades — semana actual por coordinador</div>
+    <div class="panel-title">Carga de actividades â semana actual por coordinador</div>
     <div class="chart-wrap"><canvas id="coordChart"></canvas></div>
   </div>
 </div>
@@ -339,18 +339,18 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 <!-- TABLA COMPLETA DE ACTIVIDADES -->
 <div class="sec" style="padding-bottom:4px">
   <div class="sec-header">
-    <span class="sec-num" style="background:#2E86AB">▤</span>
+    <span class="sec-num" style="background:#2E86AB">â¤</span>
     <div style="flex:1">
-      <div class="sec-title">Registro Completo de Actividades — Total Histórico <span class="sec-badge sec-badge-live" style="vertical-align:middle">● LIVE</span></div>
-      <div class="sec-desc">Todas las actividades desde Jun-13-2026 · Búsqueda y filtro por estatus o coordinador</div>
+      <div class="sec-title">Registro Completo de Actividades â Total HistÃ³rico <span class="sec-badge sec-badge-live" style="vertical-align:middle">â LIVE</span></div>
+      <div class="sec-desc">Todas las actividades desde Jun-13-2026 Â· BÃºsqueda y filtro por estatus o coordinador</div>
     </div>
     <div style="display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap;justify-content:flex-end">
       <button class="ft-btn ft-btn-active" id="ft-all"  onclick="ftFilter('all')">Todos</button>
       <button class="ft-btn" id="ft-pend"               onclick="ftFilter('pending')">Activos</button>
       <button class="ft-btn" id="ft-done"               onclick="ftFilter('done')">Completadas</button>
-      <input id="ft-search" class="ft-search" type="text" placeholder="Buscar actividad, coordinador…" oninput="ftFilter(currentFtFilter)">
+      <input id="ft-search" class="ft-search" type="text" placeholder="Buscar actividad, coordinadorâ¦" oninput="ftFilter(currentFtFilter)">
       <div class="share-drop" id="sd-reg">
-        <button class="btn-share-drop" onclick="document.getElementById('sd-reg').classList.toggle('open')">📤 ▾</button>
+        <button class="btn-share-drop" onclick="document.getElementById('sd-reg').classList.toggle('open')">ð¤ â¾</button>
         <div class="share-drop-menu">
           <button onclick="shareActivities('Eduardo Cano');document.getElementById('sd-reg').classList.remove('open')">Eduardo Cano</button>
           <button onclick="shareActivities('Rodrigo Ojeda');document.getElementById('sd-reg').classList.remove('open')">Rodrigo Ojeda</button>
@@ -358,14 +358,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
         </div>
       </div>
       <div class="share-drop" id="sd-reg-pdf">
-        <button class="btn-share-drop" style="border-color:#DC3545;color:#DC3545" onclick="document.getElementById('sd-reg-pdf').classList.toggle('open')">📄 PDF ▾</button>
+        <button class="btn-share-drop" style="border-color:#DC3545;color:#DC3545" onclick="document.getElementById('sd-reg-pdf').classList.toggle('open')">ð PDF â¾</button>
         <div class="share-drop-menu">
           <button onclick="exportPDFActividades('Eduardo Cano');document.getElementById('sd-reg-pdf').classList.remove('open')">Eduardo Cano</button>
           <button onclick="exportPDFActividades('Rodrigo Ojeda');document.getElementById('sd-reg-pdf').classList.remove('open')">Rodrigo Ojeda</button>
           <button onclick="exportPDFActividades('Gerardo Ontiveros');document.getElementById('sd-reg-pdf').classList.remove('open')">Gerardo Ontiveros</button>
         </div>
       </div>
-      <button class="toggle-btn" id="toggle-actreg" onclick="toggleSection('actreg-body','toggle-actreg')">▼ Ocultar</button>
+      <button class="toggle-btn" id="toggle-actreg" onclick="toggleSection('actreg-body','toggle-actreg')">â¼ Ocultar</button>
     </div>
   </div>
 </div>
@@ -373,29 +373,29 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
   <div id="full-act-table-wrap"></div>
 </div>
 
-<!-- SEGUIMIENTOS PENDIENTES (debajo de Bitácora) -->
+<!-- SEGUIMIENTOS PENDIENTES (debajo de BitÃ¡cora) -->
 <div class="sec">
   <div class="sec-header">
     <span class="sec-num">05</span>
     <div style="flex:1">
-      <div class="sec-title">Seguimientos Sin Resolver — Actividades Secundarias Abiertas <span class="sec-badge sec-badge-live" style="vertical-align:middle">● LIVE</span></div>
-      <div class="sec-desc">Actividades con evidencia enviada que tienen una tarea secundaria aún abierta (followup_status = 'open') · Se elimina de esta lista al marcar "resuelta" en la app ENSO</div>
+      <div class="sec-title">Seguimientos Sin Resolver â Actividades Secundarias Abiertas <span class="sec-badge sec-badge-live" style="vertical-align:middle">â LIVE</span></div>
+      <div class="sec-desc">Actividades con evidencia enviada que tienen una tarea secundaria aÃºn abierta (followup_status = 'open') Â· Se elimina de esta lista al marcar "resuelta" en la app ENSO</div>
     </div>
     <div style="display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap;justify-content:flex-end">
-      <input id="fup-search" class="ft-search" type="text" placeholder="Buscar por # o descripción…" oninput="renderFollowups()" style="width:200px">
+      <input id="fup-search" class="ft-search" type="text" placeholder="Buscar por # o descripciÃ³nâ¦" oninput="renderFollowups()" style="width:200px">
       <button class="ft-btn fup-coord-btn fup-coord-active" id="fup-c-all"      onclick="fupCoord('all')">Todos</button>
       <button class="ft-btn fup-coord-btn" id="fup-c-eduardo"                   onclick="fupCoord('Eduardo')">Eduardo</button>
       <button class="ft-btn fup-coord-btn" id="fup-c-rodrigo"                   onclick="fupCoord('Rodrigo')">Rodrigo</button>
       <button class="ft-btn fup-coord-btn" id="fup-c-gerardo"                   onclick="fupCoord('Gerardo')">Gerardo</button>
       <div class="share-drop" id="sd-fup">
-        <button class="btn-share-drop" onclick="document.getElementById('sd-fup').classList.toggle('open')">📤 ▾</button>
+        <button class="btn-share-drop" onclick="document.getElementById('sd-fup').classList.toggle('open')">ð¤ â¾</button>
         <div class="share-drop-menu">
           <button onclick="shareFollowups('Eduardo Cano');document.getElementById('sd-fup').classList.remove('open')">Eduardo Cano</button>
           <button onclick="shareFollowups('Rodrigo Ojeda');document.getElementById('sd-fup').classList.remove('open')">Rodrigo Ojeda</button>
           <button onclick="shareFollowups('Gerardo Ontiveros');document.getElementById('sd-fup').classList.remove('open')">Gerardo Ontiveros</button>
         </div>
       </div>
-      <button class="toggle-btn" id="toggle-fup" onclick="toggleSection('fup-body','toggle-fup')">▼ Ocultar</button>
+      <button class="toggle-btn" id="toggle-fup" onclick="toggleSection('fup-body','toggle-fup')">â¼ Ocultar</button>
     </div>
   </div>
 </div>
@@ -412,13 +412,43 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
     <div style="flex:1">
       <div class="sec-title" style="display:flex;align-items:center;gap:8px">
         Tickets CONDOVIVE por Desarrollo
-        <span class="sec-badge sec-badge-static" id="tk-badge-summary">⏱ Cargando…</span>
+        <span class="sec-badge sec-badge-static" id="tk-badge-summary">â± Cargandoâ¦</span>
       </div>
-      <div class="sec-desc">Estado de tickets abiertos, pendientes y tasa de resolución por desarrollo — fuente: admin.condovive.com</div>
+      <div class="sec-desc">Estado de tickets abiertos, pendientes y tasa de resoluciÃ³n por desarrollo â fuente: admin.condovive.com</div>
     </div>
   </div>
 </div>
 <div class="cv-grid" id="cv-grid"></div>
+
+<!-- BALANCE ENSO -->
+<div class="sec">
+  <div class="sec-header">
+    <span class="sec-num">05</span>
+    <div style="flex:1">
+      <div class="sec-title">Balance ENSO — Estado de Resultados 2026
+        <span class="sec-badge sec-badge-static" id="fin-badge" style="margin-left:8px">&#9201; Sin datos</span>
+      </div>
+      <div class="sec-desc">Ingresos, egresos, flujo y saldo acumulado &middot; fuente: admin.condovive.com &middot; actualizaci&oacute;n manual</div>
+    </div>
+    <button class="btn-refresh" onclick="loadFinanciero()" id="btn-fin" style="margin-left:auto;white-space:nowrap">Actualizar Balance</button>
+  </div>
+</div>
+<div id="fin-body" style="padding:0 20px 14px">
+  <div id="fin-kpi-strip" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px">
+    <div class="kpi green"><div class="kpi-lbl">Total Ingresos 2026</div><div class="kpi-val" id="fin-ingresos">&#8212;</div><div class="kpi-sub" id="fin-ingresos-sub">acumulado</div></div>
+    <div class="kpi red"><div class="kpi-lbl">Total Egresos 2026</div><div class="kpi-val" id="fin-egresos">&#8212;</div><div class="kpi-sub" id="fin-egresos-sub">acumulado</div></div>
+    <div class="kpi blue"><div class="kpi-lbl">Flujo Acumulado</div><div class="kpi-val" id="fin-flujo">&#8212;</div><div class="kpi-sub">Ingresos &minus; Egresos</div></div>
+    <div class="kpi navy"><div class="kpi-lbl">Saldo Final</div><div class="kpi-val" id="fin-saldo">&#8212;</div><div class="kpi-sub" id="fin-saldo-sub">mes m&aacute;s reciente</div></div>
+  </div>
+  <div id="fin-loader" style="text-align:center;padding:30px;color:#9BAABC;font-size:12px">
+    Haz clic en <strong style="color:#C9A84C">Actualizar Balance</strong> para cargar los datos financieros de CONDOVIVE
+  </div>
+  <div id="fin-table-wrap" style="overflow-x:auto;display:none">
+    <table id="fin-table" style="width:100%;border-collapse:collapse;font-size:11px"></table>
+  </div>
+</div>
+
+
 
 
 <!-- TICKET TABLE SECTION -->
@@ -427,14 +457,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
     <span class="sec-num">06</span>
     <div style="flex:1">
       <div class="sec-title">
-        Detalle de Tickets CONDOVIVE — Listado Completo
-        <span class="sec-badge sec-badge-static" id="tk-badge-detail">⏱ Cargando…</span>
+        Detalle de Tickets CONDOVIVE â Listado Completo
+        <span class="sec-badge sec-badge-static" id="tk-badge-detail">â± Cargandoâ¦</span>
       </div>
-      <div class="sec-desc">Todos los tickets abiertos (Activos + Pendientes) · Filtro por desarrollo y estatus · Ordena por antigüedad desc</div>
+      <div class="sec-desc">Todos los tickets abiertos (Activos + Pendientes) Â· Filtro por desarrollo y estatus Â· Ordena por antigÃ¼edad desc</div>
     </div>
     <div style="display:flex;gap:6px;align-items:center;margin-left:auto;flex-wrap:wrap;justify-content:flex-end">
       <div class="share-drop" id="sd-tk-pdf">
-        <button class="btn-share-drop" style="border-color:#DC3545;color:#DC3545" onclick="document.getElementById('sd-tk-pdf').classList.toggle('open')">📄 PDF ▾</button>
+        <button class="btn-share-drop" style="border-color:#DC3545;color:#DC3545" onclick="document.getElementById('sd-tk-pdf').classList.toggle('open')">ð PDF â¾</button>
         <div class="share-drop-menu">
           <button onclick="exportPDFTickets('Eduardo Cano');document.getElementById('sd-tk-pdf').classList.remove('open')">Eduardo Cano</button>
           <button onclick="exportPDFTickets('Rodrigo Ojeda');document.getElementById('sd-tk-pdf').classList.remove('open')">Rodrigo Ojeda</button>
@@ -442,14 +472,14 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
         </div>
       </div>
       <div class="share-drop" id="sd-tk">
-        <button class="btn-share-drop" onclick="document.getElementById('sd-tk').classList.toggle('open')">📤 ▾</button>
+        <button class="btn-share-drop" onclick="document.getElementById('sd-tk').classList.toggle('open')">ð¤ â¾</button>
         <div class="share-drop-menu">
           <button onclick="shareTickets('Eduardo Cano');document.getElementById('sd-tk').classList.remove('open')">Eduardo Cano</button>
           <button onclick="shareTickets('Rodrigo Ojeda');document.getElementById('sd-tk').classList.remove('open')">Rodrigo Ojeda</button>
           <button onclick="shareTickets('Gerardo Ontiveros');document.getElementById('sd-tk').classList.remove('open')">Gerardo Ontiveros</button>
         </div>
       </div>
-      <button class="toggle-btn" id="toggle-tk" onclick="toggleSection('tk-body','toggle-tk')">▼ Ocultar</button>
+      <button class="toggle-btn" id="toggle-tk" onclick="toggleSection('tk-body','toggle-tk')">â¼ Ocultar</button>
     </div>
   </div>
 </div>
@@ -467,7 +497,7 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
     <button class="tk-btn activo" id="tks-activo" onclick="tkSts('Activo')">Activos</button>
     <button class="tk-btn pend"   id="tks-pend"   onclick="tkSts('Pendiente')">Pendientes</button>
     <span style="width:12px"></span>
-    <input id="tk-search" class="tk-search" type="text" placeholder="Buscar depto o descripción…" oninput="renderTicketTable()">
+    <input id="tk-search" class="tk-search" type="text" placeholder="Buscar depto o descripciÃ³nâ¦" oninput="renderTicketTable()">
     <span class="tk-count-lbl" id="tk-count-lbl"></span>
   </div>
   <div class="tk-table-wrap">
@@ -478,10 +508,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
           <th>Desarrollo</th>
           <th>Estatus</th>
           <th>Depto</th>
-          <th>Categoría</th>
+          <th>CategorÃ­a</th>
           <th>Fecha</th>
-          <th id="th-dias" onclick="toggleTkSort()" style="cursor:pointer;user-select:none">Días <span id="th-dias-arrow">↑</span></th>
-          <th>Descripción</th>
+          <th id="th-dias" onclick="toggleTkSort()" style="cursor:pointer;user-select:none">DÃ­as <span id="th-dias-arrow">â</span></th>
+          <th>DescripciÃ³n</th>
         </tr>
       </thead>
       <tbody id="tk-tbody"></tbody>
@@ -491,36 +521,36 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 
 <div class="gold-bar"></div>
 <div class="ftr">
-  <div class="ftr-text">Actividades: Supabase enso-calendar-app (tiempo real) · Tickets: condovive-pwa-app.onrender.com (tiempo real)</div>
+  <div class="ftr-text">Actividades: Supabase enso-calendar-app (tiempo real) Â· Tickets: condovive-pwa-app.onrender.com (tiempo real)</div>
   <div class="ftr-gold" id="ftr-range">Semana actual</div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════
-// DATOS INYECTADOS — Última actualización: 27-Jun-2026 11:30 AM
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+// DATOS INYECTADOS â Ãltima actualizaciÃ³n: 27-Jun-2026 11:30 AM
 // followup_open = secundarias abiertos (followup_status='open')
 // followup_resolved = secundarias ya marcadas resueltas
-// Para refrescar: clic en "↺ Actualizar"
-// ══════════════════════════════════════════════════════
-let ENSO_UPDATED = "27-Jun-2026 · 09:17 PM — Total histórico";
+// Para refrescar: clic en "âº Actualizar"
+// ââââââââââââââââââââââââââââââââââââââââââââââââââââââ
+let ENSO_UPDATED = "27-Jun-2026 Â· 09:17 PM â Total histÃ³rico";
 
 // truly_done  = submission SIN seguimiento abierto (actividad CERRADA)
 // followup_open = submission CON followup_status='open' (no cuenta como done)
-// pending     = sin submission todavía
+// pending     = sin submission todavÃ­a
 let WK_ROWS = []; // live via enso-activities Edge Function
 
 let ACT_ROWS = []; // live via enso-activities Edge Function
 
-// ── CONDOVIVE open tickets — recalculado live desde CV_TICKETS ──
+// ââ CONDOVIVE open tickets â recalculado live desde CV_TICKETS ââ
 let CV_DATA = [];
 let COORD_CV_EFIC = {}; // eficiencia tickets CONDOVIVE 2026 por coordinador
 
 
-// ── CONDOVIVE ticket detail — fuente: condovive-pwa-app.onrender.com (27-Jun-2026) ──
+// ââ CONDOVIVE ticket detail â fuente: condovive-pwa-app.onrender.com (27-Jun-2026) ââ
 let CV_TICKETS = []; // live via Supabase Edge Function
 
-// ── helpers ──
-function fmt(d){ return d ? new Date(d).toLocaleDateString('es-MX',{day:'2-digit',month:'short'}) : '—'; }
+// ââ helpers ââ
+function fmt(d){ return d ? new Date(d).toLocaleDateString('es-MX',{day:'2-digit',month:'short'}) : 'â'; }
 function fmtDate(d){ return new Date(d+'T00:00:00').toLocaleDateString('es-MX',{weekday:'short',day:'2-digit',month:'short'}); }
 
 function semColor(pend, activos, total){
@@ -551,7 +581,7 @@ function pctColor(pct){
   return {text:'red',bg:'bg-red'};
 }
 
-// ── Supabase call ──
+// ââ Supabase call ââ
 const PROJECT_ID = 'dfthhcdqieqdnrhnhzmh';
 async function sql(query){
   let r;
@@ -561,16 +591,16 @@ async function sql(query){
       { project_id: PROJECT_ID, query }
     );
   } catch(e) {
-    throw new Error('callMcpTool falló: ' + e.message);
+    throw new Error('callMcpTool fallÃ³: ' + e.message);
   }
 
   if(!r) throw new Error('Sin respuesta del MCP');
 
-  // Extraer texto completo de la respuesta para diagnóstico y parsing
+  // Extraer texto completo de la respuesta para diagnÃ³stico y parsing
   const text = (r.content && r.content[0] && r.content[0].text) || '';
 
   if(r.isError){
-    // Mostrar el mensaje real del error para facilitar diagnóstico
+    // Mostrar el mensaje real del error para facilitar diagnÃ³stico
     throw new Error(text.substring(0, 300) || 'MCP isError sin mensaje');
   }
 
@@ -595,7 +625,7 @@ async function sql(query){
   return [];
 }
 
-// ── CONDOVIVE cards ──
+// ââ CONDOVIVE cards ââ
 const CV_COORD_MAP = {
   'ENSO':        'Rodrigo',
   'CATAVENTO':   'Eduardo',
@@ -607,13 +637,13 @@ const CV_COORD_MAP = {
 function cvEfic(activos, tickets, resueltos){
   resueltos = resueltos || 0;
   if(resueltos > 0){
-    // Eficiencia real = resueltos año / (resueltos año + abiertos)
+    // Eficiencia real = resueltos aÃ±o / (resueltos aÃ±o + abiertos)
     const total = resueltos + tickets;
     const pct = Math.round(resueltos / total * 100);
     const cls = pct >= 80 ? 'cv-efic-green' : pct >= 50 ? 'cv-efic-amber' : 'cv-efic-red';
     return { pct, cls, label: pct + '%' };
   }
-  // Fallback: activos / abiertos (cuando API aún no devuelve resueltos)
+  // Fallback: activos / abiertos (cuando API aÃºn no devuelve resueltos)
   if(tickets === 0) return { pct: null, cls: 'cv-efic-gray', label: 'N/A' };
   const pct = Math.round(activos / tickets * 100);
   const cls = pct >= 80 ? 'cv-efic-green' : pct >= 50 ? 'cv-efic-amber' : 'cv-efic-red';
@@ -627,7 +657,7 @@ function renderCVCards(){
     const sem   = semColor(d.pendientes, d.activos, d.tickets);
     const pendC = d.pendientes===0?'green':d.pendientes<=3?'amber':'red';
     const actC  = d.activos===0?'#6C757D':'#1B2A4A';
-    const coord = CV_COORD_MAP[d.nombre] || '—';
+    const coord = CV_COORD_MAP[d.nombre] || 'â';
     const efic  = cvEfic(d.activos, d.tickets, d.resueltos||0);
     return `
     <div class="cv-card">
@@ -641,31 +671,31 @@ function renderCVCards(){
       </div>
       <div class="cv-card-body">
         <div class="cv-row"><span class="cv-lbl">Abiertos</span><span class="cv-val" style="color:${open>0?'#DC3545':'#16A34A'}">${d.tickets}</span></div>
-        <div class="cv-row"><span class="cv-lbl">⚡ Activos</span><span class="cv-val" style="color:${actC}">${d.activos}</span></div>
-        <div class="cv-row"><span class="cv-lbl">🔴 Pendientes</span><span class="cv-val ${pendC}">${d.pendientes}</span></div>
-        <div class="cv-row"><span class="cv-lbl">✅ Resueltos año</span><span class="cv-val" style="color:#16A34A;font-weight:700">${d.resueltos||0}</span></div>
-        <div class="cv-row" style="border-top:1px solid #EEF0F4;margin-top:4px;padding-top:4px"><span class="cv-lbl" style="font-weight:700">Total año</span><span class="cv-val" style="font-weight:700;color:#1B2A4A">${(d.tickets||0)+(d.resueltos||0)}</span></div>
+        <div class="cv-row"><span class="cv-lbl">â¡ Activos</span><span class="cv-val" style="color:${actC}">${d.activos}</span></div>
+        <div class="cv-row"><span class="cv-lbl">ð´ Pendientes</span><span class="cv-val ${pendC}">${d.pendientes}</span></div>
+        <div class="cv-row"><span class="cv-lbl">â Resueltos aÃ±o</span><span class="cv-val" style="color:#16A34A;font-weight:700">${d.resueltos||0}</span></div>
+        <div class="cv-row" style="border-top:1px solid #EEF0F4;margin-top:4px;padding-top:4px"><span class="cv-lbl" style="font-weight:700">Total aÃ±o</span><span class="cv-val" style="font-weight:700;color:#1B2A4A">${(d.tickets||0)+(d.resueltos||0)}</span></div>
         <div class="cv-tasa-wrap"><div class="cv-tasa-bar" style="width:${efic.pct!==null?efic.pct:0}%;background:${efic.pct===null?'#D1D5DB':efic.pct>=80?'#16A34A':efic.pct>=50?'#D97706':'#DC3545'}"></div></div>
         <div class="cv-coord-row">
-          <span class="cv-coord-name">👤 ${coord}</span>
-          <span class="cv-efic-badge ${efic.cls}" title="Eficiencia = Resueltos año / (Resueltos + Abiertos)">⚡ ${efic.label}</span>
+          <span class="cv-coord-name">ð¤ ${coord}</span>
+          <span class="cv-efic-badge ${efic.cls}" title="Eficiencia = Resueltos aÃ±o / (Resueltos + Abiertos)">â¡ ${efic.label}</span>
         </div>
       </div>
     </div>`;
   }).join('');
 }
 
-// ── Toggle section visibility ──
+// ââ Toggle section visibility ââ
 function toggleSection(bodyId, btnId){
   const body = document.getElementById(bodyId);
   const btn  = document.getElementById(btnId);
   if(!body || !btn) return;
   const hidden = body.style.display === 'none';
   body.style.display = hidden ? '' : 'none';
-  btn.textContent = hidden ? '▼ Ocultar' : '▶ Mostrar';
+  btn.textContent = hidden ? 'â¼ Ocultar' : 'â¶ Mostrar';
 }
 
-// ── Followup filters ──
+// ââ Followup filters ââ
 let currentFupCoord = 'all';
 function fupCoord(coord){
   currentFupCoord = coord;
@@ -682,7 +712,7 @@ function renderFollowups(){
   const search = ((document.getElementById('fup-search')||{}).value||'').toLowerCase().trim();
 
   // Seguimientos sin resolver: done + followup_needed + (followup_status = 'open')
-  // Cuando ENSO app marque 'resolved', WK_ROWS.followup_open bajará y el ítem desaparecerá
+  // Cuando ENSO app marque 'resolved', WK_ROWS.followup_open bajarÃ¡ y el Ã­tem desaparecerÃ¡
   const openFups = ACT_ROWS.filter(r => r.status === 'done' && r.followup_needed);
 
   const filtered = openFups.filter(r => {
@@ -706,17 +736,17 @@ function renderFollowups(){
     return `
     <div class="followup-item">
       <div style="font-size:10px;font-weight:800;color:#9BAABC;flex-shrink:0;padding-top:2px">${ticketNum}</div>
-      <div class="fup-icon">🔁</div>
+      <div class="fup-icon">ð</div>
       <div class="fup-body">
         <div class="fup-title">${r.title} <span class="ft-coord-badge ${coordCls}" style="margin-left:4px">${r.coordinator.split(' ')[0]}</span></div>
         <div class="fup-text">${r.followup_needed}</div>
-        <div class="fup-meta">${fmtDate(r.activity_date)} · ${r.start_time ? r.start_time.substring(0,5) : ''} · <strong style="color:#DC3545">⏳ Secundaria abierta</strong></div>
+        <div class="fup-meta">${fmtDate(r.activity_date)} Â· ${r.start_time ? r.start_time.substring(0,5) : ''} Â· <strong style="color:#DC3545">â³ Secundaria abierta</strong></div>
       </div>
     </div>`;
   }).join('');
 }
 
-// ── Full Activities Table ──
+// ââ Full Activities Table ââ
 let currentFtFilter = 'all';
 
 function coordBadgeCls(name){
@@ -775,21 +805,21 @@ function renderFullTable(){
     const statusCls = r.status==='done'?'ft-status-done':r.status==='future'?'ft-status-fut':'ft-status-pend';
     const coordCls  = coordBadgeCls(r.coordinator);
     const shortDate = actDate.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'2-digit'});
-    const startH    = r.start_time ? r.start_time.substring(0,5) : '—';
+    const startH    = r.start_time ? r.start_time.substring(0,5) : 'â';
     const isEvidFup = r.status === 'done' && r.followup_needed;
-    const ticketNum = r.ticket_num || '—';
+    const ticketNum = r.ticket_num || 'â';
     return `
     <tr class="${isEvidFup ? 'row-evid-fup' : ''}">
       <td style="font-size:10px;font-weight:700;color:#9BAABC;white-space:nowrap">${ticketNum}</td>
       <td><span class="ft-coord-badge ${coordCls}">${r.coordinator.split(' ')[0]}</span></td>
       <td>
         <span class="ft-status ${statusCls}">${statusLbl}</span>
-        ${isEvidFup ? '<br><span class="badge-evid">⚑ Evidencia + Seguimiento</span>' : ''}
+        ${isEvidFup ? '<br><span class="badge-evid">â Evidencia + Seguimiento</span>' : ''}
       </td>
       <td><div class="ft-title">${r.title}</div></td>
       <td style="white-space:nowrap;color:#6C757D">${shortDate}<br><span style="font-size:9px">${startH}</span></td>
       <td class="ft-dias ${diasCls}">${diasStr}</td>
-      <td>${r.followup_needed ? '<div class="ft-fup">⚑ '+r.followup_needed+'</div>' : '<span class="ft-no-fup">—</span>'}</td>
+      <td>${r.followup_needed ? '<div class="ft-fup">â '+r.followup_needed+'</div>' : '<span class="ft-no-fup">â</span>'}</td>
     </tr>`;
   }).join('');
 
@@ -799,9 +829,9 @@ function renderFullTable(){
       <th>#</th>
       <th>Coordinador</th>
       <th>Estatus</th>
-      <th>Actividad / Descripción</th>
+      <th>Actividad / DescripciÃ³n</th>
       <th>Fecha</th>
-      <th>Días</th>
+      <th>DÃ­as</th>
       <th>Seguimiento</th>
     </tr></thead>
     <tbody>${rowsHtml}</tbody>
@@ -809,7 +839,7 @@ function renderFullTable(){
   <div style="text-align:right;font-size:10px;color:#9BAABC;padding:6px 4px">Mostrando ${rows.length} actividades</div>`;
 }
 
-// ── Render con datos inyectados ──
+// ââ Render con datos inyectados ââ
 let coordChart = null;
 
 function updateCoordGlobalEfic(){
@@ -828,17 +858,17 @@ function updateCoordGlobalEfic(){
       el.style.color=c;
       el.style.fontWeight='800';
       el.style.fontSize='2.6rem';
-      if(subEl){subEl.textContent='Act: '+actE+'% · CV: '+cvE+'%';subEl.style.color=c;}
+      if(subEl){subEl.textContent='Act: '+actE+'% Â· CV: '+cvE+'%';subEl.style.color=c;}
       const barEl=document.getElementById('cge-bar-'+key);
       if(barEl){barEl.style.width=avg+'%';barEl.style.background=c;}
       const ratingEl=document.getElementById('cge-rating-'+key);
       if(ratingEl){
-        if(avg>=80){ratingEl.textContent='✓ Excelente';ratingEl.className='eval-rating rating-ex';}
+        if(avg>=80){ratingEl.textContent='â Excelente';ratingEl.className='eval-rating rating-ex';}
         else if(avg>=50){ratingEl.textContent='~ Cumple';ratingEl.className='eval-rating rating-ok';}
-        else{ratingEl.textContent='✗ Por mejorar';ratingEl.className='eval-rating rating-bad';}
+        else{ratingEl.textContent='â Por mejorar';ratingEl.className='eval-rating rating-bad';}
       }
     } else if(cvE!==null&&cvE!==undefined){
-      if(subEl) subEl.textContent='CV: '+cvE+'% · Act: cargando…';
+      if(subEl) subEl.textContent='CV: '+cvE+'% Â· Act: cargandoâ¦';
     }
   });
 }
@@ -850,15 +880,15 @@ function _render(){
   // Timestamp
   document.getElementById('ts-val').textContent = ENSO_UPDATED;
 
-  // Período total histórico
-  document.getElementById('ftr-range').textContent = 'Total histórico: Jun-13-2026 → Jun-27-2026 (64 actividades)';
+  // PerÃ­odo total histÃ³rico
+  document.getElementById('ftr-range').textContent = 'Total histÃ³rico: Jun-13-2026 â Jun-27-2026 (64 actividades)';
 
-  // — Seguimientos: WK_ROWS.followup_open (submission + followup_status='open') —
+  // â Seguimientos: WK_ROWS.followup_open (submission + followup_status='open') â
   const fupOpenMap = {};
   WK_ROWS.forEach(r => { fupOpenMap[r.coordinator] = Number(r.followup_open||0); });
   const fupOpenTotal = Object.values(fupOpenMap).reduce((s,v)=>s+v,0);
 
-  // — KPIs globales —
+  // â KPIs globales â
   // done = truly_done (sin seguimiento abierto); seguimiento = followup_open; pendiente = pending
   const totalAct = WK_ROWS.reduce((s,r)=>s+Number(r.total||0),0);
   const doneAct  = WK_ROWS.reduce((s,r)=>s+Number(r.truly_done||0),0);
@@ -869,14 +899,14 @@ function _render(){
   document.getElementById('k-done').textContent     = doneAct;
   document.getElementById('k-done-pct').textContent = pct + '% cerradas sin pendiente';
   const actEficBadge1=document.getElementById('k-act-efic-badge');
-  if(actEficBadge1){const c1=pct>=80?'#16A34A':pct>=50?'#D97706':'#DC3545';actEficBadge1.textContent='⚡ Eficiencia global: '+pct+'%';actEficBadge1.style.color=c1;}
+  if(actEficBadge1){const c1=pct>=80?'#16A34A':pct>=50?'#D97706':'#DC3545';actEficBadge1.textContent='â¡ Eficiencia global: '+pct+'%';actEficBadge1.style.color=c1;}
   document.getElementById('k-pend').textContent     = pendAct;
   document.getElementById('k-fup').textContent      = fupOpenTotal;
 
-  // — Full activities table —
+  // â Full activities table â
   renderFullTable();
 
-  // — Eval cards (Sec 01) —
+  // â Eval cards (Sec 01) â
   const COORD_ORDER = ['Eduardo Cano','Rodrigo Ojeda','Gerardo Ontiveros'];
   const wkMap = {};
   WK_ROWS.forEach(r => { wkMap[r.coordinator] = r; });
@@ -887,7 +917,7 @@ function _render(){
     const tot   = Number(r.total||0);
     const tdone = Number(r.truly_done||0);   // cerradas SIN seguimiento
     const fup   = Number(r.followup_open||0);// cerradas CON seguimiento abierto
-    const pend  = Number(r.pending||0);      // sin submission todavía
+    const pend  = Number(r.pending||0);      // sin submission todavÃ­a
     // % cumplimiento = solo las verdaderamente cerradas / total
     const p     = tot>0 ? Math.round(tdone/tot*100) : 0;
     // Eficiencia real = truly_done / total (penaliza pendientes y seguimientos abiertos)
@@ -896,30 +926,30 @@ function _render(){
     const pctC  = p>=80?'#16A34A':p>=50?'#E67E22':'#DC3545';
     const eficC = efic>=80?'#16A34A':efic>=50?'#E67E22':'#DC3545';
     let ratingTxt, ratingCls;
-    if(efic>=80 && fup===0)          { ratingTxt='✓ Excelente';   ratingCls='rating-ex';  }
+    if(efic>=80 && fup===0)          { ratingTxt='â Excelente';   ratingCls='rating-ex';  }
     else if(efic>=50)                { ratingTxt='~ Cumple';      ratingCls='rating-ok';  }
-    else                             { ratingTxt='✗ Por mejorar'; ratingCls='rating-bad'; }
+    else                             { ratingTxt='â Por mejorar'; ratingCls='rating-bad'; }
 
     return `
     <div class="eval-card">
       <div class="eval-hdr ${color}">
         <div>
           <div class="eval-name">${name}</div>
-          <div class="eval-role">Coordinador · ${tot} act. · ${tot>0?p+'% cerradas':'—'}</div>
+          <div class="eval-role">Coordinador Â· ${tot} act. Â· ${tot>0?p+'% cerradas':'â'}</div>
         </div>
         <span class="eval-rating ${ratingCls}" id="cge-rating-${name.replace(/ /g,'_')}">${ratingTxt}</span>
       </div>
       <div class="eval-body" style="text-align:center;padding:18px 16px 14px">
-        <div class="eval-pct" id="cge-${name.replace(/ /g,'_')}" style="color:#9BAABC;font-size:2.6rem">—</div>
-        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#6C757D;margin-top:2px">⚡ Efic. Global 2026</div>
-        <div style="font-size:10px;color:#9BAABC;margin-top:6px" id="cge-sub-${name.replace(/ /g,'_')}">cargando tickets…</div>
+        <div class="eval-pct" id="cge-${name.replace(/ /g,'_')}" style="color:#9BAABC;font-size:2.6rem">â</div>
+        <div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#6C757D;margin-top:2px">â¡ Efic. Global 2026</div>
+        <div style="font-size:10px;color:#9BAABC;margin-top:6px" id="cge-sub-${name.replace(/ /g,'_')}">cargando ticketsâ¦</div>
         <span id="cge-act-${name.replace(/ /g,'_')}" data-pct="${p}" style="display:none"></span>
         <div class="eval-bar-wrap" style="margin-top:14px"><div class="eval-bar" id="cge-bar-${name.replace(/ /g,'_')}" style="width:0%;background:#9BAABC"></div></div>
       </div>
     </div>`;
   }).join('');
 
-  // — Coordinator cards —
+  // â Coordinator cards â
   const coordEl = document.getElementById('coord-grid');
 
   coordEl.innerHTML = COORD_ORDER.map(name => {
@@ -949,13 +979,13 @@ function _render(){
         <div class="stat-row"><span class="stat-lbl">Completadas</span><span class="stat-val green">${done}</span></div>
         <div class="stat-row"><span class="stat-lbl">Pendientes</span><span class="stat-val ${pend>0?'amber':''}">${pend}</span></div>
         <div class="bar-wrap"><div class="bar-fill ${pc.bg}" style="width:${p}%"></div></div>
-        <div class="stat-row"><span class="stat-lbl">% Cumplimiento</span><span class="stat-val ${pc.text}">${tot>0?p+'%':'—'}</span></div>
+        <div class="stat-row"><span class="stat-lbl">% Cumplimiento</span><span class="stat-val ${pc.text}">${tot>0?p+'%':'â'}</span></div>
         <div class="stat-row"><span class="stat-lbl">Con seguimiento</span><span class="stat-val ${fup>0?'red':''}">${fup}</span></div>
       </div>
     </div>`;
   }).join('');
 
-  // — Chart —
+  // â Chart â
   try {
   const ctxEl = document.getElementById('coordChart');
   if(coordChart){ try{ coordChart.destroy(); }catch(e){} coordChart=null; }
@@ -980,10 +1010,10 @@ function _render(){
   });
   } catch(chartErr){ console.warn('Chart.js error:', chartErr); }
 
-  // — Activities table —
+  // â Activities table â
   const tblWrap = document.getElementById('act-table-wrap');
   document.getElementById('act-count-lbl').textContent = ACT_ROWS.length + ' registros';
-  // — Actividades recientes (−7 / +3 días) en act-table-wrap —
+  // â Actividades recientes (â7 / +3 dÃ­as) en act-table-wrap â
   const today2   = new Date();
   const d7ago    = new Date(today2); d7ago.setDate(d7ago.getDate() - 7);
   const d3ahead  = new Date(today2); d3ahead.setDate(d3ahead.getDate() + 3);
@@ -994,19 +1024,19 @@ function _render(){
   }).sort((a,b) => new Date(b.activity_date) - new Date(a.activity_date));
 
   if(recent.length === 0){
-    tblWrap.innerHTML = '<div class="ft-empty" style="padding:30px;text-align:center;color:#9BAABC">Sin actividades en el rango −7/+3 días</div>';
+    tblWrap.innerHTML = '<div class="ft-empty" style="padding:30px;text-align:center;color:#9BAABC">Sin actividades en el rango â7/+3 dÃ­as</div>';
   } else {
     const stTag = s => s==='done'
-      ? '<span class="tag tag-done">✅ Done</span>'
-      : '<span class="tag tag-pend">⏳ Pendiente</span>';
+      ? '<span class="tag tag-done">â Done</span>'
+      : '<span class="tag tag-pend">â³ Pendiente</span>';
     const tbody2 = recent.map(r => {
       const globalNum = ACT_ROWS.indexOf(r) + 1;
       const hasFup = !!r.followup_needed;
       const rowCls = r.status==='done' && hasFup ? 'row-evid-fup' : '';
-      const dateStr = r.activity_date ? r.activity_date.substring(5) : '—';
+      const dateStr = r.activity_date ? r.activity_date.substring(5) : 'â';
       const fupCell = hasFup
-        ? `<span class="ft-fup">🔁 ${r.followup_needed.length>50?r.followup_needed.substring(0,50)+'…':r.followup_needed}</span>`
-        : '<span class="ft-no-fup">—</span>';
+        ? `<span class="ft-fup">ð ${r.followup_needed.length>50?r.followup_needed.substring(0,50)+'â¦':r.followup_needed}</span>`
+        : '<span class="ft-no-fup">â</span>';
       return `<tr class="${rowCls}">
         <td style="font-size:10px;font-weight:700;color:#9BAABC;white-space:nowrap">#${globalNum}</td>
         <td style="white-space:nowrap;color:#6C757D">${dateStr}</td>
@@ -1027,10 +1057,10 @@ function _render(){
   renderTicketTable();
 }
 
-// ── TICKET TABLE state ──
+// ââ TICKET TABLE state ââ
 let currentTkDev = 'all';
 let currentTkSts = 'all';
-let currentTkSortAsc = false; // false = más antiguo primero (desc)
+let currentTkSortAsc = false; // false = mÃ¡s antiguo primero (desc)
 
 function tkDev(dev){
   currentTkDev = dev;
@@ -1053,7 +1083,7 @@ function tkSts(sts){
 function toggleTkSort(){
   currentTkSortAsc = !currentTkSortAsc;
   const arrow = document.getElementById('th-dias-arrow');
-  if(arrow) arrow.textContent = currentTkSortAsc ? '↓' : '↑';
+  if(arrow) arrow.textContent = currentTkSortAsc ? 'â' : 'â';
   renderTicketTable();
 }
 
@@ -1091,11 +1121,11 @@ function renderTicketTable(){
     </tr>`).join('');
 }
 
-// ── Data fetching via Edge Functions (verify_jwt: false — public) ──
+// ââ Data fetching via Edge Functions (verify_jwt: false â public) ââ
 const EDGE_BASE = 'https://dfthhcdqieqdnrhnhzmh.supabase.co/functions/v1';
 
 
-// ── renderActivities: actualiza UI de actividades directamente ──
+// ââ renderActivities: actualiza UI de actividades directamente ââ
 function renderActivities(){
   const $ = id => document.getElementById(id);
   const set = (id,v) => { const e=$( id); if(e) e.textContent=v; };
@@ -1112,14 +1142,14 @@ function renderActivities(){
   set('k-total',totalAct); set('k-done',doneAct);
   set('k-done-pct',pct+'% cerradas sin pendiente');
   const actEficBadge2=document.getElementById('k-act-efic-badge');
-  if(actEficBadge2){const c2=pct>=80?'#16A34A':pct>=50?'#D97706':'#DC3545';actEficBadge2.textContent='⚡ Eficiencia global: '+pct+'%';actEficBadge2.style.color=c2;}
+  if(actEficBadge2){const c2=pct>=80?'#16A34A':pct>=50?'#D97706':'#DC3545';actEficBadge2.textContent='â¡ Eficiencia global: '+pct+'%';actEficBadge2.style.color=c2;}
   set('k-pend',pendAct); set('k-fup',fupTotal);
 
   const CO=['Eduardo Cano','Rodrigo Ojeda','Gerardo Ontiveros'];
   const wkMap={};
   WK_ROWS.forEach(r=>{ wkMap[r.coordinator]=r; });
 
-  // Eval cards — solo ⚡ Efic. Global 2026
+  // Eval cards â solo â¡ Efic. Global 2026
   const evalEl=$('eval-grid');
   if(evalEl) evalEl.innerHTML=CO.map(name=>{
     const r=wkMap[name]||{},tot=Number(r.total||0),tdone=Number(r.truly_done||0);
@@ -1129,10 +1159,10 @@ function renderActivities(){
     const color=coordColor(name);
     const pctC=efic>=80?'#16A34A':efic>=50?'#E67E22':'#DC3545';
     let rt,rc;
-    if(efic>=80&&fup===0){rt='✓ Excelente';rc='rating-ex';}
+    if(efic>=80&&fup===0){rt='â Excelente';rc='rating-ex';}
     else if(efic>=50){rt='~ Cumple';rc='rating-ok';}
-    else{rt='✗ Por mejorar';rc='rating-bad';}
-    return `<div class="eval-card"><div class="eval-hdr ${color}"><div><div class="eval-name">${name}</div><div class="eval-role">Coordinador · ${tot} act. · ${tot>0?p+'% cerradas':'—'}</div></div><span class="eval-rating ${rc}" id="cge-rating-${name.replace(/ /g,'_')}">${rt}</span></div><div class="eval-body" style="text-align:center;padding:18px 16px 14px"><div class="eval-pct" id="cge-${name.replace(/ /g,'_')}" style="color:#9BAABC;font-size:2.6rem">—</div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#6C757D;margin-top:2px">⚡ Efic. Global 2026</div><div style="font-size:10px;color:#9BAABC;margin-top:6px" id="cge-sub-${name.replace(/ /g,'_')}">cargando tickets…</div><span id="cge-act-${name.replace(/ /g,'_')}" data-pct="${p}" style="display:none"></span><div class="eval-bar-wrap" style="margin-top:14px"><div class="eval-bar" id="cge-bar-${name.replace(/ /g,'_')}" style="width:0%;background:#9BAABC"></div></div></div></div>`;
+    else{rt='â Por mejorar';rc='rating-bad';}
+    return `<div class="eval-card"><div class="eval-hdr ${color}"><div><div class="eval-name">${name}</div><div class="eval-role">Coordinador Â· ${tot} act. Â· ${tot>0?p+'% cerradas':'â'}</div></div><span class="eval-rating ${rc}" id="cge-rating-${name.replace(/ /g,'_')}">${rt}</span></div><div class="eval-body" style="text-align:center;padding:18px 16px 14px"><div class="eval-pct" id="cge-${name.replace(/ /g,'_')}" style="color:#9BAABC;font-size:2.6rem">â</div><div style="font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:#6C757D;margin-top:2px">â¡ Efic. Global 2026</div><div style="font-size:10px;color:#9BAABC;margin-top:6px" id="cge-sub-${name.replace(/ /g,'_')}">cargando ticketsâ¦</div><span id="cge-act-${name.replace(/ /g,'_')}" data-pct="${p}" style="display:none"></span><div class="eval-bar-wrap" style="margin-top:14px"><div class="eval-bar" id="cge-bar-${name.replace(/ /g,'_')}" style="width:0%;background:#9BAABC"></div></div></div></div>`;
   }).join('');
   updateCoordGlobalEfic();
 
@@ -1143,7 +1173,7 @@ function renderActivities(){
     const fup=Number(r.followup_open||0),pend=Number(r.pending||0);
     const p=tot>0?Math.round(done/tot*100):0,pc=pctColor(p);
     const semC=p>=80?'verde':p>=50?'amber':'rojo';
-    return `<div class="coord-card"><div class="coord-hdr ${coordColor(name)}"><div><div class="coord-name">${name}</div><div class="coord-role">Coordinador PV/MTTO</div></div><div class="sem"><div class="dot dot-r ${semC==='rojo'?'':'dot-off'}"></div><div class="dot dot-a ${semC==='amber'?'':'dot-off'}"></div><div class="dot dot-g ${semC==='verde'?'':'dot-off'}"></div></div></div><div class="coord-body"><div class="stat-row"><span class="stat-lbl">Actividades total</span><span class="stat-val">${tot}</span></div><div class="stat-row"><span class="stat-lbl">Completadas</span><span class="stat-val green">${done}</span></div><div class="stat-row"><span class="stat-lbl">Pendientes</span><span class="stat-val ${pend>0?'amber':''}">${pend}</span></div><div class="bar-wrap"><div class="bar-fill ${pc.bg}" style="width:${p}%"></div></div><div class="stat-row"><span class="stat-lbl">% Cumplimiento</span><span class="stat-val ${pc.text}">${tot>0?p+'%':'—'}</span></div><div class="stat-row"><span class="stat-lbl">Con seguimiento</span><span class="stat-val ${fup>0?'red':''}">${fup}</span></div></div></div>`;
+    return `<div class="coord-card"><div class="coord-hdr ${coordColor(name)}"><div><div class="coord-name">${name}</div><div class="coord-role">Coordinador PV/MTTO</div></div><div class="sem"><div class="dot dot-r ${semC==='rojo'?'':'dot-off'}"></div><div class="dot dot-a ${semC==='amber'?'':'dot-off'}"></div><div class="dot dot-g ${semC==='verde'?'':'dot-off'}"></div></div></div><div class="coord-body"><div class="stat-row"><span class="stat-lbl">Actividades total</span><span class="stat-val">${tot}</span></div><div class="stat-row"><span class="stat-lbl">Completadas</span><span class="stat-val green">${done}</span></div><div class="stat-row"><span class="stat-lbl">Pendientes</span><span class="stat-val ${pend>0?'amber':''}">${pend}</span></div><div class="bar-wrap"><div class="bar-fill ${pc.bg}" style="width:${p}%"></div></div><div class="stat-row"><span class="stat-lbl">% Cumplimiento</span><span class="stat-val ${pc.text}">${tot>0?p+'%':'â'}</span></div><div class="stat-row"><span class="stat-lbl">Con seguimiento</span><span class="stat-val ${fup>0?'red':''}">${fup}</span></div></div></div>`;
   }).join('');
 
   // Chart
@@ -1176,16 +1206,16 @@ function renderActivities(){
       .filter(r=>{const d=new Date((r.activity_date||'')+'T12:00:00');return d>=d7&&d<=d3;})
       .sort((a,b)=>new Date(b.activity_date)-new Date(a.activity_date));
     if(!recent.length){
-      tblWrap.innerHTML='<div class="ft-empty" style="padding:30px;text-align:center;color:#9BAABC">Sin actividades en el rango −7/+3 días</div>';
+      tblWrap.innerHTML='<div class="ft-empty" style="padding:30px;text-align:center;color:#9BAABC">Sin actividades en el rango â7/+3 dÃ­as</div>';
     } else {
-      const stTag=s=>s==='done'?'<span class="tag tag-done">✅ Done</span>':'<span class="tag tag-pend">⏳ Pendiente</span>';
+      const stTag=s=>s==='done'?'<span class="tag tag-done">â Done</span>':'<span class="tag tag-pend">â³ Pendiente</span>';
       const rows=recent.map(r=>{
         const gn=r.ticket_num||('#'+(ACT_ROWS.indexOf(r)+1)),hasFup=!!r.followup_needed;
         const rowCls=r.status==='done'&&hasFup?'row-evid-fup':'';
-        const dateStr=(r.activity_date||'—').substring(5);
+        const dateStr=(r.activity_date||'â').substring(5);
         const fn=r.followup_needed||'';
-        const fupCell=hasFup?`<span class="ft-fup">🔁 ${fn.length>50?fn.substring(0,50)+'…':fn}</span>`:'<span class="ft-no-fup">—</span>';
-        return `<tr class="${rowCls}"><td style="font-size:10px;font-weight:700;color:#9BAABC">${gn}</td><td style="white-space:nowrap;color:#6C757D">${dateStr}</td><td style="max-width:200px;white-space:normal;font-size:11px">${r.title||'—'}</td><td><span class="ft-coord-badge ${coordBadgeCls(r.coordinator||'')}">${(r.coordinator||'?').split(' ')[0]}</span></td><td>${stTag(r.status)}</td><td>${fupCell}</td></tr>`;
+        const fupCell=hasFup?`<span class="ft-fup">ð ${fn.length>50?fn.substring(0,50)+'â¦':fn}</span>`:'<span class="ft-no-fup">â</span>';
+        return `<tr class="${rowCls}"><td style="font-size:10px;font-weight:700;color:#9BAABC">${gn}</td><td style="white-space:nowrap;color:#6C757D">${dateStr}</td><td style="max-width:200px;white-space:normal;font-size:11px">${r.title||'â'}</td><td><span class="ft-coord-badge ${coordBadgeCls(r.coordinator||'')}">${(r.coordinator||'?').split(' ')[0]}</span></td><td>${stTag(r.status)}</td><td>${fupCell}</td></tr>`;
       }).join('');
       tblWrap.innerHTML=`<table class="full-table"><thead><tr><th>#</th><th>Fecha</th><th>Actividad</th><th>Coord.</th><th>Status</th><th>Seguimiento</th></tr></thead><tbody>${rows}</tbody></table>`;
     }
@@ -1206,17 +1236,17 @@ async function loadActivities(){
     if(data.updated){
       const d=new Date(data.updated);
       ENSO_UPDATED=d.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'})
-        +' · '+d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})+' — Total histórico';
+        +' Â· '+d.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'})+' â Total histÃ³rico';
     }
     renderActivities();
   }catch(e){
     console.error('loadActivities error:',e);
     ['act-table-wrap','full-act-table-wrap','followup-list','coord-grid','eval-grid'].forEach(id=>{
       const el=document.getElementById(id);
-      if(el) el.innerHTML='<div style="padding:20px;color:#DC3545;font-size:11px">⚠️ Error cargando actividades — '+e.message+' · Reintenta con ↺ Actualizar</div>';
+      if(el) el.innerHTML='<div style="padding:20px;color:#DC3545;font-size:11px">â ï¸ Error cargando actividades â '+e.message+' Â· Reintenta con âº Actualizar</div>';
     });
     const ts=document.getElementById('ts-val');
-    if(ts) ts.textContent='Error — reintenta';
+    if(ts) ts.textContent='Error â reintenta';
   }
 }
 
@@ -1250,7 +1280,7 @@ async function loadTickets(){
     const eficEl=document.getElementById('k-cv-efic-global');
     const eficC2026=eficGlobal!==null?(eficGlobal>=80?'#16A34A':eficGlobal>=50?'#D97706':'#DC3545'):'#C9A84C';
     if(eficEl&&eficGlobal!==null){
-      eficEl.textContent='⚡ Eficiencia 2026: '+eficGlobal+'% ('+totalResueltos2026+' resueltos / '+(totalResueltos2026+totalAbiertos)+' total)';
+      eficEl.textContent='â¡ Eficiencia 2026: '+eficGlobal+'% ('+totalResueltos2026+' resueltos / '+(totalResueltos2026+totalAbiertos)+' total)';
       eficEl.style.color=eficC2026;
     }
     const tasaEl=document.getElementById('k-cv-tasa');
@@ -1266,24 +1296,24 @@ async function loadTickets(){
     renderTicketTable();
     // Actualizar timestamps con hora real de carga
     const now=new Date();
-    const tsStr=now.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'})+' · '+now.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',hour12:false});
+    const tsStr=now.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'})+' Â· '+now.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit',hour12:false});
     const b1=document.getElementById('tk-badge-summary');
     const b2=document.getElementById('tk-badge-detail');
-    if(b1) b1.textContent='⏱ Actualizado: '+tsStr;
-    if(b2) b2.textContent='⏱ '+tsStr;
+    if(b1) b1.textContent='â± Actualizado: '+tsStr;
+    if(b2) b2.textContent='â± '+tsStr;
   }catch(e){
     console.error('loadTickets error:',e);
     const el=document.getElementById('cv-grid');
-    if(el) el.innerHTML='<div style="padding:20px;color:#DC3545;font-size:11px">⚠️ Error cargando tickets — '+e.message+'</div>';
+    if(el) el.innerHTML='<div style="padding:20px;color:#DC3545;font-size:11px">â ï¸ Error cargando tickets â '+e.message+'</div>';
   }
 }
 
 async function loadAll(){
   const btn=document.querySelector('.btn-refresh');
-  if(btn){btn.disabled=true;btn.textContent='↺ Actualizando…';}
+  if(btn){btn.disabled=true;btn.textContent='âº Actualizandoâ¦';}
   // allSettled: uno no bloquea al otro (condovive-tickets puede tener 502 por cold start)
   await Promise.allSettled([loadActivities(),loadTickets()]);
-  if(btn){btn.disabled=false;btn.textContent='↺ Actualizar';}
+  if(btn){btn.disabled=false;btn.textContent='âº Actualizar';}
 }
 
 document.addEventListener('click',e=>{
@@ -1299,7 +1329,7 @@ const COORD_DEVS={'Eduardo Cano':['CATAVENTO'],'Rodrigo Ojeda':['ENSO'],'Gerardo
 async function doShare(title,text){
   const full=title+'\n'+text;
   if(navigator.share){try{await navigator.share({title,text:full});return;}catch(e){if(e.name==='AbortError')return;}}
-  try{await navigator.clipboard.writeText(full);alert('✅ Copiado al portapapeles — pega en WhatsApp o correo');}catch(e){alert(full);}
+  try{await navigator.clipboard.writeText(full);alert('â Copiado al portapapeles â pega en WhatsApp o correo');}catch(e){alert(full);}
 }
 
 function shareActivities(coord){
@@ -1307,7 +1337,7 @@ function shareActivities(coord){
   if(!rows.length){alert('Sin actividades para '+coord);return;}
   rows.sort((a,b)=>new Date(b.activity_date)-new Date(a.activity_date));
   const dateStr=today.toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
-  let txt=`Actividades PV/MTTO — ${coord.split(' ')[0]}\nFecha: ${dateStr}\n\n`;
+  let txt=`Actividades PV/MTTO â ${coord.split(' ')[0]}\nFecha: ${dateStr}\n\n`;
   rows.forEach((r,i)=>{
     const d=new Date((r.activity_date||'')+'T12:00:00'),dias=Math.round((today-d)/86400000);
     const diasStr=dias===0?'hoy':dias<0?'en '+Math.abs(dias)+'d':dias+'d atras';
@@ -1317,26 +1347,26 @@ function shareActivities(coord){
     txt+='\n\n';
   });
   txt+=`Total: ${rows.length} actividades`;
-  doShare(`Actividades — ${coord.split(' ')[0]}`,txt);
+  doShare(`Actividades â ${coord.split(' ')[0]}`,txt);
 }
 
 function shareFollowups(coord){
   const dateStr=new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
   const rows=ACT_ROWS.filter(r=>r.status==='done'&&r.followup_needed&&r.coordinator===coord);
   if(!rows.length){alert('Sin seguimientos abiertos para '+coord);return;}
-  let txt=`Seguimientos Pendientes — ${coord.split(' ')[0]}\nFecha: ${dateStr}\n\n`;
+  let txt=`Seguimientos Pendientes â ${coord.split(' ')[0]}\nFecha: ${dateStr}\n\n`;
   rows.forEach((r,i)=>{
     txt+=`${i+1}. ${r.title}\n   Seguimiento: ${r.followup_needed}\n`;
     if(r.activity_date) txt+=`   Actividad: ${r.activity_date.substring(5)}\n`;
     txt+='\n';
   });
   txt+=`Total: ${rows.length} seguimiento(s) sin resolver`;
-  doShare(`Seguimientos — ${coord.split(' ')[0]}`,txt);
+  doShare(`Seguimientos â ${coord.split(' ')[0]}`,txt);
 }
 
 async function exportPDFEjecutivo(){
   const btn=document.getElementById('btn-pdf-exec');
-  if(btn){btn.textContent='⏳ Generando…';btn.disabled=true;}
+  if(btn){btn.textContent='â³ Generandoâ¦';btn.disabled=true;}
   try{
     if(!window.jspdf){
       await new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';s.onload=res;s.onerror=rej;document.head.appendChild(s);});
@@ -1349,23 +1379,23 @@ async function exportPDFEjecutivo(){
     const dateStr=today.toLocaleDateString('es-MX',{day:'2-digit',month:'long',year:'numeric'});
     const timeStr=today.toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
 
-    // ── Encabezado ──
+    // ââ Encabezado ââ
     doc.setFillColor(27,42,74); doc.rect(0,0,W,28,'F');
     doc.setFillColor(201,168,76); doc.rect(0,28,W,1.5,'F');
     doc.setTextColor(255,255,255);
     doc.setFontSize(14); doc.setFont('helvetica','bold');
-    doc.text('Reporte Ejecutivo Integrado — PV/MTTO + Tickets',W/2,11,{align:'center'});
+    doc.text('Reporte Ejecutivo Integrado â PV/MTTO + Tickets',W/2,11,{align:'center'});
     doc.setFontSize(8); doc.setFont('helvetica','normal');
-    doc.text('Gerencia Operativa · Coordinadores: Eduardo Cano · Rodrigo Ojeda · Gerardo Ontiveros',W/2,17,{align:'center'});
+    doc.text('Gerencia Operativa Â· Coordinadores: Eduardo Cano Â· Rodrigo Ojeda Â· Gerardo Ontiveros',W/2,17,{align:'center'});
     doc.setFontSize(7); doc.setTextColor(201,168,76);
-    doc.text(dateStr+' · '+timeStr,W/2,23,{align:'center'});
+    doc.text(dateStr+' Â· '+timeStr,W/2,23,{align:'center'});
 
     let y=36;
 
-    // ── Sección 01: KPIs Globales ──
+    // ââ SecciÃ³n 01: KPIs Globales ââ
     doc.setFillColor(240,242,245); doc.rect(10,y,W-20,7,'F');
     doc.setTextColor(27,42,74); doc.setFontSize(9); doc.setFont('helvetica','bold');
-    doc.text('01 · RESUMEN EJECUTIVO — KPIs GLOBALES',14,y+5);
+    doc.text('01 Â· RESUMEN EJECUTIVO â KPIs GLOBALES',14,y+5);
     y+=12;
 
     // helper: strip emojis for jsPDF compatibility
@@ -1375,11 +1405,11 @@ async function exportPDFEjecutivo(){
     doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(108,117,125);
     doc.text('ACTIVIDADES CALENDARIO',14,y); y+=4;
     const kpis=[
-      ['Act. Total Historico', se(document.getElementById('k-total')?.textContent)||'—'],
-      ['Completadas',          se(document.getElementById('k-done')?.textContent)||'—'],
-      ['% Cerradas',          se(document.getElementById('k-done-pct')?.textContent)||'—'],
-      ['Pendientes',          se(document.getElementById('k-pend')?.textContent)||'—'],
-      ['Seguimientos abiertos',se(document.getElementById('k-fup')?.textContent)||'—'],
+      ['Act. Total Historico', se(document.getElementById('k-total')?.textContent)||'â'],
+      ['Completadas',          se(document.getElementById('k-done')?.textContent)||'â'],
+      ['% Cerradas',          se(document.getElementById('k-done-pct')?.textContent)||'â'],
+      ['Pendientes',          se(document.getElementById('k-pend')?.textContent)||'â'],
+      ['Seguimientos abiertos',se(document.getElementById('k-fup')?.textContent)||'â'],
     ];
     doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
       styles:{fontSize:8,cellPadding:2},
@@ -1391,10 +1421,10 @@ async function exportPDFEjecutivo(){
     // Tickets CONDOVIVE
     doc.setFontSize(7); doc.setFont('helvetica','bold'); doc.setTextColor(108,117,125);
     doc.text('TICKETS CONDOVIVE',14,y); y+=4;
-    const cvOpen=se(document.getElementById('k-cv-open')?.textContent)||'—';
-    const cvTasa=se(document.getElementById('k-cv-tasa')?.textContent)||'—';
-    const cvSub=se(document.getElementById('k-cv-tasa-sub')?.textContent)||'—';
-    const cvEfic=se(document.getElementById('k-cv-efic-global')?.textContent)||'—';
+    const cvOpen=se(document.getElementById('k-cv-open')?.textContent)||'â';
+    const cvTasa=se(document.getElementById('k-cv-tasa')?.textContent)||'â';
+    const cvSub=se(document.getElementById('k-cv-tasa-sub')?.textContent)||'â';
+    const cvEfic=se(document.getElementById('k-cv-efic-global')?.textContent)||'â';
     doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
       styles:{fontSize:8,cellPadding:2},
       headStyles:{fillColor:[27,42,74],textColor:255,fontStyle:'bold'},
@@ -1402,16 +1432,16 @@ async function exportPDFEjecutivo(){
       head:[['Indicador','Valor']],
       body:[
         ['Tickets abiertos actualmente',cvOpen],
-        ['Tasa resolución 2026',cvTasa],
-        ['Detalle resolución',cvSub],
+        ['Tasa resoluciÃ³n 2026',cvTasa],
+        ['Detalle resoluciÃ³n',cvSub],
         ['Eficiencia global 2026',cvEfic],
       ]});
     y=doc.lastAutoTable.finalY+8;
 
-    // ── Sección 02: Eficiencia por Coordinador ──
+    // ââ SecciÃ³n 02: Eficiencia por Coordinador ââ
     doc.setFillColor(240,242,245); doc.rect(10,y,W-20,7,'F');
     doc.setTextColor(27,42,74); doc.setFontSize(9); doc.setFont('helvetica','bold');
-    doc.text('02 · EFICIENCIA GLOBAL POR COORDINADOR',14,y+5);
+    doc.text('02 Â· EFICIENCIA GLOBAL POR COORDINADOR',14,y+5);
     y+=12;
 
     const COORD_ORDER=['Eduardo Cano','Rodrigo Ojeda','Gerardo Ontiveros'];
@@ -1419,11 +1449,11 @@ async function exportPDFEjecutivo(){
       const key=name.replace(/ /g,'_');
       const eficEl=document.getElementById('cge-'+key);
       const subEl=document.getElementById('cge-sub-'+key);
-      const eficVal=se(eficEl?.textContent)||'—';
-      const subVal=se(subEl?.textContent)||'—';
+      const eficVal=se(eficEl?.textContent)||'â';
+      const subVal=se(subEl?.textContent)||'â';
       // Rating
       const ratingEl=document.getElementById('cge-rating-'+key);
-      const rating=se(ratingEl?.textContent)||'—';
+      const rating=se(ratingEl?.textContent)||'â';
       return [name, eficVal, subVal, rating];
     });
     doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
@@ -1435,15 +1465,15 @@ async function exportPDFEjecutivo(){
         2:{cellWidth:75},
         3:{cellWidth:30,halign:'center'},
       },
-      head:[['Coordinador','Efic. Global','Desglose (Act · CV)','Estatus']],
+      head:[['Coordinador','Efic. Global','Desglose (Act Â· CV)','Estatus']],
       body:coordRows});
     y=doc.lastAutoTable.finalY+8;
 
-    // ── Sección 03: Desempeño por Coordinador — Total Histórico ──
+    // ââ SecciÃ³n 03: DesempeÃ±o por Coordinador â Total HistÃ³rico ââ
     if(WK_ROWS&&WK_ROWS.length>0){
       doc.setFillColor(240,242,245); doc.rect(10,y,W-20,7,'F');
       doc.setTextColor(27,42,74); doc.setFontSize(9); doc.setFont('helvetica','bold');
-      doc.text('03 · DESEMPEÑO POR COORDINADOR — TOTAL HISTÓRICO',14,y+5);
+      doc.text('03 Â· DESEMPEÃO POR COORDINADOR â TOTAL HISTÃRICO',14,y+5);
       y+=12;
       const wkMapPdf={};
       WK_ROWS.forEach(r=>{ wkMapPdf[r.coordinator]=r; });
@@ -1453,7 +1483,7 @@ async function exportPDFEjecutivo(){
         const tdone=Number(r.truly_done||0);
         const fup=Number(r.followup_open||0);
         const pend=Number(r.pending||0);
-        const p=tot>0?Math.round(tdone/tot*100)+'%':'—';
+        const p=tot>0?Math.round(tdone/tot*100)+'%':'â';
         return [name, tot, tdone, fup, pend, p];
       });
       doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
@@ -1472,15 +1502,15 @@ async function exportPDFEjecutivo(){
       y=doc.lastAutoTable.finalY+8;
     }
 
-    // ── Sección 04: Tickets por Desarrollo ──
+    // ââ SecciÃ³n 04: Tickets por Desarrollo ââ
     if(CV_DATA&&CV_DATA.length>0){
       doc.setFillColor(240,242,245); doc.rect(10,y,W-20,7,'F');
       doc.setTextColor(27,42,74); doc.setFontSize(9); doc.setFont('helvetica','bold');
-      doc.text('04 · TICKETS CONDOVIVE POR DESARROLLO',14,y+5);
+      doc.text('04 Â· TICKETS CONDOVIVE POR DESARROLLO',14,y+5);
       y+=12;
       const cvRows=CV_DATA.map(d=>{
         const total=(d.tickets||0)+(d.resueltos||0);
-        const efic=total>0?Math.round((d.resueltos||0)/total*100)+'%':'—';
+        const efic=total>0?Math.round((d.resueltos||0)/total*100)+'%':'â';
         return [d.nombre,d.activos||0,d.pendientes||0,d.resueltos||0,total,efic];
       });
       doc.autoTable({startY:y,margin:{left:14,right:14},theme:'grid',
@@ -1499,23 +1529,23 @@ async function exportPDFEjecutivo(){
       y=doc.lastAutoTable.finalY+6;
     }
 
-    // ── Pie de página ──
+    // ââ Pie de pÃ¡gina ââ
     const pages=doc.internal.getNumberOfPages();
     for(let i=1;i<=pages;i++){
       doc.setPage(i);
       doc.setFontSize(6.5); doc.setTextColor(150,150,150); doc.setFont('helvetica','normal');
-      doc.text('Reporte generado el '+dateStr+' · '+timeStr+' · Uso confidencial — Gerencia Operativa',W/2,doc.internal.pageSize.getHeight()-8,{align:'center'});
-      doc.text('Página '+i+' de '+pages,W-14,doc.internal.pageSize.getHeight()-8,{align:'right'});
+      doc.text('Reporte generado el '+dateStr+' Â· '+timeStr+' Â· Uso confidencial â Gerencia Operativa',W/2,doc.internal.pageSize.getHeight()-8,{align:'center'});
+      doc.text('PÃ¡gina '+i+' de '+pages,W-14,doc.internal.pageSize.getHeight()-8,{align:'right'});
     }
 
     const fname='Reporte_Ejecutivo_'+today.toISOString().slice(0,10)+'.pdf';
     doc.save(fname);
   } catch(e){ alert('Error al generar PDF: '+e.message); }
-  finally{ if(btn){btn.textContent='📄 PDF Ejecutivo';btn.disabled=false;} }
+  finally{ if(btn){btn.textContent='ð PDF Ejecutivo';btn.disabled=false;} }
 }
 
 async function exportPDFActividades(coord){
-  // Cargar jsPDF dinámicamente (sólo la primera vez)
+  // Cargar jsPDF dinÃ¡micamente (sÃ³lo la primera vez)
   if(!window.jspdf){
     await new Promise((res,rej)=>{
       const s=document.createElement('script');
@@ -1539,23 +1569,23 @@ async function exportPDFActividades(coord){
   // Encabezado
   doc.setFillColor(...hdr); doc.rect(0,0,280,22,'F');
   doc.setTextColor(255,255,255); doc.setFontSize(14); doc.setFont('helvetica','bold');
-  doc.text('Actividades PV/MTTO — '+coord+' — Solo Activos',14,10);
+  doc.text('Actividades PV/MTTO â '+coord+' â Solo Activos',14,10);
   doc.setFontSize(9); doc.setFont('helvetica','normal');
-  doc.text('Generado: '+dateStr+'  ·  Total activos: '+rows.length,14,17);
+  doc.text('Generado: '+dateStr+'  Â·  Total activos: '+rows.length,14,17);
   // Tabla
   doc.autoTable({
     startY:28,
-    head:[['#','Fecha','Actividad / Descripción','Días abierto','Seguimiento pendiente']],
+    head:[['#','Fecha','Actividad / DescripciÃ³n','DÃ­as abierto','Seguimiento pendiente']],
     body:rows.map(r=>{
       const d=new Date((r.activity_date||'')+'T12:00:00');
       const dias=Math.round((today-d)/86400000);
       const diasStr=dias<0?'en '+Math.abs(dias)+'d':dias===0?'hoy':dias+'d';
       return[
-        r.ticket_num||'—',
-        r.activity_date?r.activity_date.substring(5):'—',
-        r.title||'—',
+        r.ticket_num||'â',
+        r.activity_date?r.activity_date.substring(5):'â',
+        r.title||'â',
         diasStr,
-        r.followup_needed||'—'
+        r.followup_needed||'â'
       ];
     }),
     styles:{fontSize:9,cellPadding:3,overflow:'linebreak'},
@@ -1570,11 +1600,11 @@ async function exportPDFActividades(coord){
     alternateRowStyles:{fillColor:[247,249,252]},
     didDrawPage:(data)=>{
       doc.setFontSize(7); doc.setTextColor(150);
-      doc.text('condovive-reporte.netlify.app · Gerencia Operativa',14,doc.internal.pageSize.height-6);
-      doc.text('Pág '+doc.internal.getCurrentPageInfo().pageNumber,doc.internal.pageSize.width-20,doc.internal.pageSize.height-6);
+      doc.text('condovive-reporte.netlify.app Â· Gerencia Operativa',14,doc.internal.pageSize.height-6);
+      doc.text('PÃ¡g '+doc.internal.getCurrentPageInfo().pageNumber,doc.internal.pageSize.width-20,doc.internal.pageSize.height-6);
     }
   });
-  // ── Sección 2: Seguimientos Sin Resolver del mismo coordinador ──
+  // ââ SecciÃ³n 2: Seguimientos Sin Resolver del mismo coordinador ââ
   const fups=ACT_ROWS.filter(r=>r.status==='done'&&r.followup_needed&&r.coordinator===coord);
   if(fups.length){
     const lastY=doc.lastAutoTable.finalY||doc.internal.pageSize.height-40;
@@ -1591,15 +1621,15 @@ async function exportPDFActividades(coord){
     // Sub-encabezado
     doc.setFillColor(220,53,69); doc.rect(14,fupStartY-5,doc.internal.pageSize.width-28,10,'F');
     doc.setTextColor(255,255,255); doc.setFontSize(10); doc.setFont('helvetica','bold');
-    doc.text('Seguimientos Sin Resolver — '+coord.split(' ')[0]+' ('+fups.length+')',16,fupStartY+1.5);
+    doc.text('Seguimientos Sin Resolver â '+coord.split(' ')[0]+' ('+fups.length+')',16,fupStartY+1.5);
     doc.autoTable({
       startY:fupStartY+8,
       head:[['#','Fecha','Actividad','Tarea Pendiente']],
       body:fups.map(r=>[
-        r.ticket_num||'—',
-        r.activity_date?r.activity_date.substring(5):'—',
-        r.title||'—',
-        r.followup_needed||'—'
+        r.ticket_num||'â',
+        r.activity_date?r.activity_date.substring(5):'â',
+        r.title||'â',
+        r.followup_needed||'â'
       ]),
       styles:{fontSize:9,cellPadding:3,overflow:'linebreak'},
       headStyles:{fillColor:[220,53,69],textColor:255,fontStyle:'bold',fontSize:9},
@@ -1612,24 +1642,24 @@ async function exportPDFActividades(coord){
       alternateRowStyles:{fillColor:[255,245,245]},
       didDrawPage:(data)=>{
         doc.setFontSize(7); doc.setTextColor(150);
-        doc.text('condovive-reporte.netlify.app · Gerencia Operativa',14,doc.internal.pageSize.height-6);
-        doc.text('Pág '+doc.internal.getCurrentPageInfo().pageNumber,doc.internal.pageSize.width-20,doc.internal.pageSize.height-6);
+        doc.text('condovive-reporte.netlify.app Â· Gerencia Operativa',14,doc.internal.pageSize.height-6);
+        doc.text('PÃ¡g '+doc.internal.getCurrentPageInfo().pageNumber,doc.internal.pageSize.width-20,doc.internal.pageSize.height-6);
       }
     });
   }
   const fname='Activos_'+coord.split(' ')[0]+'_'+today.toISOString().substring(0,10)+'.pdf';
-  // Intentar compartir como archivo (WhatsApp, etc.) — fallback a descarga
+  // Intentar compartir como archivo (WhatsApp, etc.) â fallback a descarga
   const pdfBlob=doc.output('blob');
   const pdfFile=new File([pdfBlob],fname,{type:'application/pdf'});
   if(navigator.canShare&&navigator.canShare({files:[pdfFile]})){
     try{
       await navigator.share({
         files:[pdfFile],
-        title:'Actividades Activas — '+coord.split(' ')[0],
-        text:'Actividades PV/MTTO activas · '+coord+' · '+dateStr
+        title:'Actividades Activas â '+coord.split(' ')[0],
+        text:'Actividades PV/MTTO activas Â· '+coord+' Â· '+dateStr
       });
       return;
-    }catch(e){ if(e.name==='AbortError') return; /* usuario canceló */ }
+    }catch(e){ if(e.name==='AbortError') return; /* usuario cancelÃ³ */ }
   }
   // Fallback: descarga directa
   doc.save(fname);
@@ -1640,14 +1670,14 @@ function shareTickets(coord){
   const rows=CV_TICKETS.filter(t=>devs.includes(t.desarrollo));
   if(!rows.length){alert('Sin tickets abiertos para '+coord);return;}
   const dateStr=new Date().toLocaleDateString('es-MX',{day:'2-digit',month:'short',year:'numeric'});
-  let txt=`Tickets — ${coord.split(' ')[0]}\nFecha: ${dateStr}\n\n`;
+  let txt=`Tickets â ${coord.split(' ')[0]}\nFecha: ${dateStr}\n\n`;
   rows.forEach((t,i)=>{
-    txt+=`${i+1}. [${t.status||'—'}] ${t.desc||'—'}\n`;
+    txt+=`${i+1}. [${t.status||'â'}] ${t.desc||'â'}\n`;
     if(t.depto) txt+=`   Depto: ${t.depto}\n`;
-    txt+=`   Días abierto: ${t.dias||'—'}\n\n`;
+    txt+=`   DÃ­as abierto: ${t.dias||'â'}\n\n`;
   });
   txt+=`Total: ${rows.length} ticket(s)`;
-  doShare(`Tickets — ${coord.split(' ')[0]}`,txt);
+  doShare(`Tickets â ${coord.split(' ')[0]}`,txt);
 }
 
 async function exportPDFTickets(coord){
@@ -1674,23 +1704,23 @@ async function exportPDFTickets(coord){
   const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'letter'});
   doc.setFillColor(...hdr); doc.rect(0,0,280,22,'F');
   doc.setTextColor(255,255,255); doc.setFontSize(14); doc.setFont('helvetica','bold');
-  doc.text('Tickets CONDOVIVE — '+coord+' — Activos y Pendientes',14,10);
+  doc.text('Tickets CONDOVIVE â '+coord+' â Activos y Pendientes',14,10);
   doc.setFontSize(9); doc.setFont('helvetica','normal');
   const activos=rows.filter(r=>r.status==='Activo').length;
   const pendientes=rows.filter(r=>r.status==='Pendiente').length;
-  doc.text('Generado: '+dateStr+'  ·  Activos: '+activos+'  ·  Pendientes: '+pendientes+'  ·  Total: '+rows.length,14,17);
+  doc.text('Generado: '+dateStr+'  Â·  Activos: '+activos+'  Â·  Pendientes: '+pendientes+'  Â·  Total: '+rows.length,14,17);
   doc.autoTable({
     startY:28,
-    head:[['#','Desarrollo','Estatus','Depto','Categoría','Fecha','Días','Descripción']],
+    head:[['#','Desarrollo','Estatus','Depto','CategorÃ­a','Fecha','DÃ­as','DescripciÃ³n']],
     body:rows.map((t,i)=>[
       t.num||i+1,
-      t.desarrollo||'—',
-      t.status||'—',
-      t.depto||'—',
-      t.categoria||'—',
-      t.fecha||'—',
-      t.dias!=null?t.dias+'d':'—',
-      t.desc||'—'
+      t.desarrollo||'â',
+      t.status||'â',
+      t.depto||'â',
+      t.categoria||'â',
+      t.fecha||'â',
+      t.dias!=null?t.dias+'d':'â',
+      t.desc||'â'
     ]),
     styles:{fontSize:8,cellPadding:2.5,overflow:'linebreak'},
     headStyles:{fillColor:hdr,textColor:255,fontStyle:'bold',fontSize:8},
@@ -1707,8 +1737,8 @@ async function exportPDFTickets(coord){
     alternateRowStyles:{fillColor:[247,249,252]},
     didDrawPage:(data)=>{
       doc.setFontSize(7); doc.setTextColor(150);
-      doc.text('condovive-reporte.netlify.app · Gerencia Operativa',14,doc.internal.pageSize.height-6);
-      doc.text('Pág '+doc.internal.getCurrentPageInfo().pageNumber,doc.internal.pageSize.width-20,doc.internal.pageSize.height-6);
+      doc.text('condovive-reporte.netlify.app Â· Gerencia Operativa',14,doc.internal.pageSize.height-6);
+      doc.text('PÃ¡g '+doc.internal.getCurrentPageInfo().pageNumber,doc.internal.pageSize.width-20,doc.internal.pageSize.height-6);
     }
   });
   const fname='Tickets_'+coord.split(' ')[0]+'_'+today.toISOString().substring(0,10)+'.pdf';
@@ -1718,8 +1748,8 @@ async function exportPDFTickets(coord){
     try{
       await navigator.share({
         files:[pdfFile],
-        title:'Tickets CONDOVIVE — '+coord.split(' ')[0],
-        text:'Tickets Activos/Pendientes · '+coord+' · '+dateStr
+        title:'Tickets CONDOVIVE â '+coord.split(' ')[0],
+        text:'Tickets Activos/Pendientes Â· '+coord+' Â· '+dateStr
       });
       return;
     }catch(e){ if(e.name==='AbortError') return; }
@@ -1727,5 +1757,49 @@ async function exportPDFTickets(coord){
   doc.save(fname);
 }
 </script>
-</body>
+<script>
+// BALANCE ENSO
+const FIN_URL='https://dfthhcdqieqdnrhnhzmh.supabase.co/functions/v1/condovive-financiero';
+let FIN_DATA=null;
+async function loadFinanciero(){
+  const btn=document.getElementById('btn-fin'),badge=document.getElementById('fin-badge'),loader=document.getElementById('fin-loader'),tw=document.getElementById('fin-table-wrap');
+  btn.disabled=true;btn.textContent='Cargando...';
+  badge.textContent='Actualizando...';badge.style.cssText='';
+  loader.style.display='block';tw.style.display='none';
+  try{
+    const r=await fetch(FIN_URL);const d=await r.json();
+    if(!d.ok||!d.rows)throw new Error(d.error||'Sin datos');
+    FIN_DATA=d;renderFinanciero(d);
+    const t=new Date(d.generatedAt).toLocaleTimeString('es-MX',{hour:'2-digit',minute:'2-digit'});
+    badge.textContent='OK '+t;badge.style.background='rgba(22,163,74,.18)';badge.style.color='#16A34A';
+    loader.style.display='none';tw.style.display='block';
+  }catch(e){
+    badge.textContent='Error';badge.style.background='rgba(220,53,69,.18)';badge.style.color='#DC3545';
+    loader.textContent='Error al cargar datos. Intenta de nuevo.';
+  }finally{btn.disabled=false;btn.textContent='Actualizar Balance';}
+}
+function renderFinanciero(d){
+  const n=s=>{const v=parseFloat((s||'0').replace(/,/g,''));return isNaN(v)?0:v;};
+  const fmt=s=>{const v=n(s);return(v<0?'- ':'')+'
+</html>
++Math.abs(v).toLocaleString('es-MX',{minimumFractionDigits:0});};
+  const rows=d.rows,hdr=d.headers,meses=hdr.slice(1,-1);
+  const get=c=>rows.find(r=>r.CONCEPTO===c)||{};
+  const ing=get('TOTAL INGRESOS'),egr=get('TOTAL EGRESOS'),flu=get('FLUJO'),sal=get('SALDO FINAL');
+  const lastMes=meses.slice().reverse().find(m=>n(ing[m])>0)||meses[meses.length-1];
+  document.getElementById('fin-ingresos').textContent=fmt(ing.ACUMULADO);
+  document.getElementById('fin-ingresos-sub').textContent='ult. mes ('+lastMes+'): '+fmt(ing[lastMes]||'0');
+  document.getElementById('fin-egresos').textContent=fmt(egr.ACUMULADO);
+  document.getElementById('fin-egresos-sub').textContent='ult. mes ('+lastMes+'): '+fmt(egr[lastMes]||'0');
+  const fluVal=n(flu.ACUMULADO);const fluEl=document.getElementById('fin-flujo');
+  fluEl.textContent=fmt(flu.ACUMULADO);fluEl.style.color=fluVal>=0?'#16A34A':'#DC3545';fluEl.style.fontSize='1.4rem';
+  const salLastMes=meses.slice().reverse().find(m=>n(sal[m])>0)||lastMes;
+  document.getElementById('fin-saldo').textContent=fmt(sal[salLastMes]||'0');
+  document.getElementById('fin-saldo-sub').textContent='Saldo a '+salLastMes;
+  const cols=['CONCEPTO',...meses,'ACUMULADO'];
+  document.getElementById('fin-table').innerHTML='<thead><tr>'+cols.map(c=>'<th style="background:#1A2232;padding:5px 8px;text-align:'+(c==='CONCEPTO'?'left':'right')+';font-weight:700;color:#9BAABC;font-size:10px;white-space:nowrap">'+c+'</th>').join('')+'</tr></thead><tbody>'+rows.filter(r=>r.CONCEPTO).map(r=>{const isSec=['INGRESOS','EGRESOS','HONORARIOS ADMINISTRATIVOS'].includes(r.CONCEPTO);const isKey=['TOTAL INGRESOS','TOTAL EGRESOS','FLUJO','SALDO FINAL'].includes(r.CONCEPTO);const isFlujo=r.CONCEPTO==='FLUJO';return '<tr style="background:'+(isKey?'rgba(201,168,76,.07)':isSec?'rgba(255,255,255,.03)':'transparent')+';border-bottom:1px solid rgba(255,255,255,.03)">'+cols.map(c=>{const v=r[c]||'';if(c==='CONCEPTO')return '<td style="padding:4px 8px;font-weight:'+(isKey?700:isSec?600:400)+';color:'+(isSec?'#9BAABC':'#C5CCD8')+';font-size:'+(isSec?'9px':'11px')+';text-transform:'+(isSec?'uppercase':'none')+'">'+v+'</td>';const num=n(v);const color=isFlujo?(num<0?'#DC3545':num>0?'#16A34A':'#9BAABC'):(num<0?'#DC3545':'');return '<td style="padding:4px 8px;text-align:right;font-weight:'+(isKey?700:400)+';color:'+(color||'#C5CCD8')+';font-size:10px">'+(v&&v!=='0.00'?(num<0?'- ':'')+'
+</html>
++Math.abs(num).toLocaleString('es-MX',{minimumFractionDigits:0}):(v?'$0':''))+'</td>';}).join('')+'</tr>';}).join('')+'</tbody>';
+}
+</script></body>
 </html>
